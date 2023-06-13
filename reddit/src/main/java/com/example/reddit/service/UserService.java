@@ -1,0 +1,42 @@
+package com.example.reddit.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.example.reddit.model.User;
+import com.example.reddit.repository.UserRepository;
+
+public class UserService {
+
+	@Autowired
+	UserRepository userRepository;
+	
+	public User findOne(Long id) {
+		return userRepository.findById(id).orElse(null);
+	}
+	
+	
+	public List<User> findAll() {
+
+		return userRepository.findAll();
+	}
+	
+
+	public User save(User user) {
+		return userRepository.save(user);
+		
+	}
+	
+	
+	public void remove(Long id){
+		userRepository.deleteById(id);
+	}
+	
+	public Page<User> findAll(Pageable page) {
+		return userRepository.findAll(page);
+	}
+	
+}

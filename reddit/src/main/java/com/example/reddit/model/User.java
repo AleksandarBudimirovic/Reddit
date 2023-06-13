@@ -38,7 +38,7 @@ public class User {
     private List<Comment> Comments;
 
     @OneToMany(mappedBy="User")
-    private List<Comment> Communities;
+    private List<Community> Communities;
 
     @OneToMany(mappedBy="User")
     private List<Reaction> Reactions;
@@ -47,7 +47,7 @@ public class User {
     private List<Post> Posts;
 
 	public User(int id, String avatar, String description, String displayName, String password, Date registrationDate,
-			String role, String username, List<Ban> banneds, List<Comment> comments, List<Comment> communities,
+			String role, String username, List<Ban> banneds, List<Comment> comments, List<Community> communities,
 			List<Reaction> reactions, List<Post> posts) {
 		super();
 		this.id = id;
@@ -149,11 +149,11 @@ public class User {
 		Comments = comments;
 	}
 
-	public List<Comment> getCommunities() {
+	public List<Community> getCommunities() {
 		return Communities;
 	}
 
-	public void setCommunities(List<Comment> communities) {
+	public void setCommunities(List<Community> communities) {
 		Communities = communities;
 	}
 

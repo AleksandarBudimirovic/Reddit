@@ -2,6 +2,14 @@ package com.example.reddit.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.example.reddit.model.Ban;
+import com.example.reddit.model.Comment;
+import com.example.reddit.model.Post;
+import com.example.reddit.model.Reaction;
+
+import jakarta.persistence.OneToMany;
 
 
 public class UserDTO {
@@ -14,6 +22,11 @@ public class UserDTO {
     private Date registrationDate;
     private String role;
     private String username;
+    private ArrayList<BanDTO> Banneds = new ArrayList<BanDTO>();
+    private ArrayList<CommentDTO> Comments = new ArrayList<CommentDTO>();
+    private ArrayList<CommunityDTO> Communities = new ArrayList<CommunityDTO>();
+    private ArrayList<ReactionDTO> Reactions = new ArrayList<ReactionDTO>();
+    private ArrayList<PostDTO> Posts = new ArrayList<PostDTO>();
     
 	public UserDTO(int id, String avatar, String description, String displayName, String password,
 			Date registrationDate, String role, String username) {

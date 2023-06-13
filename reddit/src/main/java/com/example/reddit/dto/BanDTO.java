@@ -8,10 +8,10 @@ public class BanDTO {
 	
     private int id;
     private Date timestamp;
-    private String Community;
-    private String User;
+    private CommunityDTO Community;
+    private UserDTO User;
     
-	public BanDTO(int id, Date timestamp, String community, String user) {
+	public BanDTO(int id, Date timestamp, CommunityDTO community, UserDTO user) {
 		super();
 		this.id = id;
 		this.timestamp = timestamp;
@@ -40,19 +40,19 @@ public class BanDTO {
 		this.timestamp = timestamp;
 	}
 
-	public String getCommunity() {
+	public CommunityDTO getCommunity() {
 		return Community;
 	}
 
-	public void setCommunity(String community) {
+	public void setCommunity(CommunityDTO community) {
 		Community = community;
 	}
 
-	public String getUser() {
+	public UserDTO getUser() {
 		return User;
 	}
 
-	public void setUser(String user) {
+	public void setUser(UserDTO user) {
 		User = user;
 	}
     
