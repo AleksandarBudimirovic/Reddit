@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.example.reddit.model.Comment;
+import com.example.reddit.model.Community;
 import com.example.reddit.model.Flair;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.User;
@@ -42,6 +44,19 @@ public class CommunityDTO {
 		User = user;
 		Posts = posts;
 	}
+	
+	public CommunityDTO(Community obj) {
+		this(obj.getId(), obj.getCreationDate(), obj.getDescription(), obj.getIsSuspended(), obj.getSuspendedReason(), new UserDTO(obj.getUser()), getPosts(obj.getPosts()));
+	}
+	
+	public static ArrayList<PostDTO> getPosts(List<Post> list) {
+		ArrayList<PostDTO> listDTO=new ArrayList<>();
+		for(Post object : list) {
+			listDTO.add(new PostDTO(object));
+		}
+		return listDTO;
+	}
+	
 	public CommunityDTO() {
 		super();
 	}

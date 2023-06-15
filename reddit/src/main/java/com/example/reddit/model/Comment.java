@@ -41,7 +41,7 @@ public class Comment {
     private Comment mainComment;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "mainComment")
-    private Set<Comment> subComments = new HashSet();
+    private List<Comment> subComments;
 
     @OneToMany(mappedBy="Comment")
     private List<Reaction> Reactions;
@@ -50,7 +50,7 @@ public class Comment {
     private List<Report> Reports;
 
 	public Comment(int id, byte isDeleted, String text, Date timestamp, com.example.reddit.model.Post post,
-			com.example.reddit.model.User user, Comment mainComment, Set<Comment> subComments, List<Reaction> reactions,
+			com.example.reddit.model.User user, Comment mainComment, List<Comment> subComments, List<Reaction> reactions,
 			List<Report> reports) {
 		super();
 		this.id = id;
@@ -125,11 +125,11 @@ public class Comment {
 		this.mainComment = mainComment;
 	}
 
-	public Set<Comment> getSubComments() {
+	public List<Comment> getSubComments() {
 		return subComments;
 	}
 
-	public void setSubComments(Set<Comment> subComments) {
+	public void setSubComments(List<Comment> subComments) {
 		this.subComments = subComments;
 	}
 

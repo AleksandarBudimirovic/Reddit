@@ -11,6 +11,10 @@ import com.example.reddit.dto.PostDTO;
 import com.example.reddit.dto.ReactionDTO;
 import com.example.reddit.dto.ReportDTO;
 import com.example.reddit.dto.UserDTO;
+import com.example.reddit.model.Ban;
+import com.example.reddit.model.Comment;
+import com.example.reddit.model.Reaction;
+import com.example.reddit.model.Report;
 
 
 
@@ -45,6 +49,35 @@ public class CommentDTO {
 		this.subComments = subComments;
 		Reactions = reactions;
 		Reports = reports;
+	}
+	
+	public CommentDTO(Comment obj) {
+		this(obj.getId(), obj.getIsDeleted(), obj.getText(), obj.getTimestamp(), new UserDTO(obj.getUser()), new PostDTO(obj.getPost()), new CommentDTO(obj.getMainComment()), getComments(obj.getSubComments()), 
+				getReactions(obj.getReactions()), getReports(obj.getReports()));
+	}
+	
+	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
+		ArrayList<CommentDTO> listDTO=new ArrayList<>();
+		for(Comment object : list) {
+			listDTO.add(new CommentDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<ReactionDTO> getReactions(List<Reaction> list) {
+		ArrayList<ReactionDTO> listDTO=new ArrayList<>();
+		for(Reaction object : list) {
+			listDTO.add(new ReactionDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<ReportDTO> getReports(List<Report> list) {
+		ArrayList<ReportDTO> listDTO=new ArrayList<>();
+		for(Report object : list) {
+			listDTO.add(new ReportDTO(object));
+		}
+		return listDTO;
 	}
 	
 	public CommentDTO() {

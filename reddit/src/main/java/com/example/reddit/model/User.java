@@ -133,7 +133,7 @@ public class User {
 		this.username = username;
 	}
 
-	public List<Ban> getBanneds() {
+	public List<Ban> getBanned() {
 		return Banneds;
 	}
 

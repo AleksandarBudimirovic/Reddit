@@ -2,6 +2,9 @@ package com.example.reddit.dto;
 
 import java.util.Date;
 
+import com.example.reddit.model.Post;
+import com.example.reddit.model.Reaction;
+
 
 public class ReactionDTO {
 
@@ -22,6 +25,10 @@ public class ReactionDTO {
 		User = user;
 	}
 
+	public ReactionDTO(Reaction obj) {
+		this(obj.getId(), obj.getTimestamp(), obj.getType(), new CommentDTO(obj.getComment()), new PostDTO(obj.getPost()), new UserDTO(obj.getUser()));
+	}
+	
 	public ReactionDTO() {
 		super();
 	}

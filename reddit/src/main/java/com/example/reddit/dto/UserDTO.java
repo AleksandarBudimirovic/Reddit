@@ -6,8 +6,11 @@ import java.util.List;
 
 import com.example.reddit.model.Ban;
 import com.example.reddit.model.Comment;
+import com.example.reddit.model.Community;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
+import com.example.reddit.model.Report;
+import com.example.reddit.model.User;
 
 import jakarta.persistence.OneToMany;
 
@@ -22,14 +25,18 @@ public class UserDTO {
     private Date registrationDate;
     private String role;
     private String username;
-    private ArrayList<BanDTO> Banneds = new ArrayList<BanDTO>();
+    private ArrayList<BanDTO> Banned = new ArrayList<BanDTO>();
     private ArrayList<CommentDTO> Comments = new ArrayList<CommentDTO>();
     private ArrayList<CommunityDTO> Communities = new ArrayList<CommunityDTO>();
     private ArrayList<ReactionDTO> Reactions = new ArrayList<ReactionDTO>();
     private ArrayList<PostDTO> Posts = new ArrayList<PostDTO>();
     
+
+
 	public UserDTO(int id, String avatar, String description, String displayName, String password,
-			Date registrationDate, String role, String username) {
+			Date registrationDate, String role, String username, ArrayList<BanDTO> banned,
+			ArrayList<CommentDTO> comments, ArrayList<CommunityDTO> communities, ArrayList<ReactionDTO> reactions,
+			ArrayList<PostDTO> posts) {
 		super();
 		this.id = id;
 		this.avatar = avatar;
@@ -39,8 +46,58 @@ public class UserDTO {
 		this.registrationDate = registrationDate;
 		this.role = role;
 		this.username = username;
+		Banned = banned;
+		Comments = comments;
+		Communities = communities;
+		Reactions = reactions;
+		Posts = posts;
 	}
 
+	public UserDTO(User obj) {
+		this(obj.getId(), obj.getAvatar(), obj.getDescription(), obj.getDisplayName(), obj.getPassword(), obj.getRegistrationDate(), obj.getRole(), 
+				obj.getUsername(), getBans(obj.getBanned()), getComments(obj.getComments()), getCommunities(obj.getCommunities()), getReactions(obj.getReactions()), getPosts(obj.getPosts()));
+	}
+	
+	public static ArrayList<BanDTO> getBans(List<Ban> list) {
+		ArrayList<BanDTO> listDTO=new ArrayList<>();
+		for(Ban object : list) {
+			listDTO.add(new BanDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<CommunityDTO> getCommunities(List<Community> list) {
+		ArrayList<CommunityDTO> listDTO=new ArrayList<>();
+		for(Community object : list) {
+			listDTO.add(new CommunityDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
+		ArrayList<CommentDTO> listDTO=new ArrayList<>();
+		for(Comment object : list) {
+			listDTO.add(new CommentDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<ReactionDTO> getReactions(List<Reaction> list) {
+		ArrayList<ReactionDTO> listDTO=new ArrayList<>();
+		for(Reaction object : list) {
+			listDTO.add(new ReactionDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<PostDTO> getPosts(List<Post> list) {
+		ArrayList<PostDTO> listDTO=new ArrayList<>();
+		for(Post object : list) {
+			listDTO.add(new PostDTO(object));
+		}
+		return listDTO;
+	}
+	
 	public UserDTO() {
 		super();
 	}
@@ -108,6 +165,48 @@ public class UserDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	public ArrayList<BanDTO> getBanned() {
+		return Banned;
+	}
+
+	public void setBanned(ArrayList<BanDTO> banned) {
+		Banned = banned;
+	}
+
+	public ArrayList<CommentDTO> getComments() {
+		return Comments;
+	}
+
+	public void setComments(ArrayList<CommentDTO> comments) {
+		Comments = comments;
+	}
+
+	public ArrayList<CommunityDTO> getCommunities() {
+		return Communities;
+	}
+
+	public void setCommunities(ArrayList<CommunityDTO> communities) {
+		Communities = communities;
+	}
+
+	public ArrayList<ReactionDTO> getReactions() {
+		return Reactions;
+	}
+
+	public void setReactions(ArrayList<ReactionDTO> reactions) {
+		Reactions = reactions;
+	}
+
+	public ArrayList<PostDTO> getPosts() {
+		return Posts;
+	}
+
+	public void setPosts(ArrayList<PostDTO> posts) {
+		Posts = posts;
+	}
+
+	
 
 	
     

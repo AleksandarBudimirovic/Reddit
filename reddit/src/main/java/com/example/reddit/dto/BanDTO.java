@@ -2,6 +2,8 @@ package com.example.reddit.dto;
 
 import java.util.Date;
 
+import com.example.reddit.model.Ban;
+
 
 
 public class BanDTO {
@@ -17,7 +19,10 @@ public class BanDTO {
 		this.timestamp = timestamp;
 		Community = community;
 		User = user;
-		//asdasd
+		
+	}
+	public BanDTO(Ban obj) {
+		this(obj.getId(), obj.getTimestamp(), new CommunityDTO(obj.getCommunity()), new UserDTO(obj.getUser()));
 	}
 
 	public BanDTO() {

@@ -30,11 +30,11 @@ public class Ban {
     @JoinColumn(name="user_id")
     private User User;
 
-	public Ban(int id, Date timestamp, Community rCommunity, com.example.reddit.model.User user) {
+	public Ban(int id, Date timestamp, Community Community, com.example.reddit.model.User user) {
 		super();
 		this.id = id;
 		this.timestamp = timestamp;
-		Community = rCommunity;
+		Community = Community;
 		User = user;
 	}
 
@@ -58,7 +58,7 @@ public class Ban {
 		this.timestamp = timestamp;
 	}
 
-	public Community getRCommunity() {
+	public Community getCommunity() {
 		return Community;
 	}
 

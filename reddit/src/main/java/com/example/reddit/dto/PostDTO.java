@@ -7,6 +7,7 @@ import java.util.List;
 import com.example.reddit.model.Comment;
 import com.example.reddit.model.Community;
 import com.example.reddit.model.Flair;
+import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
 import com.example.reddit.model.User;
@@ -49,6 +50,43 @@ public class PostDTO {
 		Reports = reports;
 	}
 
+	public PostDTO(Post obj) {
+		this(obj.getId(), obj.getCreationDate(), obj.getImagePath(), obj.getTitle(), obj.getText(), getComments(obj.getComments()), getFlairs(obj.getFlairs()), new CommunityDTO(obj.getCommunity()), 
+				new UserDTO(obj.getUser()), getReactions(obj.getReactions()), getReports(obj.getReports()));
+	}
+	
+	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
+		ArrayList<CommentDTO> listDTO=new ArrayList<>();
+		for(Comment object : list) {
+			listDTO.add(new CommentDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<ReactionDTO> getReactions(List<Reaction> list) {
+		ArrayList<ReactionDTO> listDTO=new ArrayList<>();
+		for(Reaction object : list) {
+			listDTO.add(new ReactionDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<ReportDTO> getReports(List<Report> list) {
+		ArrayList<ReportDTO> listDTO=new ArrayList<>();
+		for(Report object : list) {
+			listDTO.add(new ReportDTO(object));
+		}
+		return listDTO;
+	}
+	
+	public static ArrayList<FlairDTO> getFlairs(List<Flair> list) {
+		ArrayList<FlairDTO> listDTO=new ArrayList<>();
+		for(Flair object : list) {
+			listDTO.add(new FlairDTO(object));
+		}
+		return listDTO;
+	}
+	
 	public PostDTO() {
 		super();
 	}

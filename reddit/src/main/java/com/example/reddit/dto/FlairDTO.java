@@ -1,5 +1,8 @@
 package com.example.reddit.dto;
 
+import com.example.reddit.model.Community;
+import com.example.reddit.model.Flair;
+
 public class FlairDTO {
 
     private int id;
@@ -15,6 +18,10 @@ public class FlairDTO {
 		Post = post;
 	}
 
+	public FlairDTO(Flair obj) {
+		
+	}
+	
 	public FlairDTO() {
 		super();
 	}
