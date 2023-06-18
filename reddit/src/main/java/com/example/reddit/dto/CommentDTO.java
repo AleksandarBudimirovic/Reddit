@@ -22,7 +22,7 @@ import com.example.reddit.model.Report;
 public class CommentDTO {
 
 
-    private int id;
+    private Long id;
     private byte isDeleted;
     private String text;
     private Date timestamp;
@@ -35,7 +35,7 @@ public class CommentDTO {
     
     
     
-	public CommentDTO(int id, byte isDeleted, String text, Date timestamp, UserDTO user, PostDTO post,
+	public CommentDTO(Long id, byte isDeleted, String text, Date timestamp, UserDTO user, PostDTO post,
 			CommentDTO mainComment, ArrayList<CommentDTO> subComments, ArrayList<ReactionDTO> reactions,
 			ArrayList<ReportDTO> reports) {
 		super();
@@ -55,6 +55,8 @@ public class CommentDTO {
 		this(obj.getId(), obj.getIsDeleted(), obj.getText(), obj.getTimestamp(), new UserDTO(obj.getUser()), new PostDTO(obj.getPost()), new CommentDTO(obj.getMainComment()), getComments(obj.getSubComments()), 
 				getReactions(obj.getReactions()), getReports(obj.getReports()));
 	}
+	
+	
 	
 	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
 		ArrayList<CommentDTO> listDTO=new ArrayList<>();
@@ -86,10 +88,10 @@ public class CommentDTO {
 
 
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public byte getIsDeleted() {

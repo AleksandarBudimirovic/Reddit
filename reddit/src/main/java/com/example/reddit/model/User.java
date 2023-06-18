@@ -14,7 +14,7 @@ public class User {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String avatar;
 
@@ -31,23 +31,23 @@ public class User {
 
     private String username;
 
-    @OneToMany(mappedBy="User")
-    private List<Ban> Banneds;
+    @OneToMany(mappedBy="ban")
+    private List<Ban> bans;
 
-    @OneToMany(mappedBy="User")
-    private List<Comment> Comments;
+    @OneToMany(mappedBy="comment")
+    private List<Comment> comments;
 
-    @OneToMany(mappedBy="User")
-    private List<Community> Communities;
+    @OneToMany(mappedBy="community")
+    private List<Community> communities;
 
-    @OneToMany(mappedBy="User")
-    private List<Reaction> Reactions;
+    @OneToMany(mappedBy="reaction")
+    private List<Reaction> reactions;
 
-    @OneToMany(mappedBy="User")
-    private List<Post> Posts;
+    @OneToMany(mappedBy="post")
+    private List<Post> posts;
 
-	public User(int id, String avatar, String description, String displayName, String password, Date registrationDate,
-			String role, String username, List<Ban> banneds, List<Comment> comments, List<Community> communities,
+	public User(Long id, String avatar, String description, String displayName, String password, Date registrationDate,
+			String role, String username, List<Ban> bans, List<Comment> comments, List<Community> communities,
 			List<Reaction> reactions, List<Post> posts) {
 		super();
 		this.id = id;
@@ -58,22 +58,22 @@ public class User {
 		this.registrationDate = registrationDate;
 		this.role = role;
 		this.username = username;
-		Banneds = banneds;
-		Comments = comments;
-		Communities = communities;
-		Reactions = reactions;
-		Posts = posts;
+		this.bans = bans;
+		this.comments = comments;
+		this.communities = communities;
+		this.reactions = reactions;
+		this.posts = posts;
 	}
 
 	public User() {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -133,45 +133,48 @@ public class User {
 		this.username = username;
 	}
 
-	public List<Ban> getBanned() {
-		return Banneds;
+	public List<Ban> getBans() {
+		return bans;
 	}
 
-	public void setBanneds(List<Ban> banneds) {
-		Banneds = banneds;
+	public void setBans(List<Ban> bans) {
+		this.bans = bans;
 	}
 
 	public List<Comment> getComments() {
-		return Comments;
+		return comments;
 	}
 
 	public void setComments(List<Comment> comments) {
-		Comments = comments;
+		this.comments = comments;
 	}
 
 	public List<Community> getCommunities() {
-		return Communities;
+		return communities;
 	}
 
 	public void setCommunities(List<Community> communities) {
-		Communities = communities;
+		this.communities = communities;
 	}
 
 	public List<Reaction> getReactions() {
-		return Reactions;
+		return reactions;
 	}
 
 	public void setReactions(List<Reaction> reactions) {
-		Reactions = reactions;
+		this.reactions = reactions;
 	}
 
 	public List<Post> getPosts() {
-		return Posts;
+		return posts;
 	}
 
 	public void setPosts(List<Post> posts) {
-		Posts = posts;
+		this.posts = posts;
 	}
+
+	
+	
 
     
     

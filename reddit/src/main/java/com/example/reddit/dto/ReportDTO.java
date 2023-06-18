@@ -9,14 +9,14 @@ import com.example.reddit.model.Report;
 
 public class ReportDTO {
 
-    private int id;
+    private Long id;
     private byte accepted;
     private String reason;
     private Date timestamp;
     private CommentDTO Comment;
     private PostDTO Post;
     
-	public ReportDTO(int id, byte accepted, String reason, Date timestamp, CommentDTO comment, PostDTO post) {
+	public ReportDTO(Long id, byte accepted, String reason, Date timestamp, CommentDTO comment, PostDTO post) {
 		super();
 		this.id = id;
 		this.accepted = accepted;
@@ -34,11 +34,11 @@ public class ReportDTO {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -17,7 +17,7 @@ public class Flair {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String name;
 
@@ -29,7 +29,7 @@ public class Flair {
     @JoinColumn(name="post_id")
     private Post Post;
 
-	public Flair(int id, String name, com.example.reddit.model.Community community,
+	public Flair(Long id, String name, com.example.reddit.model.Community community,
 			com.example.reddit.model.Post post) {
 		super();
 		this.id = id;
@@ -42,11 +42,11 @@ public class Flair {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

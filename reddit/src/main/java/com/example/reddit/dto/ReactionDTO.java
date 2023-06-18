@@ -8,78 +8,110 @@ import com.example.reddit.model.Reaction;
 
 public class ReactionDTO {
 
-    private int id;
+    private Long id;
     private Date timestamp;
     private String type;
-    private CommentDTO Comment;
-    private PostDTO Post;
-    private UserDTO User;
+    private CommentDTO comment;
+    private PostDTO post;
+    private UserDTO user;
 
-	public ReactionDTO(int id, Date timestamp, String type, CommentDTO comment, PostDTO post, UserDTO user) {
-		super();
-		this.id = id;
-		this.timestamp = timestamp;
-		this.type = type;
-		Comment = comment;
-		Post = post;
-		User = user;
-	}
+	
 
 	public ReactionDTO(Reaction obj) {
 		this(obj.getId(), obj.getTimestamp(), obj.getType(), new CommentDTO(obj.getComment()), new PostDTO(obj.getPost()), new UserDTO(obj.getUser()));
 	}
-	
+
+
+
+	public ReactionDTO(Long id, Date timestamp, String type, CommentDTO comment, PostDTO post, UserDTO user) {
+		super();
+		this.id = id;
+		this.timestamp = timestamp;
+		this.type = type;
+		this.comment = comment;
+		this.post = post;
+		this.user = user;
+	}
+
+
+
 	public ReactionDTO() {
 		super();
 	}
-	
-	public int getId() {
+
+
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+
+
+	public void setId(Long id) {
 		this.id = id;
 	}
+
+
 
 	public Date getTimestamp() {
 		return timestamp;
 	}
 
+
+
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
+
+
 
 	public String getType() {
 		return type;
 	}
 
+
+
 	public void setType(String type) {
 		this.type = type;
 	}
 
+
+
 	public CommentDTO getComment() {
-		return Comment;
+		return comment;
 	}
+
+
 
 	public void setComment(CommentDTO comment) {
-		Comment = comment;
+		this.comment = comment;
 	}
+
+
 
 	public PostDTO getPost() {
-		return Post;
+		return post;
 	}
+
+
 
 	public void setPost(PostDTO post) {
-		Post = post;
+		this.post = post;
 	}
+
+
 
 	public UserDTO getUser() {
-		return User;
+		return user;
 	}
 
+
+
 	public void setUser(UserDTO user) {
-		User = user;
+		this.user = user;
 	}
+	
+	
     
     
 	

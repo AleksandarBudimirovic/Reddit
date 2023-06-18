@@ -5,12 +5,12 @@ import com.example.reddit.model.Flair;
 
 public class FlairDTO {
 
-    private int id;
+    private Long id;
     private String name;
     private CommunityDTO Community;
     private PostDTO Post;
     
-	public FlairDTO(int id, String name, CommunityDTO community, PostDTO post) {
+	public FlairDTO(Long id, String name, CommunityDTO community, PostDTO post) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -26,11 +26,11 @@ public class FlairDTO {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

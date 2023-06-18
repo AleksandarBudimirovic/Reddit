@@ -17,7 +17,7 @@ public class Community {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -29,41 +29,41 @@ public class Community {
     private String suspendedReason;
 
     @OneToMany(mappedBy="Community")
-    private List<Ban> Banneds;
+    private List<Ban> bans;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User User;
+    private User user;
 
     @OneToMany(mappedBy="Community")
-    private List<Flair> Flairs;
+    private List<Flair> flairs;
 
     @OneToMany(mappedBy="Community")
-    private List<Post> Posts;
+    private List<Post> posts;
 
-	public Community(int id, Date creationDate, String description, byte isSuspended, String suspendedReason,
-			List<Ban> banneds, com.example.reddit.model.User user, List<Flair> flairs, List<Post> posts) {
+	public Community(Long id, Date creationDate, String description, byte isSuspended, String suspendedReason,
+			List<Ban> bans, com.example.reddit.model.User user, List<Flair> flairs, List<Post> posts) {
 		super();
 		this.id = id;
 		this.creationDate = creationDate;
 		this.description = description;
 		this.isSuspended = isSuspended;
 		this.suspendedReason = suspendedReason;
-		Banneds = banneds;
-		User = user;
-		Flairs = flairs;
-		Posts = posts;
+		this.bans = bans;
+		this.user = user;
+		this.flairs = flairs;
+		this.posts = posts;
 	}
 
 	public Community() {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -100,35 +100,35 @@ public class Community {
 	}
 
 	public List<Ban> getBanneds() {
-		return Banneds;
+		return bans;
 	}
 
-	public void setBanneds(List<Ban> banneds) {
-		Banneds = banneds;
+	public void setBans(List<Ban> bans) {
+		this.bans = bans;
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
 
 	public List<Flair> getFlairs() {
-		return Flairs;
+		return flairs;
 	}
 
 	public void setFlairs(List<Flair> flairs) {
-		Flairs = flairs;
+		this.flairs = flairs;
 	}
 
 	public List<Post> getPosts() {
-		return Posts;
+		return posts;
 	}
 
 	public void setPosts(List<Post> posts) {
-		Posts = posts;
+		this.posts = posts;
 	}
     
     

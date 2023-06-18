@@ -17,7 +17,7 @@ public class Reaction {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     private Date timestamp;
@@ -26,36 +26,39 @@ public class Reaction {
 
     @ManyToOne
     @JoinColumn(name="comment_id")
-    private Comment Comment;
+    private Comment comment;
 
     @ManyToOne
     @JoinColumn(name="post_id")
-    private Post Post;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User User;
+    private User user;
 
-	public Reaction(int id, Date timestamp, String type, com.example.reddit.model.Comment comment,
-			com.example.reddit.model.Post post, com.example.reddit.model.User user) {
+	public Reaction(Long id, Date timestamp, String type, Comment comment, Post post, User user) {
 		super();
 		this.id = id;
 		this.timestamp = timestamp;
 		this.type = type;
-		Comment = comment;
-		Post = post;
-		User = user;
+		this.comment = comment;
+		this.post = post;
+		this.user = user;
 	}
 
+	
+	
 	public Reaction() {
 		super();
 	}
 
-	public int getId() {
+
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -76,28 +79,30 @@ public class Reaction {
 	}
 
 	public Comment getComment() {
-		return Comment;
+		return comment;
 	}
 
 	public void setComment(Comment comment) {
-		Comment = comment;
+		this.comment = comment;
 	}
 
 	public Post getPost() {
-		return Post;
+		return post;
 	}
 
 	public void setPost(Post post) {
-		Post = post;
+		this.post = post;
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
+
+	
     
     
 	

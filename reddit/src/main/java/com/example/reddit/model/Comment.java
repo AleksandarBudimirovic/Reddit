@@ -19,7 +19,7 @@ public class Comment {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private byte isDeleted;
 
@@ -34,7 +34,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User User;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id", nullable = true)
@@ -44,36 +44,35 @@ public class Comment {
     private List<Comment> subComments;
 
     @OneToMany(mappedBy="Comment")
-    private List<Reaction> Reactions;
+    private List<Reaction> reactions;
 
     @OneToMany(mappedBy="Comment")
-    private List<Report> Reports;
+    private List<Report> reports;
 
-	public Comment(int id, byte isDeleted, String text, Date timestamp, com.example.reddit.model.Post post,
-			com.example.reddit.model.User user, Comment mainComment, List<Comment> subComments, List<Reaction> reactions,
-			List<Report> reports) {
+	public Comment(Long id, byte isDeleted, String text, Date timestamp, com.example.reddit.model.Post post, User user,
+			Comment mainComment, List<Comment> subComments, List<Reaction> reactions, List<Report> reports) {
 		super();
 		this.id = id;
 		this.isDeleted = isDeleted;
 		this.text = text;
 		this.timestamp = timestamp;
 		Post = post;
-		User = user;
+		this.user = user;
 		this.mainComment = mainComment;
 		this.subComments = subComments;
-		Reactions = reactions;
-		Reports = reports;
+		this.reactions = reactions;
+		this.reports = reports;
 	}
 
 	public Comment() {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -110,11 +109,11 @@ public class Comment {
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
 
 	public Comment getMainComment() {
@@ -134,20 +133,22 @@ public class Comment {
 	}
 
 	public List<Reaction> getReactions() {
-		return Reactions;
+		return reactions;
 	}
 
 	public void setReactions(List<Reaction> reactions) {
-		Reactions = reactions;
+		this.reactions = reactions;
 	}
 
 	public List<Report> getReports() {
-		return Reports;
+		return reports;
 	}
 
 	public void setReports(List<Report> reports) {
-		Reports = reports;
+		this.reports = reports;
 	}
+
+	
 	
     
     

@@ -21,7 +21,7 @@ import jakarta.persistence.OneToMany;
 
 public class PostDTO {
 
-    private int id;
+    private Long id;
     private Date creationDate;
     private String imagePath;
     private String title;
@@ -33,7 +33,7 @@ public class PostDTO {
     private ArrayList<ReactionDTO> Reactions = new ArrayList<ReactionDTO>();
     private ArrayList<ReportDTO> Reports = new ArrayList<ReportDTO>();
     
-	public PostDTO(int id, Date creationDate, String imagePath, String title, String text,
+	public PostDTO(Long id, Date creationDate, String imagePath, String title, String text,
 			ArrayList<CommentDTO> comments, ArrayList<FlairDTO> flairs, CommunityDTO community, UserDTO user,
 			ArrayList<ReactionDTO> reactions, ArrayList<ReportDTO> reports) {
 		super();
@@ -91,11 +91,11 @@ public class PostDTO {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

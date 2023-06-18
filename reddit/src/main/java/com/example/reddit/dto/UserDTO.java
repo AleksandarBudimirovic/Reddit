@@ -17,7 +17,7 @@ import jakarta.persistence.OneToMany;
 
 public class UserDTO {
 
-    private int id;
+    private Long id;
     private String avatar;
     private String description;
     private String displayName;
@@ -33,7 +33,7 @@ public class UserDTO {
     
 
 
-	public UserDTO(int id, String avatar, String description, String displayName, String password,
+	public UserDTO(Long id, String avatar, String description, String displayName, String password,
 			Date registrationDate, String role, String username, ArrayList<BanDTO> banned,
 			ArrayList<CommentDTO> comments, ArrayList<CommunityDTO> communities, ArrayList<ReactionDTO> reactions,
 			ArrayList<PostDTO> posts) {
@@ -55,7 +55,7 @@ public class UserDTO {
 
 	public UserDTO(User obj) {
 		this(obj.getId(), obj.getAvatar(), obj.getDescription(), obj.getDisplayName(), obj.getPassword(), obj.getRegistrationDate(), obj.getRole(), 
-				obj.getUsername(), getBans(obj.getBanned()), getComments(obj.getComments()), getCommunities(obj.getCommunities()), getReactions(obj.getReactions()), getPosts(obj.getPosts()));
+				obj.getUsername(), getBans(obj.getBans()), getComments(obj.getComments()), getCommunities(obj.getCommunities()), getReactions(obj.getReactions()), getPosts(obj.getPosts()));
 	}
 	
 	public static ArrayList<BanDTO> getBans(List<Ban> list) {
@@ -102,11 +102,11 @@ public class UserDTO {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

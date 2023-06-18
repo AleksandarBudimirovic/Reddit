@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.example.reddit.model.Ban;
 import com.example.reddit.model.Comment;
 import com.example.reddit.model.Community;
 import com.example.reddit.model.Flair;
@@ -24,29 +25,31 @@ import jakarta.persistence.TemporalType;
 public class CommunityDTO {
 
 
-    private int id;
+    private Long id;
     private Date creationDate;
     private String description;
     private byte isSuspended;
     private String suspendedReason;
-    private UserDTO User;
-    private ArrayList<PostDTO> Posts;
+    private UserDTO user;
+    private ArrayList<PostDTO> posts;
+    private ArrayList<BanDTO> bans;
     
 
-	public CommunityDTO(int id, Date creationDate, String description, byte isSuspended, String suspendedReason,
-			UserDTO user, ArrayList<PostDTO> posts) {
+	public CommunityDTO(Long id, Date creationDate, String description, byte isSuspended, String suspendedReason,
+			UserDTO user, ArrayList<PostDTO> posts, ArrayList<BanDTO> bans) {
 		super();
 		this.id = id;
 		this.creationDate = creationDate;
 		this.description = description;
 		this.isSuspended = isSuspended;
 		this.suspendedReason = suspendedReason;
-		User = user;
-		Posts = posts;
+		this.bans = bans;
+		this.user = user;
+		this.posts = posts;
 	}
 	
 	public CommunityDTO(Community obj) {
-		this(obj.getId(), obj.getCreationDate(), obj.getDescription(), obj.getIsSuspended(), obj.getSuspendedReason(), new UserDTO(obj.getUser()), getPosts(obj.getPosts()));
+		this(obj.getId(), obj.getCreationDate(), obj.getDescription(), obj.getIsSuspended(), obj.getSuspendedReason(), new UserDTO(obj.getUser()), getPosts(obj.getPosts()), getBans(obj.getBanneds()));
 	}
 	
 	public static ArrayList<PostDTO> getPosts(List<Post> list) {
@@ -57,13 +60,21 @@ public class CommunityDTO {
 		return listDTO;
 	}
 	
+	public static ArrayList<BanDTO> getBans(List<Ban> list) {
+		ArrayList<BanDTO> listDTO=new ArrayList<>();
+		for(Ban object : list) {
+			listDTO.add(new BanDTO(object));
+		}
+		return listDTO;
+	}
+	
 	public CommunityDTO() {
 		super();
 	}
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Date getCreationDate() {
@@ -91,16 +102,24 @@ public class CommunityDTO {
 		this.suspendedReason = suspendedReason;
 	}
 	public UserDTO getUser() {
-		return User;
+		return user;
 	}
 	public void setUser(UserDTO user) {
-		User = user;
+		this.user = user;
 	}
 	public ArrayList<PostDTO> getPosts() {
-		return Posts;
+		return posts;
 	}
 	public void setPosts(ArrayList<PostDTO> posts) {
-		Posts = posts;
+		this.posts = posts;
+	}
+
+	public ArrayList<BanDTO> getBans() {
+		return bans;
+	}
+
+	public void setBans(ArrayList<BanDTO> bans) {
+		this.bans = bans;
 	}
     
     

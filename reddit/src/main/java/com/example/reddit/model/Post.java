@@ -19,7 +19,7 @@ public class Post {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -31,51 +31,50 @@ public class Post {
     private String text;
 
     @OneToMany(mappedBy="Post")
-    private List<Comment> Comments;
+    private List<Comment> comments;
 
     @OneToMany(mappedBy="Post")
-    private List<Flair> Flairs;
+    private List<Flair> flairs;
 
     @ManyToOne
     @JoinColumn(name="community_id")
-    private Community Community;
+    private Community community;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User User;
+    private User user;
 
     @OneToMany(mappedBy="Post")
-    private List<Reaction> Reactions;
+    private List<Reaction> reactions;
 
     @OneToMany(mappedBy="Post")
-    private List<Report> Reports;
+    private List<Report> reports;
 
-	public Post(int id, Date creationDate, String imagePath, String title, String text, List<Comment> comments,
-			List<Flair> flairs, com.example.reddit.model.Community community, com.example.reddit.model.User user,
-			List<Reaction> reactions, List<Report> reports) {
+	public Post(Long id, Date creationDate, String imagePath, String title, String text, List<Comment> comments,
+			List<Flair> flairs, Community community, User user, List<Reaction> reactions, List<Report> reports) {
 		super();
 		this.id = id;
 		this.creationDate = creationDate;
 		this.imagePath = imagePath;
 		this.title = title;
 		this.text = text;
-		Comments = comments;
-		Flairs = flairs;
-		Community = community;
-		User = user;
-		Reactions = reactions;
-		Reports = reports;
+		this.comments = comments;
+		this.flairs = flairs;
+		this.community = community;
+		this.user = user;
+		this.reactions = reactions;
+		this.reports = reports;
 	}
 
 	public Post() {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -112,53 +111,54 @@ public class Post {
 	}
 
 	public List<Comment> getComments() {
-		return Comments;
+		return comments;
 	}
 
 	public void setComments(List<Comment> comments) {
-		Comments = comments;
+		this.comments = comments;
 	}
 
 	public List<Flair> getFlairs() {
-		return Flairs;
+		return flairs;
 	}
 
 	public void setFlairs(List<Flair> flairs) {
-		Flairs = flairs;
+		this.flairs = flairs;
 	}
 
 	public Community getCommunity() {
-		return Community;
+		return community;
 	}
 
 	public void setCommunity(Community community) {
-		Community = community;
+		this.community = community;
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
 
 	public List<Reaction> getReactions() {
-		return Reactions;
+		return reactions;
 	}
 
 	public void setReactions(List<Reaction> reactions) {
-		Reactions = reactions;
+		this.reactions = reactions;
 	}
 
 	public List<Report> getReports() {
-		return Reports;
+		return reports;
 	}
 
 	public void setReports(List<Report> reports) {
-		Reports = reports;
+		this.reports = reports;
 	}
-    
+
+	
     
 	
 }

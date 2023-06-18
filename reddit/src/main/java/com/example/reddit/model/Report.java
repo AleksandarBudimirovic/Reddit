@@ -17,7 +17,7 @@ public class Report {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private byte accepted;
 
@@ -28,32 +28,31 @@ public class Report {
 
     @ManyToOne
     @JoinColumn(name="comment_id")
-    private Comment Comment;
+    private Comment comment;
 
     @ManyToOne
     @JoinColumn(name="post_id")
-    private Post Post;
+    private Post post;
 
-	public Report(int id, byte accepted, String reason, Date timestamp, com.example.reddit.model.Comment comment,
-			com.example.reddit.model.Post post) {
+	public Report(Long id, byte accepted, String reason, Date timestamp, Comment comment, Post post) {
 		super();
 		this.id = id;
 		this.accepted = accepted;
 		this.reason = reason;
 		this.timestamp = timestamp;
-		Comment = comment;
-		Post = post;
+		this.comment = comment;
+		this.post = post;
 	}
 
 	public Report() {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -82,21 +81,22 @@ public class Report {
 	}
 
 	public Comment getComment() {
-		return Comment;
+		return comment;
 	}
 
 	public void setComment(Comment comment) {
-		Comment = comment;
+		this.comment = comment;
 	}
 
 	public Post getPost() {
-		return Post;
+		return post;
 	}
 
 	public void setPost(Post post) {
-		Post = post;
+		this.post = post;
 	}
-    
+
+	
     
 	
 }

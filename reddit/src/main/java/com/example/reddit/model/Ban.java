@@ -17,36 +17,36 @@ public class Ban {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
     @ManyToOne
     @JoinColumn(name="community_id")
-    private Community Community;
+    private Community community;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User User;
+    private User user;
 
-	public Ban(int id, Date timestamp, Community Community, com.example.reddit.model.User user) {
+	public Ban(Long id, Date timestamp, Community Community, com.example.reddit.model.User user) {
 		super();
 		this.id = id;
 		this.timestamp = timestamp;
-		Community = Community;
-		User = user;
+		this.community = Community;
+		this.user = user;
 	}
 
 	public Ban() {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -59,19 +59,19 @@ public class Ban {
 	}
 
 	public Community getCommunity() {
-		return Community;
+		return community;
 	}
 
 	public void setRCommunity(Community rCommunity) {
-		Community = rCommunity;
+		this.community = rCommunity;
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
 	
     

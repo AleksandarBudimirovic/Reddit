@@ -8,12 +8,12 @@ import com.example.reddit.model.Ban;
 
 public class BanDTO {
 	
-    private int id;
+    private Long id;
     private Date timestamp;
     private CommunityDTO Community;
     private UserDTO User;
     
-	public BanDTO(int id, Date timestamp, CommunityDTO community, UserDTO user) {
+	public BanDTO(Long id, Date timestamp, CommunityDTO community, UserDTO user) {
 		super();
 		this.id = id;
 		this.timestamp = timestamp;
@@ -29,11 +29,11 @@ public class BanDTO {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
