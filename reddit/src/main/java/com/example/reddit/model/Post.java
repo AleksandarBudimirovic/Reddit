@@ -30,10 +30,10 @@ public class Post {
 
     private String text;
 
-    @OneToMany(mappedBy="Post")
+    @OneToMany(mappedBy="post")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy="Post")
+    @OneToMany(mappedBy="post")
     private List<Flair> flairs;
 
     @ManyToOne
@@ -44,10 +44,10 @@ public class Post {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToMany(mappedBy="Post")
+    @OneToMany(mappedBy="post")
     private List<Reaction> reactions;
 
-    @OneToMany(mappedBy="Post")
+    @OneToMany(mappedBy="post")
     private List<Report> reports;
 
 	public Post(Long id, Date creationDate, String imagePath, String title, String text, List<Comment> comments,

@@ -31,19 +31,19 @@ public class User {
 
     private String username;
 
-    @OneToMany(mappedBy="ban")
+    @OneToMany(mappedBy="user")
     private List<Ban> bans;
 
-    @OneToMany(mappedBy="comment")
+    @OneToMany(mappedBy="user")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy="community")
+    @OneToMany(mappedBy="user")
     private List<Community> communities;
 
-    @OneToMany(mappedBy="reaction")
+    @OneToMany(mappedBy="user")
     private List<Reaction> reactions;
 
-    @OneToMany(mappedBy="post")
+    @OneToMany(mappedBy="user")
     private List<Post> posts;
 
 	public User(Long id, String avatar, String description, String displayName, String password, Date registrationDate,
