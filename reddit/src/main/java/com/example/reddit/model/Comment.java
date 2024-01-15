@@ -14,7 +14,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Entity;
 
+@Entity
 public class Comment {
 	
 	@Id
@@ -30,7 +32,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name="post_id")
-    private Post Post;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -43,10 +45,10 @@ public class Comment {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "mainComment")
     private List<Comment> subComments;
 
-    @OneToMany(mappedBy="Comment")
+    @OneToMany(mappedBy="comment")
     private List<Reaction> reactions;
 
-    @OneToMany(mappedBy="Comment")
+    @OneToMany(mappedBy="comment")
     private List<Report> reports;
 
 	public Comment(Long id, byte isDeleted, String text, Date timestamp, com.example.reddit.model.Post post, User user,
@@ -56,7 +58,7 @@ public class Comment {
 		this.isDeleted = isDeleted;
 		this.text = text;
 		this.timestamp = timestamp;
-		Post = post;
+		post = post;
 		this.user = user;
 		this.mainComment = mainComment;
 		this.subComments = subComments;
@@ -101,11 +103,11 @@ public class Comment {
 	}
 
 	public Post getPost() {
-		return Post;
+		return post;
 	}
 
 	public void setPost(Post post) {
-		Post = post;
+		this.post = post;
 	}
 
 	public User getUser() {

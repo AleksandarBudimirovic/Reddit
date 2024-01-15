@@ -12,7 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Entity;
 
+@Entity
 public class Flair {
 
 	@Id
@@ -23,19 +25,21 @@ public class Flair {
 
     @ManyToOne
     @JoinColumn(name="community_id")
-    private Community Community;
+    private Community community;
 
     @ManyToOne
     @JoinColumn(name="post_id")
-    private Post Post;
+    private Post post;
+    
+
 
 	public Flair(Long id, String name, com.example.reddit.model.Community community,
 			com.example.reddit.model.Post post) {
 		super();
 		this.id = id;
 		this.name = name;
-		Community = community;
-		Post = post;
+		community = community;
+		post = post;
 	}
 
 	public Flair() {
@@ -59,19 +63,19 @@ public class Flair {
 	}
 
 	public Community getCommunity() {
-		return Community;
+		return community;
 	}
 
 	public void setCommunity(Community community) {
-		Community = community;
+		community = community;
 	}
 
 	public Post getPost() {
-		return Post;
+		return post;
 	}
 
 	public void setPost(Post post) {
-		Post = post;
+		this.post = post;
 	}
     
     

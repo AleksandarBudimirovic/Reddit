@@ -12,7 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Entity;
 
+@Entity
 public class Community {
 
 	@Id
@@ -28,17 +30,17 @@ public class Community {
 
     private String suspendedReason;
 
-    @OneToMany(mappedBy="Community")
+    @OneToMany(mappedBy="community")
     private List<Ban> bans;
 
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToMany(mappedBy="Community")
+    @OneToMany(mappedBy="community")
     private List<Flair> flairs;
 
-    @OneToMany(mappedBy="Community")
+    @OneToMany(mappedBy="community")
     private List<Post> posts;
 
 	public Community(Long id, Date creationDate, String description, byte isSuspended, String suspendedReason,

@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.example.reddit.model.Post;
 import com.example.reddit.repository.PostRepository;
 
+@Service
 public class PostService {
 
 	@Autowired
