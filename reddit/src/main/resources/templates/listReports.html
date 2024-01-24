@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <div th:replace="template :: header"></div>
+    <title>Reports</title>
 </head>
-<body>
 
+<body>
+    <div th:insert="template :: navbar"></div>
+    <div class="container">
+        <h1>Reports</h1>
+        <div class="row col-md-12">
+            <div class="report-list">
+                <table id="reportTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Accepted</th>
+                            <th>Reason</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="report, rowStat: ${reports}" th:style="${rowStat.even} ? 'background-color: #f5f5f5;' : 'background-color: #ffffff;'">
+                            <td th:text="${report.id}">Report ID</td>
+                            <td th:text="${report.accepted == 1 ? 'Accepted' : 'Not Accepted'}">Accepted</td>
+                            <td th:text="${report.reason}">Reason</td>
+                            <td th:text="${report.timestamp}">Timestamp</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div th:replace="template :: scriptFrag"></div>
 </body>
 </html>

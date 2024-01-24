@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <div th:replace="template :: header"></div>
+    <title>Communities</title>
 </head>
-<body>
 
+<body>
+    <div th:insert="template :: navbar"></div>
+    <div class="container">
+        <h1>Communities</h1>
+        <div class="row col-md-12 table-responsive">
+            <table id="communityTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Community Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="community, rowStat: ${communities}" th:style="${rowStat.even} ? 'color: gray' : 'color: black;'">
+                        <td th:text="${community.name}">Community Name</td>
+                        <td th:text="${community.description}">Description</td>
+                        <td>
+                            <a class="btn btn-info" th:href="@{'/community/details/' + ${community.id}}" role="button">Details</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:replace="template :: scriptFrag"></div>
 </body>
 </html>

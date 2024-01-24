@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <!-- Add your CSS links or styles here -->
 </head>
 <body>
-
+    <div class="container">
+        <h1>Add User</h1>
+        <form action="/user/add" method="post">
+            <!-- Add your form fields for adding a user -->
+            <label for="avatar">Avatar:</label>
+            <input type="text" id="avatar" name="avatar">
+            <br>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+            <br>
+            <!-- Add other user fields here -->
+            <input type="submit" value="Add User">
+        </form>
+    </div>
+    <!-- Add your scripts or script links here -->
 </body>
 </html>

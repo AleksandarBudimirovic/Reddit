@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Community</title>
+    <!-- Add your CSS links or styles here -->
 </head>
 <body>
-
+    <div class="container">
+        <h1>Add Community</h1>
+        <form action="/community/add" method="post">
+            <!-- Add your form fields for adding a community -->
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+            <br>
+            <label for="isSuspended">Suspended:</label>
+            <select id="isSuspended" name="isSuspended" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+            <br>
+            <label for="suspendedReason">Suspended Reason:</label>
+            <textarea id="suspendedReason" name="suspendedReason" rows="4"></textarea>
+            <br>
+            <!-- Add other community fields here -->
+            <input type="submit" value="Add Community">
+        </form>
+    </div>
+    <!-- Add your scripts or script links here -->
 </body>
 </html>

@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <div th:replace="template :: header"></div>
+    <title>Post Comments</title>
 </head>
-<body>
 
+<body>
+    <div th:insert="template :: navbar"></div>
+    <div class="container">
+        <h1>Post Comments</h1>
+        <div class="row col-md-12">
+            <div class="post-content">
+                <!-- Display post content here -->
+                <h2>Post Title</h2>
+                <p>Post Content goes here...</p>
+            </div>
+            <div class="comments">
+                <h2>Comments</h2>
+                <ul class="list-group">
+                    <li th:each="comment, rowStat: ${comments}" class="list-group-item" th:style="${rowStat.even} ? 'background-color: #f5f5f5;' : 'background-color: #ffffff;'">
+                        <p><strong th:text="${comment.username}">Username</strong></p>
+                        <p th:text="${comment.content}">Comment Content</p>
+                        <small th:text="${comment.timestamp}">Timestamp</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div th:replace="template :: scriptFrag"></div>
 </body>
 </html>

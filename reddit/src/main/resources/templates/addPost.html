@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Post</title>
+    <!-- Add your CSS links or styles here -->
 </head>
 <body>
-
+    <div class="container">
+        <h1>Add Post</h1>
+        <form action="/post/add" method="post">
+            <!-- Add your form fields for adding a post -->
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <br>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" rows="4" required></textarea>
+            <br>
+            <input type="submit" value="Add Post">
+        </form>
+    </div>
+    <!-- Add your scripts or script links here -->
 </body>
 </html>

@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <div th:replace="template :: header"></div>
+    <title>Bans</title>
 </head>
-<body>
 
+<body>
+    <div th:insert="template :: navbar"></div>
+    <div class="container">
+        <h1>Bans</h1>
+        <div class="row col-md-12">
+            <div class="ban-list">
+                <table id="banTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Ban ID</th>
+                            <th>Timestamp</th>
+                            <th>Community</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ban, rowStat: ${bans}" th:style="${rowStat.even} ? 'background-color: #f5f5f5;' : 'background-color: #ffffff;'">
+                            <td th:text="${ban.id}">Ban ID</td>
+                            <td th:text="${ban.timestamp}">Timestamp</td>
+                            <td th:text="${ban.Community.name}">Community</td>
+                            <td th:text="${ban.User.username}">User</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div th:replace="template :: scriptFrag"></div>
 </body>
 </html>

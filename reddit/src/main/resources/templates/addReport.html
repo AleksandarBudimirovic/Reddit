@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Report</title>
+    <!-- Add your CSS links or styles here -->
 </head>
 <body>
-
+    <div class="container">
+        <h1>Add Report</h1>
+        <form action="/report/add" method="post">
+            <!-- Add your form fields for adding a report -->
+            <label for="accepted">Accepted:</label>
+            <input type="checkbox" id="accepted" name="accepted">
+            <br>
+            <label for="reason">Reason:</label>
+            <textarea id="reason" name="reason" rows="4" required></textarea>
+            <br>
+            <input type="submit" value="Add Report">
+        </form>
+    </div>
+    <!-- Add your scripts or script links here -->
 </body>
 </html>

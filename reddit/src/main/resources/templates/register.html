@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Registration Page</title>
     <style>
         body {
             display: flex;
@@ -25,18 +25,21 @@
 </head>
 <body>
 
-    <form action="login_process.php" method="post">
-        <h2>Login</h2>
+    <form action="register_process.php" method="post">
+        <h2>Register</h2>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <br>
-        <input type="submit" value="Login">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <br>
+        <input type="submit" value="Register">
     </form>
 
-    <p>Don't have an account? <a href="register.html">Register here</a></p>
+    <p>Already have an account? <a href="login.html">Login here</a></p>
 
 </body>
 </html>

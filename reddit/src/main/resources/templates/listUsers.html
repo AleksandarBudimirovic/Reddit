@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <div th:replace="template :: header"></div>
+    <title>Community Users</title>
 </head>
-<body>
 
+<body>
+    <div th:insert="template :: navbar"></div>
+    <div class="container">
+        <h1>Community Users</h1>
+        <div class="row col-md-12">
+            <div class="user-list">
+                <table id="userTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Avatar</th>
+                            <th>Description</th>
+                            <th>Display Name</th>
+                            <th>Registration Date</th>
+                            <th>Role</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user, rowStat: ${users}" th:style="${rowStat.even} ? 'background-color: #f5f5f5;' : 'background-color: #ffffff;'">
+                            <td th:text="${user.id}">User ID</td>
+                            <td>
+                                <img th:if="${user.avatar}" th:src="${user.avatar}" alt="Avatar" height="50" width="50">
+                            </td>
+                            <td th:text="${user.description}">Description</td>
+                            <td th:text="${user.displayName}">Display Name</td>
+                            <td th:text="${user.registrationDate}">Registration Date</td>
+                            <td th:text="${user.role}">Role</td>
+                            <td th:text="${user.username}">Username</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div th:replace="template :: scriptFrag"></div>
 </body>
 </html>

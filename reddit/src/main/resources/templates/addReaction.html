@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Reaction</title>
+    <!-- Add your CSS links or styles here -->
 </head>
 <body>
-
+    <div class="container">
+        <h1>Add Reaction</h1>
+        <form action="/reaction/add" method="post">
+            <!-- Add your form fields for adding a reaction -->
+            <label for="type">Type:</label>
+            <select id="type" name="type" required>
+                <option value="like">Like</option>
+                <option value="dislike">Dislike</option>
+            </select>
+            <br>
+            <input type="submit" value="Add Reaction">
+        </form>
+    </div>
+    <!-- Add your scripts or script links here -->
 </body>
 </html>
