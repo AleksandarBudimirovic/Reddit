@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.reddit.dto.BanDTO;
+import com.example.reddit.dto.CommentDTO;
 import com.example.reddit.dto.ReactionDTO;
+import com.example.reddit.dto.UserDTO;
+import com.example.reddit.mapper.CommentMapper;
+import com.example.reddit.mapper.PostMapper;
+import com.example.reddit.mapper.UserMapper;
 import com.example.reddit.dto.PostDTO;
 import com.example.reddit.model.Ban;
 import com.example.reddit.model.Reaction;
@@ -27,7 +32,7 @@ import com.example.reddit.service.UserService;
 import com.example.reddit.model.Post;
 
 @RestController
-@RequestMapping(value="api/reaction")
+@RequestMapping(value="api/reactions")
 public class ReactionController {
 
 	@Autowired
@@ -133,5 +138,35 @@ public class ReactionController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	public CommentDTO getCommentForReaction(Long id) {
+        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
+
+        if (reaction == null || reaction.getComment() == null) {
+            return null;
+        }
+
+        return new CommentMapper().modelToDto(reaction.getComment());
+    }
+
+    public PostDTO getPostForReaction(Long id) {
+        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
+
+        if (reaction == null || reaction.getPost() == null) {
+            return null;
+        }
+
+        return new PostMapper().modelToDto(reaction.getPost());
+    }
+
+    public UserDTO getUserForReaction(Long id) {
+        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
+
+        if (reaction == null || reaction.getUser() == null) {
+            return null;
+        }
+
+        return new UserMapper().modelToDto(reaction.getUser());
+    }
 	
 }

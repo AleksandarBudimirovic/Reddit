@@ -14,12 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.reddit.dto.BanDTO;
 import com.example.reddit.dto.CommentDTO;
+import com.example.reddit.dto.CommunityDTO;
+import com.example.reddit.dto.FlairDTO;
 import com.example.reddit.dto.PostDTO;
 import com.example.reddit.dto.ReactionDTO;
 import com.example.reddit.dto.ReportDTO;
+import com.example.reddit.dto.UserDTO;
+import com.example.reddit.mapper.CommentMapper;
+import com.example.reddit.mapper.CommunityMapper;
+import com.example.reddit.mapper.FlairMapper;
+import com.example.reddit.mapper.ReactionMapper;
+import com.example.reddit.mapper.ReportMapper;
+import com.example.reddit.mapper.UserMapper;
 import com.example.reddit.dto.PostDTO;
 import com.example.reddit.model.Ban;
 import com.example.reddit.model.Comment;
+import com.example.reddit.model.Flair;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
@@ -33,7 +43,7 @@ import com.example.reddit.service.UserService;
 import com.example.reddit.model.Post;
 
 @RestController
-@RequestMapping(value="api/post")
+@RequestMapping(value="api/posts")
 public class PostController {
 
 	@Autowired
@@ -171,5 +181,85 @@ public class PostController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	public ArrayList<CommentDTO> getCommentsForPost(Long id) {
+        Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
+
+        if (post == null || post.getComments() == null) {
+            return new ArrayList<>(); // or null, depending on your preference
+        }
+
+        ArrayList<CommentDTO> comments = new ArrayList<>();
+        for (Comment comment : post.getComments()) {
+            comments.add(new CommentMapper().modelToDto(comment));
+        }
+
+        return comments;
+    }
+
+    public ArrayList<FlairDTO> getFlairsForPost(Long id) {
+        Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
+
+        if (post == null || post.getFlairs() == null) {
+            return new ArrayList<>(); // or null, depending on your preference
+        }
+
+        ArrayList<FlairDTO> flairs = new ArrayList<>();
+        for (Flair flair : post.getFlairs()) {
+            flairs.add(new FlairMapper().modelToDto(flair));
+        }
+
+        return flairs;
+    }
+
+    public CommunityDTO getCommunityForPost(Long id) {
+        Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
+
+        if (post == null || post.getCommunity() == null) {
+            return null;
+        }
+
+        return new CommunityMapper().modelToDto(post.getCommunity());
+    }
+
+    public UserDTO getUserForPost(Long id) {
+        Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
+
+        if (post == null || post.getUser() == null) {
+            return null;
+        }
+
+        return new UserMapper().modelToDto(post.getUser());
+    }
+
+    public ArrayList<ReactionDTO> getReactionsForPost(Long id) {
+        Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
+
+        if (post == null || post.getReactions() == null) {
+            return new ArrayList<>(); // or null, depending on your preference
+        }
+
+        ArrayList<ReactionDTO> reactions = new ArrayList<>();
+        for (Reaction reaction : post.getReactions()) {
+            reactions.add(new ReactionMapper().modelToDto(reaction));
+        }
+
+        return reactions;
+    }
+
+    public ArrayList<ReportDTO> getReportsForPost(Long id) {
+        Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
+
+        if (post == null || post.getReports() == null) {
+            return new ArrayList<>(); // or null, depending on your preference
+        }
+
+        ArrayList<ReportDTO> reports = new ArrayList<>();
+        for (Report report : post.getReports()) {
+            reports.add(new ReportMapper().modelToDto(report));
+        }
+
+        return reports;
+    }
 	
 }

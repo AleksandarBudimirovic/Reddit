@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.reddit.dto.BanDTO;
+import com.example.reddit.dto.CommentDTO;
 import com.example.reddit.dto.ReportDTO;
+import com.example.reddit.mapper.CommentMapper;
+import com.example.reddit.mapper.PostMapper;
 import com.example.reddit.dto.PostDTO;
 import com.example.reddit.model.Ban;
 import com.example.reddit.model.Report;
@@ -27,7 +30,7 @@ import com.example.reddit.service.UserService;
 import com.example.reddit.model.Post;
 
 @RestController
-@RequestMapping(value="api/report")
+@RequestMapping(value="api/reports")
 public class ReportController {
 
 	@Autowired
@@ -133,5 +136,24 @@ public class ReportController {
 		}
 	}
 	
-	
+	 public CommentDTO getCommentForReport(Long id) {
+	        Report report = reportService.findOne(id); // Assuming you have a ReportService to retrieve Report by ID
+
+	        if (report == null || report.getComment() == null) {
+	            return null;
+	        }
+
+	        return new CommentMapper().modelToDto(report.getComment());
+	    }
+
+	    public PostDTO getPostForReport(Long id) {
+	        Report report = reportService.findOne(id); // Assuming you have a ReportService to retrieve Report by ID
+
+	        if (report == null || report.getPost() == null) {
+	            return null;
+	        }
+
+	        return new PostMapper().modelToDto(report.getPost());
+	    }
+	    
 }

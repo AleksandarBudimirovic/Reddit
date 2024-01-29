@@ -16,6 +16,11 @@ import com.example.reddit.dto.BanDTO;
 import com.example.reddit.dto.CommentDTO;
 import com.example.reddit.dto.CommunityDTO;
 import com.example.reddit.dto.UserDTO;
+import com.example.reddit.mapper.BanMapper;
+import com.example.reddit.mapper.CommentMapper;
+import com.example.reddit.mapper.CommunityMapper;
+import com.example.reddit.mapper.PostMapper;
+import com.example.reddit.mapper.ReactionMapper;
 import com.example.reddit.dto.PostDTO;
 import com.example.reddit.dto.ReactionDTO;
 import com.example.reddit.dto.ReportDTO;
@@ -35,7 +40,7 @@ import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
 
 @RestController
-@RequestMapping(value="api/user")
+@RequestMapping(value="api/users")
 public class UserController {
 
 	@Autowired
@@ -183,5 +188,80 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	public ArrayList<BanDTO> getBannedForUser(Long id) {
+        User user = userService.findOne(id); // Assuming you have a UserService to retrieve User by ID
+
+        if (user == null || user.getBans() == null) {
+            return null;
+        }
+
+        ArrayList<BanDTO> bannedList = new ArrayList<>();
+        for (Ban ban : user.getBans()) {
+            bannedList.add(new BanMapper().modelToDto(ban));
+        }
+
+        return bannedList;
+    }
+
+    public ArrayList<CommentDTO> getCommentsForUser(Long id) {
+        User user = userService.findOne(id); // Assuming you have a UserService to retrieve User by ID
+
+        if (user == null || user.getComments() == null) {
+            return null;
+        }
+
+        ArrayList<CommentDTO> commentList = new ArrayList<>();
+        for (Comment comment : user.getComments()) {
+            commentList.add(new CommentMapper().modelToDto(comment));
+        }
+
+        return commentList;
+    }
+
+    public ArrayList<CommunityDTO> getCommunitiesForUser(Long id) {
+        User user = userService.findOne(id); // Assuming you have a UserService to retrieve User by ID
+
+        if (user == null || user.getCommunities() == null) {
+            return null;
+        }
+
+        ArrayList<CommunityDTO> communityList = new ArrayList<>();
+        for (Community community : user.getCommunities()) {
+            communityList.add(new CommunityMapper().modelToDto(community));
+        }
+
+        return communityList;
+    }
+
+    public ArrayList<ReactionDTO> getReactionsForUser(Long id) {
+        User user = userService.findOne(id); // Assuming you have a UserService to retrieve User by ID
+
+        if (user == null || user.getReactions() == null) {
+            return null;
+        }
+
+        ArrayList<ReactionDTO> reactionList = new ArrayList<>();
+        for (Reaction reaction : user.getReactions()) {
+            reactionList.add(new ReactionMapper().modelToDto(reaction));
+        }
+
+        return reactionList;
+    }
+
+    public ArrayList<PostDTO> getPostsForUser(Long id) {
+        User user = userService.findOne(id); // Assuming you have a UserService to retrieve User by ID
+
+        if (user == null || user.getPosts() == null) {
+            return null;
+        }
+
+        ArrayList<PostDTO> postList = new ArrayList<>();
+        for (Post post : user.getPosts()) {
+            postList.add(new PostMapper().modelToDto(post));
+        }
+
+        return postList;
+    }
 	
 }

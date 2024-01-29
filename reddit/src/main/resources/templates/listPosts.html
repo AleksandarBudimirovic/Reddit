@@ -1,28 +1,65 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <div th:replace="template :: header"></div>
-    <title>Posts</title>
+    <title th:if="${community}" th:text="${'Posts in ' + community.name}">Community Posts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="path/to/mainCss.css">
 </head>
 
 <body>
     <div th:insert="template :: navbar"></div>
     <div class="container">
-        <h1>Posts</h1>
-        <div class="row col-md-12">
-            <div class="post-list">
-                <ul class="list-group">
-                    <li th:each="post, rowStat: ${posts}" class="list-group-item" th:style="${rowStat.even} ? 'background-color: #f5f5f5;' : 'background-color: #ffffff;'">
-                        <h2 th:text="${post.title}">Post Title</h2>
-                        <p th:text="${post.content}">Post Content</p>
-                        <p><strong th:text="${post.username}">Username</strong></p>
-                        <small th:text="${post.timestamp}">Timestamp</small>
-                        <a class="btn btn-info" th:href="@{'/post/details/' + ${post.id}}" role="button">Details</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <form class="form-inline">
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        </form>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account">Account Name</a>
                     </li>
                 </ul>
             </div>
+        </nav>
+
+        <h1 th:if="${community}" th:text="${'Posts in ' + community.name}">Community Posts</h1>
+        <div class="row col-md-12 table-responsive">
+            <table id="postTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post, rowStat: ${posts}" th:style="${rowStat.even} ? 'color: gray' : 'color: black;'">
+                        <td>
+                            <a th:href="@{'/community/posts/' + ${post.id}}" th:text="${post.title}">Post Title</a>
+                        </td>
+                        <td th:text="${#dates.format(post.date, 'yyyy-MM-dd HH:mm')}">Post Date</td>
+                        <td>
+                            <!-- Add any additional actions here -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div th:replace="template :: scriptFrag"></div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Add your custom scripts here if needed -->
 </body>
 </html>

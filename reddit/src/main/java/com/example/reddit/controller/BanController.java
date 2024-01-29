@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.reddit.dto.BanDTO;
+import com.example.reddit.dto.CommunityDTO;
+import com.example.reddit.dto.UserDTO;
+import com.example.reddit.mapper.BanMapper;
+import com.example.reddit.mapper.CommunityMapper;
+import com.example.reddit.mapper.UserMapper;
 import com.example.reddit.model.Ban;
 import com.example.reddit.service.BanService;
 import com.example.reddit.service.CommentService;
@@ -24,12 +29,8 @@ import com.example.reddit.service.ReportService;
 import com.example.reddit.service.UserService;
 
 
-
-
-
-
 @RestController
-@RequestMapping(value="api/ban")
+@RequestMapping(value="api/bans")
 public class BanController {
 
 	@Autowired
@@ -115,5 +116,27 @@ public class BanController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	public CommunityDTO getCommunityForBan(Long id) {
+	    Ban ban = banService.findOne(id); // Assuming you have a BanService to retrieve Ban by ID
+
+	    if (ban == null || ban.getCommunity() == null) {
+	        return null;
+	    }
+
+	    return new CommunityMapper().modelToDto(ban.getCommunity());
+	}
+
+	public UserDTO getUserForBan(Long id) {
+	    Ban ban = banService.findOne(id); // Assuming you have a BanService to retrieve Ban by ID
+
+	    if (ban == null || ban.getUser() == null) {
+	        return null;
+	    }
+
+	    return new UserMapper().modelToDto(ban.getUser());
+	}
+
+
 	
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/mainCss.css">
     <title>Login Page</title>
     <style>
         body {
@@ -33,10 +34,12 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <br>
-        <input type="submit" value="Login">
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+        <input type="submit" id="loginSubmit" value="Login">
     </form>
 
-    <p>Don't have an account? <a href="register.html">Register here</a></p>
+    <!-- Link your JavaScript file -->
+    <script src="login.js"></script>
 
 </body>
 </html>

@@ -7,6 +7,11 @@ $(document).ready(function () {
         var communityId = $("#communityId").val();
         var userId = $("#userId").val();
 
+        if (!banTimestamp || !communityId || !userId) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+        
         var newBan = {
             timestamp: banTimestamp,
             Community: { id: communityId },
@@ -23,6 +28,7 @@ $(document).ready(function () {
             },
             error: function (error) {
                 console.error('Error adding ban:', error);
+                alert("Error adding ban. Please try again.");
             }
         });
     });

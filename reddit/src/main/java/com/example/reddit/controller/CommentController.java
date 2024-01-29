@@ -19,6 +19,9 @@ import com.example.reddit.dto.PostDTO;
 import com.example.reddit.dto.ReactionDTO;
 import com.example.reddit.dto.ReportDTO;
 import com.example.reddit.dto.UserDTO;
+import com.example.reddit.mapper.CommentMapper;
+import com.example.reddit.mapper.ReactionMapper;
+import com.example.reddit.mapper.ReportMapper;
 import com.example.reddit.model.Comment;
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
@@ -31,7 +34,7 @@ import com.example.reddit.service.ReportService;
 import com.example.reddit.service.UserService;
 
 @RestController
-@RequestMapping(value="api/comment")
+@RequestMapping(value="api/comments")
 public class CommentController {
 
 	@Autowired
@@ -154,5 +157,50 @@ public class CommentController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	public ArrayList<CommentDTO> getSubCommentsForComment(Long id) {
+        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
+
+        if (comment == null || comment.getSubComments() == null) {
+            return new ArrayList<>(); // or null, depending on your preference
+        }
+
+        ArrayList<CommentDTO> subComments = new ArrayList<>();
+        for (Comment subComment : comment.getSubComments()) {
+            subComments.add(new CommentMapper().modelToDto(subComment));
+        }
+
+        return subComments;
+    }
+	
+	public ArrayList<ReactionDTO> getReactionsForComment(Long id) {
+        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
+
+        if (comment == null || comment.getReactions() == null) {
+            return new ArrayList<>(); // or null, depending on your preference
+        }
+
+        ArrayList<ReactionDTO> reactions = new ArrayList<>();
+        for (Reaction reaction : comment.getReactions()) {
+            reactions.add(new ReactionMapper().modelToDto(reaction));
+        }
+
+        return reactions;
+    }
+	
+	 public ArrayList<ReportDTO> getReportsForComment(Long id) {
+	        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
+
+	        if (comment == null || comment.getReports() == null) {
+	            return new ArrayList<>(); // or null, depending on your preference
+	        }
+
+	        ArrayList<ReportDTO> reports = new ArrayList<>();
+	        for (Report report : comment.getReports()) {
+	            reports.add(new ReportMapper().modelToDto(report));
+	        }
+
+	        return reports;
+	    }
 	
 }

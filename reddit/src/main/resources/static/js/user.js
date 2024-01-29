@@ -2,7 +2,7 @@ $(document).ready(function () {
 
  
 
-    $("#addUser").click(function (e) {
+    $("#registerSubmit").click(function (e) {
         var avatar = $("#userAvatar").val();
         var description = $("#userDescription").val();
         var displayName = $("#userDisplayName").val();
@@ -92,18 +92,7 @@ $(document).ready(function () {
         });
     }
     
-    function performLogin() {
-	    var username = document.getElementById('username').value;
-	    var password = document.getElementById('password').value;
 
-	    
-	    if (username === 'demo' && password === 'password') {
-	        alert('Login successful!');
-	       
-	    } else {
-	        alert('Invalid username or password. Please try again.');
-	    }
-	}
 
     // Example usage of the functions
     listUsers();

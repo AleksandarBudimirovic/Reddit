@@ -19,6 +19,8 @@ import com.example.reddit.dto.PostDTO;
 import com.example.reddit.dto.ReactionDTO;
 import com.example.reddit.dto.ReportDTO;
 import com.example.reddit.dto.UserDTO;
+import com.example.reddit.mapper.BanMapper;
+import com.example.reddit.mapper.PostMapper;
 import com.example.reddit.model.Ban;
 import com.example.reddit.model.Community;
 import com.example.reddit.model.Post;
@@ -34,7 +36,7 @@ import com.example.reddit.service.ReportService;
 import com.example.reddit.service.UserService;
 
 @RestController
-@RequestMapping(value="api/community")
+@RequestMapping(value="api/communities")
 public class CommunityController {
 
 	@Autowired
@@ -145,4 +147,34 @@ public class CommunityController {
 		}
 	}
 	
+	 public ArrayList<BanDTO> getBansForCommunity(Long id) {
+	        Community community = communityService.findOne(id); // Assuming you have a CommunityService to retrieve Community by ID
+
+	        if (community == null || community.getBanneds() == null) {
+	            return new ArrayList<>(); // or null, depending on your preference
+	        }
+
+	        ArrayList<BanDTO> bans = new ArrayList<>();
+	        for (Ban ban : community.getBanneds()) {
+	            bans.add(new BanMapper().modelToDto(ban));
+	        }
+
+	        return bans;
+	    }
+	 
+	 public ArrayList<PostDTO> getPostsForCommunity(Long id) {
+	        Community community = communityService.findOne(id); // Assuming you have a CommunityService to retrieve Community by ID
+
+	        if (community == null || community.getPosts() == null) {
+	            return new ArrayList<>(); // or null, depending on your preference
+	        }
+
+	        ArrayList<PostDTO> posts = new ArrayList<>();
+	        for (Post post : community.getPosts()) {
+	            posts.add(new PostMapper().modelToDto(post));
+	        }
+
+	        return posts;
+	    }
+	 
 }
