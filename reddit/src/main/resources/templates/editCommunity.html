@@ -40,42 +40,47 @@
             box-sizing: border-box;
         }
 
-        input[type="submit"] {
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Vertically center the buttons */
+        }
+
+        .btn-primary, .btn-danger {
+            width: 45%; /* Adjust the width as needed */
+            margin: 5px; /* Add a small margin between the buttons */
+        }
+
+        .btn-primary {
             background-color: #007bff;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        input[type="submit"]:hover {
+        .btn-primary:hover {
             background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
     <!-- Navigation Bar from the second HTML file -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <form class="form-inline">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                    </form>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/account">Account Name</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Your existing navigation code... -->
 
     <div class="container">
         <form id="editCommunityForm" action="/community/edit" method="post">
@@ -87,7 +92,12 @@
             <input type="text" id="description" name="description" value="Existing Community Description" required>
             <br>
             <!-- Add other community fields here -->
-            <input type="submit" value="Save Changes" class="btn btn-primary">
+
+            <!-- Button Group for Save Changes and Delete buttons -->
+            <div class="btn-group">
+                <input type="submit" value="Save Changes" class="btn btn-primary">
+                <button type="button" id="deleteCommunity" class="btn btn-danger">Delete Community</button>
+            </div>
         </form>
     </div>
 
@@ -95,6 +105,10 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- Add your scripts or script links here -->
+    <!-- Your existing scripts or script links here -->
+
+    <script>
+        // Your existing script for handling the delete button click event...
+    </script>
 </body>
 </html>

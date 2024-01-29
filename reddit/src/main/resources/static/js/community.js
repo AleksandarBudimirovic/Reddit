@@ -72,6 +72,17 @@ $(document).ready(function () {
             }
         });
     }
+    
+    $("#editCommunityForm").submit(function (event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Get the communityId from wherever it comes from (e.g., a data attribute or hidden input)
+        var communityId = getCommunityIdForEdit(); // Replace with the appropriate method to get the communityId
+
+        // Call the editCommunity function with the retrieved communityId
+        editCommunity(communityId);
+    });
 
     // Function to handle deleting a community
     function deleteCommunity(communityId) {
@@ -87,6 +98,20 @@ $(document).ready(function () {
             }
         });
     }
+    
+    $("#deleteCommunity").click(function () {
+        // Display a confirmation prompt
+        var userConfirmed = window.confirm("Are you sure you want to delete this community?");
+
+        // Check if the user confirmed
+        if (userConfirmed) {
+            // Retrieve the communityId from wherever it comes from (e.g., a data attribute or hidden input)
+            var communityId = getCommunityIdForDelete(); // Replace with the appropriate method to get the communityId
+
+            // Call the deleteCommunity function with the retrieved communityId
+            deleteCommunity(communityId);
+        }
+    });
 
     // ... Similar functions for BanDTO, ReactionDTO, ReportDTO ...
 

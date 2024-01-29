@@ -74,6 +74,17 @@ $(document).ready(function () {
             }
         });
     }
+    
+    $("#editPostForm").submit(function (event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Get the postId from wherever it comes from (e.g., a data attribute or hidden input)
+        var postId = getPostIdForEdit(); // Replace with the appropriate method to get the postId
+
+        // Call the editPost function with the retrieved postId
+        editPost(postId);
+    });
 
     // Function to handle deleting a post
     function deletePost(postId) {
@@ -89,6 +100,20 @@ $(document).ready(function () {
             }
         });
     }
+    
+    $("#deletePost").click(function () {
+        // Display a confirmation prompt
+        var userConfirmed = window.confirm("Are you sure you want to delete this post?");
+
+        // Check if the user confirmed
+        if (userConfirmed) {
+            // Retrieve the postId from wherever it comes from (e.g., a data attribute or hidden input)
+            var postId = getPostIdForDelete(); // Replace with the appropriate method to get the postId
+
+            // Call the deletePost function with the retrieved postId
+            deletePost(postId);
+        }
+    });
 
     // ... Similar functions for other entities ...
 

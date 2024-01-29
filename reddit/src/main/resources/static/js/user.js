@@ -76,6 +76,17 @@ $(document).ready(function () {
             }
         });
     }
+    
+    $("#editUserForm").submit(function (event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Get the userId from wherever it comes from (e.g., a data attribute or hidden input)
+        var userId = getUserIdForEdit(); // Replace with the appropriate method to get the userId
+
+        // Call the editUser function with the retrieved userId
+        editUser(userId);
+    });
 
     // Function to handle deleting a user
     function deleteUser(userId) {
