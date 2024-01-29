@@ -3,33 +3,85 @@
 <head>
     <div th:replace="template :: header"></div>
     <title>Reports</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="path/to/mainCss.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        #reportTable {
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .report-list {
+            overflow-x: auto;
+        }
+
+    </style>
 </head>
 
 <body>
-    <div th:insert="template :: navbar"></div>
+    <!-- Navigation Bar from the second HTML file -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <form class="form-inline">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/account">Account Name</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>Reports</h1>
-        <div class="row col-md-12">
-            <div class="report-list">
-                <table id="reportTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>Report ID</th>
-                            <th>Accepted</th>
-                            <th>Reason</th>
-                            <th>Timestamp</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="report, rowStat: ${reports}" th:style="${rowStat.even} ? 'background-color: #f5f5f5;' : 'background-color: #ffffff;'">
-                            <td th:text="${report.id}">Report ID</td>
-                            <td th:text="${report.accepted == 1 ? 'Accepted' : 'Not Accepted'}">Accepted</td>
-                            <td th:text="${report.reason}">Reason</td>
-                            <td th:text="${report.timestamp}">Timestamp</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="row col-md-12 report-list">
+            <table id="reportTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Accepted</th>
+                        <th>Reason</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="report, rowStat: ${reports}" th:style="${rowStat.even} ? 'background-color: #f5f5f5;' : 'background-color: #ffffff;'">
+                        <td th:text="${report.id}">Report ID</td>
+                        <td th:text="${report.accepted == 1 ? 'Accepted' : 'Not Accepted'}">Accepted</td>
+                        <td th:text="${report.reason}">Reason</td>
+                        <td th:text="${report.timestamp}">Timestamp</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div th:replace="template :: scriptFrag"></div>
