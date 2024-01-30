@@ -1,45 +1,42 @@
 package com.example.reddit.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.Entity;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Flair {
 
-	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name="community_id")
-    private Community community;
+    @ManyToMany(mappedBy = "flairs")
+    private Set<Community> communities = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name="post_id")
-    private Post post;
-    
-
-
-	public Flair(Long id, String name, com.example.reddit.model.Community community,
-			com.example.reddit.model.Post post) {
+	public Flair(Long id, String name, Set<Community> community) {
 		super();
 		this.id = id;
 		this.name = name;
-		community = community;
-		post = post;
+		this.communities = community;
 	}
 
 	public Flair() {
@@ -62,21 +59,18 @@ public class Flair {
 		this.name = name;
 	}
 
-	public Community getCommunity() {
-		return community;
+	public Set<Community> getCommunities() {
+		return communities;
 	}
 
-	public void setCommunity(Community community) {
-		community = community;
+	public void setCommunities(Set<Community> communities) {
+		this.communities = communities;
 	}
 
-	public Post getPost() {
-		return post;
-	}
 
-	public void setPost(Post post) {
-		this.post = post;
-	}
+
+
+	
     
     
 	

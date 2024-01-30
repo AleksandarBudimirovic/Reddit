@@ -54,30 +54,30 @@ public class ReactionController {
 	public ResponseEntity<List<ReactionDTO>> getAllReactions() {
 		List<Reaction> reactions = reactionService.findAll();
 		
-		List<ReactionDTO> reactionsDTO = new ArrayList<>();
+		List<ReactionDTO> reactionsDTO = new ArrayList();
 		for (Reaction obj : reactions) {
 			ReactionDTO reaction = new ReactionDTO (obj);
 			
 			reactionsDTO.add(reaction);
 		}
-		return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
+		return new ResponseEntity(reactionsDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<ReactionDTO> getReaction(@PathVariable Long id){
 		Reaction reaction = reactionService.findOne(id);
 		if(reaction == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		
 		ReactionDTO reactionDTO = new ReactionDTO(reaction);
 		
 		
-		return new ResponseEntity<>(reactionDTO, HttpStatus.OK);
+		return new ResponseEntity(reactionDTO, HttpStatus.OK);
 	}
 	
 	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
-		ArrayList<Post> list=new ArrayList<>();
+		ArrayList<Post> list=new ArrayList();
 		for(PostDTO objectDTO : listDTO) {
 			list.add(postService.findOne(objectDTO.getId()));
 		}
@@ -85,7 +85,7 @@ public class ReactionController {
 	}
 	
 	public ArrayList<Ban> BanDTOToModel(List<BanDTO> listDTO) {
-		ArrayList<Ban> list=new ArrayList<>();
+		ArrayList<Ban> list=new ArrayList();
 		for(BanDTO objectDTO : listDTO) {
 			list.add(banService.findOne(objectDTO.getId()));
 		}
@@ -104,7 +104,7 @@ public class ReactionController {
 
 		
 		reaction = reactionService.save(reaction);
-		return new ResponseEntity<>(HttpStatus.CREATED);	
+		return new ResponseEntity(HttpStatus.CREATED);	
 	}
 	
 	
@@ -113,7 +113,7 @@ public class ReactionController {
 		
 		Reaction reaction = reactionService.findOne(reactionDTO.getId()); 
 		if (reaction == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
 		reaction.setTimestamp(reactionDTO.getTimestamp());
@@ -123,7 +123,7 @@ public class ReactionController {
 		reaction.setUser(userService.findOne(reactionDTO.getUser().getId()));
 		
 		reaction = reactionService.save(reaction);
-		return new ResponseEntity<>(new ReactionDTO(reaction), HttpStatus.OK);	
+		return new ResponseEntity(new ReactionDTO(reaction), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
@@ -133,9 +133,9 @@ public class ReactionController {
 		if (reaction != null){
 			
 			reactionService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {		
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 	

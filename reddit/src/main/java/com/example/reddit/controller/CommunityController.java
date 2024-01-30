@@ -58,30 +58,30 @@ public class CommunityController {
 	public ResponseEntity<List<CommunityDTO>> getAllCommunitys() {
 		List<Community> communitys = communityService.findAll();
 		
-		List<CommunityDTO> communitysDTO = new ArrayList<>();
+		List<CommunityDTO> communitysDTO = new ArrayList();
 		for (Community obj : communitys) {
 			CommunityDTO community = new CommunityDTO (obj);
 			
 			communitysDTO.add(community);
 		}
-		return new ResponseEntity<>(communitysDTO, HttpStatus.OK);
+		return new ResponseEntity(communitysDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<CommunityDTO> getCommunity(@PathVariable Long id){
 		Community community = communityService.findOne(id);
 		if(community == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		
 		CommunityDTO communityDTO = new CommunityDTO(community);
 		
 		
-		return new ResponseEntity<>(communityDTO, HttpStatus.OK);
+		return new ResponseEntity(communityDTO, HttpStatus.OK);
 	}
 	
 	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
-		ArrayList<Post> list=new ArrayList<>();
+		ArrayList<Post> list=new ArrayList();
 		for(PostDTO objectDTO : listDTO) {
 			list.add(postService.findOne(objectDTO.getId()));
 		}
@@ -89,7 +89,7 @@ public class CommunityController {
 	}
 	
 	public ArrayList<Ban> BanDTOToModel(List<BanDTO> listDTO) {
-		ArrayList<Ban> list=new ArrayList<>();
+		ArrayList<Ban> list=new ArrayList();
 		for(BanDTO objectDTO : listDTO) {
 			list.add(banService.findOne(objectDTO.getId()));
 		}
@@ -110,7 +110,7 @@ public class CommunityController {
 
 		
 		community = communityService.save(community);
-		return new ResponseEntity<>(HttpStatus.CREATED);	
+		return new ResponseEntity(HttpStatus.CREATED);	
 	}
 	
 	
@@ -119,7 +119,7 @@ public class CommunityController {
 		
 		Community community = communityService.findOne(communityDTO.getId()); 
 		if (community == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
 		community.setCreationDate(communityDTO.getCreationDate());
@@ -131,7 +131,7 @@ public class CommunityController {
 		community.setPosts(PostDTOToModel(communityDTO.getPosts()));
 		
 		community = communityService.save(community);
-		return new ResponseEntity<>(new CommunityDTO(community), HttpStatus.OK);	
+		return new ResponseEntity(new CommunityDTO(community), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
@@ -141,21 +141,21 @@ public class CommunityController {
 		if (community != null){
 			
 			communityService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {		
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	 public ArrayList<BanDTO> getBansForCommunity(Long id) {
 	        Community community = communityService.findOne(id); // Assuming you have a CommunityService to retrieve Community by ID
 
-	        if (community == null || community.getBanneds() == null) {
-	            return new ArrayList<>(); // or null, depending on your preference
+	        if (community == null || community.getBans() == null) {
+	            return new ArrayList(); // or null, depending on your preference
 	        }
 
-	        ArrayList<BanDTO> bans = new ArrayList<>();
-	        for (Ban ban : community.getBanneds()) {
+	        ArrayList<BanDTO> bans = new ArrayList();
+	        for (Ban ban : community.getBans()) {
 	            bans.add(new BanMapper().modelToDto(ban));
 	        }
 
@@ -166,10 +166,10 @@ public class CommunityController {
 	        Community community = communityService.findOne(id); // Assuming you have a CommunityService to retrieve Community by ID
 
 	        if (community == null || community.getPosts() == null) {
-	            return new ArrayList<>(); // or null, depending on your preference
+	            return new ArrayList(); // or null, depending on your preference
 	        }
 
-	        ArrayList<PostDTO> posts = new ArrayList<>();
+	        ArrayList<PostDTO> posts = new ArrayList();
 	        for (Post post : community.getPosts()) {
 	            posts.add(new PostMapper().modelToDto(post));
 	        }

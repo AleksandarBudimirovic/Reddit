@@ -52,26 +52,26 @@ public class BanController {
 	public ResponseEntity<List<BanDTO>> getAllBans() {
 		List<Ban> bans = banService.findAll();
 		
-		List<BanDTO> bansDTO = new ArrayList<>();
+		List<BanDTO> bansDTO = new ArrayList();
 		for (Ban obj : bans) {
 			BanDTO ban = new BanDTO (obj);
 			
 			bansDTO.add(ban);
 		}
-		return new ResponseEntity<>(bansDTO, HttpStatus.OK);
+		return new ResponseEntity(bansDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<BanDTO> getBan(@PathVariable Long id){
 		Ban ban = banService.findOne(id);
 		if(ban == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		
 		BanDTO banDTO = new BanDTO(ban);
 		
 		
-		return new ResponseEntity<>(banDTO, HttpStatus.OK);
+		return new ResponseEntity(banDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
@@ -83,7 +83,7 @@ public class BanController {
 		ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
 		
 		ban = banService.save(ban);
-		return new ResponseEntity<>(HttpStatus.CREATED);	
+		return new ResponseEntity(HttpStatus.CREATED);	
 	}
 	
 	
@@ -93,7 +93,7 @@ public class BanController {
 		
 		Ban ban = banService.findOne(banDTO.getId()); 
 		if (ban == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
 		ban.setUser(userService.findOne(banDTO.getUser().getId()));
@@ -101,7 +101,7 @@ public class BanController {
 		ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
 		
 		ban = banService.save(ban);
-		return new ResponseEntity<>(new BanDTO(ban), HttpStatus.OK);	
+		return new ResponseEntity(new BanDTO(ban), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
@@ -111,9 +111,9 @@ public class BanController {
 		if (ban != null){
 			
 			banService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {		
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 	

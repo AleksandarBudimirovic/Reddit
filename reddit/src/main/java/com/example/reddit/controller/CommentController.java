@@ -56,30 +56,30 @@ public class CommentController {
 	public ResponseEntity<List<CommentDTO>> getAllComments() {
 		List<Comment> comments = commentService.findAll();
 		
-		List<CommentDTO> commentsDTO = new ArrayList<>();
+		List<CommentDTO> commentsDTO = new ArrayList();
 		for (Comment obj : comments) {
 			CommentDTO comment = new CommentDTO (obj);
 			
 			commentsDTO.add(comment);
 		}
-		return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+		return new ResponseEntity(commentsDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<CommentDTO> getComment(@PathVariable Long id){
 		Comment comment = commentService.findOne(id);
 		if(comment == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		
 		CommentDTO commentDTO = new CommentDTO(comment);
 		
 		
-		return new ResponseEntity<>(commentDTO, HttpStatus.OK);
+		return new ResponseEntity(commentDTO, HttpStatus.OK);
 	}
 	
 	public ArrayList<Comment> CommentDTOToModel(List<CommentDTO> listDTO) {
-		ArrayList<Comment> list=new ArrayList<>();
+		ArrayList<Comment> list=new ArrayList();
 		for(CommentDTO objectDTO : listDTO) {
 			list.add(commentService.findOne(objectDTO.getId()));
 		}
@@ -87,7 +87,7 @@ public class CommentController {
 	}
 	
 	public ArrayList<Reaction> ReactionDTOToModel(List<ReactionDTO> listDTO) {
-		ArrayList<Reaction> list=new ArrayList<>();
+		ArrayList<Reaction> list=new ArrayList();
 		for(ReactionDTO objectDTO : listDTO) {
 			list.add(reactionService.findOne(objectDTO.getId()));
 		}
@@ -95,7 +95,7 @@ public class CommentController {
 	}
 	
 	public ArrayList<Report> ReportDTOToModel(List<ReportDTO> listDTO) {
-		ArrayList<Report> list=new ArrayList<>();
+		ArrayList<Report> list=new ArrayList();
 		for(ReportDTO objectDTO : listDTO) {
 			list.add(reportService.findOne(objectDTO.getId()));
 		}
@@ -118,7 +118,7 @@ public class CommentController {
 		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
 		
 		comment = commentService.save(comment);
-		return new ResponseEntity<>(HttpStatus.CREATED);	
+		return new ResponseEntity(HttpStatus.CREATED);	
 	}
 	
 	
@@ -127,7 +127,7 @@ public class CommentController {
 		
 		Comment comment = commentService.findOne(commentDTO.getId()); 
 		if (comment == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
 		comment.setIsDeleted(commentDTO.getIsDeleted());
@@ -142,7 +142,7 @@ public class CommentController {
 		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
 		
 		comment = commentService.save(comment);
-		return new ResponseEntity<>(new CommentDTO(comment), HttpStatus.OK);	
+		return new ResponseEntity(new CommentDTO(comment), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
@@ -152,9 +152,9 @@ public class CommentController {
 		if (comment != null){
 			
 			commentService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {		
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -162,10 +162,10 @@ public class CommentController {
         Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
 
         if (comment == null || comment.getSubComments() == null) {
-            return new ArrayList<>(); // or null, depending on your preference
+            return new ArrayList(); // or null, depending on your preference
         }
 
-        ArrayList<CommentDTO> subComments = new ArrayList<>();
+        ArrayList<CommentDTO> subComments = new ArrayList();
         for (Comment subComment : comment.getSubComments()) {
             subComments.add(new CommentMapper().modelToDto(subComment));
         }
@@ -177,10 +177,10 @@ public class CommentController {
         Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
 
         if (comment == null || comment.getReactions() == null) {
-            return new ArrayList<>(); // or null, depending on your preference
+            return new ArrayList(); // or null, depending on your preference
         }
 
-        ArrayList<ReactionDTO> reactions = new ArrayList<>();
+        ArrayList<ReactionDTO> reactions = new ArrayList();
         for (Reaction reaction : comment.getReactions()) {
             reactions.add(new ReactionMapper().modelToDto(reaction));
         }
@@ -192,10 +192,10 @@ public class CommentController {
 	        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
 
 	        if (comment == null || comment.getReports() == null) {
-	            return new ArrayList<>(); // or null, depending on your preference
+	            return new ArrayList(); // or null, depending on your preference
 	        }
 
-	        ArrayList<ReportDTO> reports = new ArrayList<>();
+	        ArrayList<ReportDTO> reports = new ArrayList();
 	        for (Report report : comment.getReports()) {
 	            reports.add(new ReportMapper().modelToDto(report));
 	        }

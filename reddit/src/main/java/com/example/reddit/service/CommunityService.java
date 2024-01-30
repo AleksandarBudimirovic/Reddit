@@ -20,6 +20,13 @@ public class CommunityService {
 		return communityRepository.findById(id).orElse(null);
 	}
 	
+
+    public List<Community> findAllByIds(List<Long> communityIds) {
+        return communityRepository.findAllById(communityIds);
+    }
+	
+
+	
 	
 	public List<Community> findAll() {
 

@@ -65,30 +65,30 @@ public class PostController {
 	public ResponseEntity<List<PostDTO>> getAllPosts() {
 		List<Post> posts = postService.findAll();
 		
-		List<PostDTO> postsDTO = new ArrayList<>();
+		List<PostDTO> postsDTO = new ArrayList();
 		for (Post obj : posts) {
 			PostDTO post = new PostDTO (obj);
 			
 			postsDTO.add(post);
 		}
-		return new ResponseEntity<>(postsDTO, HttpStatus.OK);
+		return new ResponseEntity(postsDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<PostDTO> getPost(@PathVariable Long id){
 		Post post = postService.findOne(id);
 		if(post == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		
 		PostDTO postDTO = new PostDTO(post);
 		
 		
-		return new ResponseEntity<>(postDTO, HttpStatus.OK);
+		return new ResponseEntity(postDTO, HttpStatus.OK);
 	}
 	
 	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
-		ArrayList<Post> list=new ArrayList<>();
+		ArrayList<Post> list=new ArrayList();
 		for(PostDTO objectDTO : listDTO) {
 			list.add(postService.findOne(objectDTO.getId()));
 		}
@@ -96,7 +96,7 @@ public class PostController {
 	}
 	
 	public ArrayList<Ban> BanDTOToModel(List<BanDTO> listDTO) {
-		ArrayList<Ban> list=new ArrayList<>();
+		ArrayList<Ban> list=new ArrayList();
 		for(BanDTO objectDTO : listDTO) {
 			list.add(banService.findOne(objectDTO.getId()));
 		}
@@ -104,7 +104,7 @@ public class PostController {
 	}
 	
 	public ArrayList<Comment> CommentDTOToModel(List<CommentDTO> listDTO) {
-		ArrayList<Comment> list=new ArrayList<>();
+		ArrayList<Comment> list=new ArrayList();
 		for(CommentDTO objectDTO : listDTO) {
 			list.add(commentService.findOne(objectDTO.getId()));
 		}
@@ -112,7 +112,7 @@ public class PostController {
 	}
 	
 	public ArrayList<Reaction> ReactionDTOToModel(List<ReactionDTO> listDTO) {
-		ArrayList<Reaction> list=new ArrayList<>();
+		ArrayList<Reaction> list=new ArrayList();
 		for(ReactionDTO objectDTO : listDTO) {
 			list.add(reactionService.findOne(objectDTO.getId()));
 		}
@@ -120,7 +120,7 @@ public class PostController {
 	}
 	
 	public ArrayList<Report> ReportDTOToModel(List<ReportDTO> listDTO) {
-		ArrayList<Report> list=new ArrayList<>();
+		ArrayList<Report> list=new ArrayList();
 		for(ReportDTO objectDTO : listDTO) {
 			list.add(reportService.findOne(objectDTO.getId()));
 		}
@@ -143,7 +143,7 @@ public class PostController {
 		
 		
 		post = postService.save(post);
-		return new ResponseEntity<>(HttpStatus.CREATED);	
+		return new ResponseEntity(HttpStatus.CREATED);	
 	}
 	
 	
@@ -152,7 +152,7 @@ public class PostController {
 		
 		Post post = postService.findOne(postDTO.getId()); 
 		if (post == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
 		post.setCommunity(communityService.findOne(postDTO.getCommunity().getId()));
@@ -166,7 +166,7 @@ public class PostController {
 		post.setReports(ReportDTOToModel(postDTO.getReports()));
 		
 		post = postService.save(post);
-		return new ResponseEntity<>(new PostDTO(post), HttpStatus.OK);	
+		return new ResponseEntity(new PostDTO(post), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
@@ -176,9 +176,9 @@ public class PostController {
 		if (post != null){
 			
 			postService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {		
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -186,10 +186,10 @@ public class PostController {
         Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
 
         if (post == null || post.getComments() == null) {
-            return new ArrayList<>(); // or null, depending on your preference
+            return new ArrayList(); // or null, depending on your preference
         }
 
-        ArrayList<CommentDTO> comments = new ArrayList<>();
+        ArrayList<CommentDTO> comments = new ArrayList();
         for (Comment comment : post.getComments()) {
             comments.add(new CommentMapper().modelToDto(comment));
         }
@@ -197,20 +197,6 @@ public class PostController {
         return comments;
     }
 
-    public ArrayList<FlairDTO> getFlairsForPost(Long id) {
-        Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
-
-        if (post == null || post.getFlairs() == null) {
-            return new ArrayList<>(); // or null, depending on your preference
-        }
-
-        ArrayList<FlairDTO> flairs = new ArrayList<>();
-        for (Flair flair : post.getFlairs()) {
-            flairs.add(new FlairMapper().modelToDto(flair));
-        }
-
-        return flairs;
-    }
 
     public CommunityDTO getCommunityForPost(Long id) {
         Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
@@ -236,10 +222,10 @@ public class PostController {
         Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
 
         if (post == null || post.getReactions() == null) {
-            return new ArrayList<>(); // or null, depending on your preference
+            return new ArrayList(); // or null, depending on your preference
         }
 
-        ArrayList<ReactionDTO> reactions = new ArrayList<>();
+        ArrayList<ReactionDTO> reactions = new ArrayList();
         for (Reaction reaction : post.getReactions()) {
             reactions.add(new ReactionMapper().modelToDto(reaction));
         }
@@ -251,10 +237,10 @@ public class PostController {
         Post post = postService.findOne(id); // Assuming you have a PostService to retrieve Post by ID
 
         if (post == null || post.getReports() == null) {
-            return new ArrayList<>(); // or null, depending on your preference
+            return new ArrayList(); // or null, depending on your preference
         }
 
-        ArrayList<ReportDTO> reports = new ArrayList<>();
+        ArrayList<ReportDTO> reports = new ArrayList();
         for (Report report : post.getReports()) {
             reports.add(new ReportMapper().modelToDto(report));
         }

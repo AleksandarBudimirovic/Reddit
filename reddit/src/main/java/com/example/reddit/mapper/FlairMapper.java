@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlairMapper {
 
-    public FlairDTO modelToDto(Flair flair) {
-        FlairDTO flairDTO = new FlairDTO();
-
-        flairDTO.setId(flair.getId());
-        flairDTO.setName(flair.getName());
-
-
-        return flairDTO;
-    }
+//    public FlairDTO modelToDto(Flair flair) {
+//        FlairDTO flairDTO = new FlairDTO();
+//
+//        flairDTO.setId(flair.getId());
+//        flairDTO.setName(flair.getName());
+//
+//
+//        return flairDTO;
+//    }
 
     public Flair dtoToModel(FlairDTO flairDTO) {
         Flair flair = new Flair();

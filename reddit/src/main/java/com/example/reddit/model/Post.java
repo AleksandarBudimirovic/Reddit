@@ -5,16 +5,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.Entity;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Post {
@@ -35,8 +37,6 @@ public class Post {
     @OneToMany(mappedBy="post")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy="post")
-    private List<Flair> flairs;
 
     @ManyToOne
     @JoinColumn(name="community_id")
@@ -53,7 +53,7 @@ public class Post {
     private List<Report> reports;
 
 	public Post(Long id, Date creationDate, String imagePath, String title, String text, List<Comment> comments,
-			List<Flair> flairs, Community community, User user, List<Reaction> reactions, List<Report> reports) {
+			 Community community, User user, List<Reaction> reactions, List<Report> reports) {
 		super();
 		this.id = id;
 		this.creationDate = creationDate;
@@ -61,7 +61,6 @@ public class Post {
 		this.title = title;
 		this.text = text;
 		this.comments = comments;
-		this.flairs = flairs;
 		this.community = community;
 		this.user = user;
 		this.reactions = reactions;
@@ -120,13 +119,7 @@ public class Post {
 		this.comments = comments;
 	}
 
-	public List<Flair> getFlairs() {
-		return flairs;
-	}
 
-	public void setFlairs(List<Flair> flairs) {
-		this.flairs = flairs;
-	}
 
 	public Community getCommunity() {
 		return community;

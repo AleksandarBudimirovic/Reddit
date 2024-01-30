@@ -12,9 +12,7 @@ import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
 import com.example.reddit.model.User;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+
 
 
 
@@ -34,7 +32,7 @@ public class PostDTO {
     private ArrayList<ReportDTO> Reports = new ArrayList<ReportDTO>();
     
 	public PostDTO(Long id, Date creationDate, String imagePath, String title, String text,
-			ArrayList<CommentDTO> comments, ArrayList<FlairDTO> flairs, CommunityDTO community, UserDTO user,
+			ArrayList<CommentDTO> comments, CommunityDTO community, UserDTO user,
 			ArrayList<ReactionDTO> reactions, ArrayList<ReportDTO> reports) {
 		super();
 		this.id = id;
@@ -43,7 +41,6 @@ public class PostDTO {
 		this.title = title;
 		this.text = text;
 		Comments = comments;
-		Flairs = flairs;
 		Community = community;
 		User = user;
 		Reactions = reactions;
@@ -51,12 +48,12 @@ public class PostDTO {
 	}
 
 	public PostDTO(Post obj) {
-		this(obj.getId(), obj.getCreationDate(), obj.getImagePath(), obj.getTitle(), obj.getText(), getComments(obj.getComments()), getFlairs(obj.getFlairs()), new CommunityDTO(obj.getCommunity()), 
+		this(obj.getId(), obj.getCreationDate(), obj.getImagePath(), obj.getTitle(), obj.getText(), getComments(obj.getComments()), new CommunityDTO(obj.getCommunity()), 
 				new UserDTO(obj.getUser()), getReactions(obj.getReactions()), getReports(obj.getReports()));
 	}
 	
 	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
-		ArrayList<CommentDTO> listDTO=new ArrayList<>();
+		ArrayList<CommentDTO> listDTO=new ArrayList();
 		for(Comment object : list) {
 			listDTO.add(new CommentDTO(object));
 		}
@@ -64,15 +61,17 @@ public class PostDTO {
 	}
 	
 	public static ArrayList<ReactionDTO> getReactions(List<Reaction> list) {
-		ArrayList<ReactionDTO> listDTO=new ArrayList<>();
+		ArrayList<ReactionDTO> listDTO=new ArrayList();
 		for(Reaction object : list) {
 			listDTO.add(new ReactionDTO(object));
 		}
 		return listDTO;
 	}
 	
+
+	
 	public static ArrayList<ReportDTO> getReports(List<Report> list) {
-		ArrayList<ReportDTO> listDTO=new ArrayList<>();
+		ArrayList<ReportDTO> listDTO=new ArrayList();
 		for(Report object : list) {
 			listDTO.add(new ReportDTO(object));
 		}
@@ -80,7 +79,7 @@ public class PostDTO {
 	}
 	
 	public static ArrayList<FlairDTO> getFlairs(List<Flair> list) {
-		ArrayList<FlairDTO> listDTO=new ArrayList<>();
+		ArrayList<FlairDTO> listDTO=new ArrayList();
 		for(Flair object : list) {
 			listDTO.add(new FlairDTO(object));
 		}

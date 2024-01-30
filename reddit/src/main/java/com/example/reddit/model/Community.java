@@ -1,18 +1,22 @@
 package com.example.reddit.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.Entity;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Community {
@@ -36,15 +40,20 @@ public class Community {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
-
-    @OneToMany(mappedBy="community")
-    private List<Flair> flairs;
+    
+    @ManyToMany
+    @JoinTable(
+            name = "community_flair",
+            joinColumns = @JoinColumn(name = "community_id"),
+            inverseJoinColumns = @JoinColumn(name = "flair_id")
+    )
+    private Set<Flair> flairs = new HashSet<>();
 
     @OneToMany(mappedBy="community")
     private List<Post> posts;
 
 	public Community(Long id, Date creationDate, String description, byte isSuspended, String suspendedReason,
-			List<Ban> bans, com.example.reddit.model.User user, List<Flair> flairs, List<Post> posts) {
+			List<Ban> bans, User user, Set<Flair> flairs, List<Post> posts) {
 		super();
 		this.id = id;
 		this.creationDate = creationDate;
@@ -101,7 +110,7 @@ public class Community {
 		this.suspendedReason = suspendedReason;
 	}
 
-	public List<Ban> getBanneds() {
+	public List<Ban> getBans() {
 		return bans;
 	}
 
@@ -117,11 +126,13 @@ public class Community {
 		this.user = user;
 	}
 
-	public List<Flair> getFlairs() {
+
+
+	public Set<Flair> getFlairs() {
 		return flairs;
 	}
 
-	public void setFlairs(List<Flair> flairs) {
+	public void setFlairs(Set<Flair> flairs) {
 		this.flairs = flairs;
 	}
 
@@ -132,7 +143,9 @@ public class Community {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
-    
-    
+
+	
+
+	
 	
 }

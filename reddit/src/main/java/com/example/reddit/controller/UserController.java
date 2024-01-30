@@ -62,30 +62,30 @@ public class UserController {
 	public ResponseEntity<List<UserDTO>> getAllUsers() {
 		List<User> users = userService.findAll();
 		
-		List<UserDTO> usersDTO = new ArrayList<>();
+		List<UserDTO> usersDTO = new ArrayList();
 		for (User obj : users) {
 			UserDTO user = new UserDTO (obj);
 			
 			usersDTO.add(user);
 		}
-		return new ResponseEntity<>(usersDTO, HttpStatus.OK);
+		return new ResponseEntity(usersDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUser(@PathVariable Long id){
 		User user = userService.findOne(id);
 		if(user == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		
 		UserDTO userDTO = new UserDTO(user);
 		
 		
-		return new ResponseEntity<>(userDTO, HttpStatus.OK);
+		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
 	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
-		ArrayList<Post> list=new ArrayList<>();
+		ArrayList<Post> list=new ArrayList();
 		for(PostDTO objectDTO : listDTO) {
 			list.add(postService.findOne(objectDTO.getId()));
 		}
@@ -93,7 +93,7 @@ public class UserController {
 	}
 	
 	public ArrayList<Ban> BanDTOToModel(List<BanDTO> listDTO) {
-		ArrayList<Ban> list=new ArrayList<>();
+		ArrayList<Ban> list=new ArrayList();
 		for(BanDTO objectDTO : listDTO) {
 			list.add(banService.findOne(objectDTO.getId()));
 		}
@@ -101,7 +101,7 @@ public class UserController {
 	}
 	
 	public ArrayList<Comment> CommentDTOToModel(List<CommentDTO> listDTO) {
-		ArrayList<Comment> list=new ArrayList<>();
+		ArrayList<Comment> list=new ArrayList();
 		for(CommentDTO objectDTO : listDTO) {
 			list.add(commentService.findOne(objectDTO.getId()));
 		}
@@ -109,7 +109,7 @@ public class UserController {
 	}
 	
 	public ArrayList<Community> CommunityDTOToModel(List<CommunityDTO> listDTO) {
-		ArrayList<Community> list=new ArrayList<>();
+		ArrayList<Community> list=new ArrayList();
 		for(CommunityDTO objectDTO : listDTO) {
 			list.add(communityService.findOne(objectDTO.getId()));
 		}
@@ -117,7 +117,7 @@ public class UserController {
 	}
 	
 	public ArrayList<Reaction> ReactionDTOToModel(List<ReactionDTO> listDTO) {
-		ArrayList<Reaction> list=new ArrayList<>();
+		ArrayList<Reaction> list=new ArrayList();
 		for(ReactionDTO objectDTO : listDTO) {
 			list.add(reactionService.findOne(objectDTO.getId()));
 		}
@@ -125,7 +125,7 @@ public class UserController {
 	}
 	
 	public ArrayList<Report> ReportDTOToModel(List<ReportDTO> listDTO) {
-		ArrayList<Report> list=new ArrayList<>();
+		ArrayList<Report> list=new ArrayList();
 		for(ReportDTO objectDTO : listDTO) {
 			list.add(reportService.findOne(objectDTO.getId()));
 		}
@@ -152,7 +152,7 @@ public class UserController {
 		
 		
 		user = userService.save(user);
-		return new ResponseEntity<>(HttpStatus.CREATED);	
+		return new ResponseEntity(HttpStatus.CREATED);	
 	}
 	
 	
@@ -161,7 +161,7 @@ public class UserController {
 		
 		User user = userService.findOne(userDTO.getId()); 
 		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
 		user.setAvatar(userDTO.getAvatar());
@@ -173,7 +173,7 @@ public class UserController {
 		user.setDisplayName(userDTO.getDisplayName());
 		
 		user = userService.save(user);
-		return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);	
+		return new ResponseEntity(new UserDTO(user), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
@@ -183,9 +183,9 @@ public class UserController {
 		if (user != null){
 			
 			userService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {		
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -196,7 +196,7 @@ public class UserController {
             return null;
         }
 
-        ArrayList<BanDTO> bannedList = new ArrayList<>();
+        ArrayList<BanDTO> bannedList = new ArrayList();
         for (Ban ban : user.getBans()) {
             bannedList.add(new BanMapper().modelToDto(ban));
         }
@@ -211,7 +211,7 @@ public class UserController {
             return null;
         }
 
-        ArrayList<CommentDTO> commentList = new ArrayList<>();
+        ArrayList<CommentDTO> commentList = new ArrayList();
         for (Comment comment : user.getComments()) {
             commentList.add(new CommentMapper().modelToDto(comment));
         }
@@ -226,7 +226,7 @@ public class UserController {
             return null;
         }
 
-        ArrayList<CommunityDTO> communityList = new ArrayList<>();
+        ArrayList<CommunityDTO> communityList = new ArrayList();
         for (Community community : user.getCommunities()) {
             communityList.add(new CommunityMapper().modelToDto(community));
         }
@@ -241,7 +241,7 @@ public class UserController {
             return null;
         }
 
-        ArrayList<ReactionDTO> reactionList = new ArrayList<>();
+        ArrayList<ReactionDTO> reactionList = new ArrayList();
         for (Reaction reaction : user.getReactions()) {
             reactionList.add(new ReactionMapper().modelToDto(reaction));
         }
@@ -256,7 +256,7 @@ public class UserController {
             return null;
         }
 
-        ArrayList<PostDTO> postList = new ArrayList<>();
+        ArrayList<PostDTO> postList = new ArrayList();
         for (Post post : user.getPosts()) {
             postList.add(new PostMapper().modelToDto(post));
         }

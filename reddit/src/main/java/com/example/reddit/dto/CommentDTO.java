@@ -59,7 +59,7 @@ public class CommentDTO {
 	
 	
 	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
-		ArrayList<CommentDTO> listDTO=new ArrayList<>();
+		ArrayList<CommentDTO> listDTO=new ArrayList();
 		for(Comment object : list) {
 			listDTO.add(new CommentDTO(object));
 		}
@@ -67,7 +67,7 @@ public class CommentDTO {
 	}
 	
 	public static ArrayList<ReactionDTO> getReactions(List<Reaction> list) {
-		ArrayList<ReactionDTO> listDTO=new ArrayList<>();
+		ArrayList<ReactionDTO> listDTO=new ArrayList();
 		for(Reaction object : list) {
 			listDTO.add(new ReactionDTO(object));
 		}
@@ -75,7 +75,7 @@ public class CommentDTO {
 	}
 	
 	public static ArrayList<ReportDTO> getReports(List<Report> list) {
-		ArrayList<ReportDTO> listDTO=new ArrayList<>();
+		ArrayList<ReportDTO> listDTO=new ArrayList();
 		for(Report object : list) {
 			listDTO.add(new ReportDTO(object));
 		}

@@ -52,30 +52,30 @@ public class ReportController {
 	public ResponseEntity<List<ReportDTO>> getAllReports() {
 		List<Report> reports = reportService.findAll();
 		
-		List<ReportDTO> reportsDTO = new ArrayList<>();
+		List<ReportDTO> reportsDTO = new ArrayList();
 		for (Report obj : reports) {
 			ReportDTO report = new ReportDTO (obj);
 			
 			reportsDTO.add(report);
 		}
-		return new ResponseEntity<>(reportsDTO, HttpStatus.OK);
+		return new ResponseEntity(reportsDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<ReportDTO> getReport(@PathVariable Long id){
 		Report report = reportService.findOne(id);
 		if(report == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		
 		ReportDTO reportDTO = new ReportDTO(report);
 		
 		
-		return new ResponseEntity<>(reportDTO, HttpStatus.OK);
+		return new ResponseEntity(reportDTO, HttpStatus.OK);
 	}
 	
 	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
-		ArrayList<Post> list=new ArrayList<>();
+		ArrayList<Post> list=new ArrayList();
 		for(PostDTO objectDTO : listDTO) {
 			list.add(postService.findOne(objectDTO.getId()));
 		}
@@ -83,7 +83,7 @@ public class ReportController {
 	}
 	
 	public ArrayList<Ban> BanDTOToModel(List<BanDTO> listDTO) {
-		ArrayList<Ban> list=new ArrayList<>();
+		ArrayList<Ban> list=new ArrayList();
 		for(BanDTO objectDTO : listDTO) {
 			list.add(banService.findOne(objectDTO.getId()));
 		}
@@ -101,7 +101,7 @@ public class ReportController {
 		report.setPost(postService.findOne(reportDTO.getPost().getId()));
 		
 		report = reportService.save(report);
-		return new ResponseEntity<>(HttpStatus.CREATED);	
+		return new ResponseEntity(HttpStatus.CREATED);	
 	}
 	
 	
@@ -110,7 +110,7 @@ public class ReportController {
 		
 		Report report = reportService.findOne(reportDTO.getId()); 
 		if (report == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
 		report.setAccepted(reportDTO.getAccepted());
@@ -120,7 +120,7 @@ public class ReportController {
 		report.setPost(postService.findOne(reportDTO.getPost().getId()));
 		
 		report = reportService.save(report);
-		return new ResponseEntity<>(new ReportDTO(report), HttpStatus.OK);	
+		return new ResponseEntity(new ReportDTO(report), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
@@ -130,9 +130,9 @@ public class ReportController {
 		if (report != null){
 			
 			reportService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {		
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 	
