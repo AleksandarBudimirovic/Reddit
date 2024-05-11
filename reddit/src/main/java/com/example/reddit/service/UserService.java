@@ -52,7 +52,8 @@ public class UserService implements UserDetailsService{
 	        user.setDescription(req.getDescription());
 	        user.setUsername(req.getUsername());
 	        user.setRole(USER_ROLE);
-	        user.setPassword(configuration.passwordEncoder().encode(req.getPassword()));
+//	        user.setPassword(configuration.passwordEncoder().encode(req.getPassword()));
+	        user.setPassword(req.getPassword());
 	        user.setDisplayName(req.getDisplayName());
 	        user.setRegistrationDate(new Date());
 	        userRepository.save(user);
@@ -73,13 +74,16 @@ public class UserService implements UserDetailsService{
 	        User user = userRepository.findByUsername(username);
 
 	        if(req.getPassword()!=null && !req.getPassword().isEmpty()) {
-	            if (!configuration.passwordEncoder().matches(req.getPassword(), user.getPassword())) {
+//	            if (!configuration.passwordEncoder().matches(req.getPassword(), user.getPassword())) {
+	        	if (req.getPassword().equals(user.getPassword())) {
 	                throw new Exception("Wrong password!");
 	            }
 	            if (req.getPassword() == null || user.getPassword() == null || !req.getPassword().equals(req.getPassword())) {
 	                throw new Exception("Passwords dont match");
 	            }
-	            user.setPassword(configuration.passwordEncoder().encode(req.getPassword()));
+//	            user.setPassword(configuration.passwordEncoder().encode(req.getPassword()));
+	            user.setPassword(req.getPassword());
+	            
 	        }
 
 	        user.setAvatar(req.getAvatar());

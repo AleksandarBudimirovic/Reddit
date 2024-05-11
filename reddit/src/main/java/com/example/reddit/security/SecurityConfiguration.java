@@ -26,64 +26,68 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+	
+	 @Override
+	    protected void configure(HttpSecurity httpSecurity) throws Exception {
+	        httpSecurity.authorizeRequests().antMatchers("/").permitAll();
 
-    @Qualifier("userDetailsService")
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-
-    @Value("${access.control.allowed.methods}")
-    private String accessControlAllowedMethods = "";
-
-    @Value("${access.control.allowed.headers}")
-    private String accessControlAllowedHeaders = "";
-
-
-    @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-
-        authenticationManagerBuilder.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList(accessControlAllowedMethods.split(",")));
-        configuration.setAllowedHeaders(Arrays.asList(accessControlAllowedHeaders.split(",")));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-
-    }
-
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public AuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
-        authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
-        return authenticationTokenFilter;
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests()	.antMatchers("/**").permitAll().
-                anyRequest().authenticated();
-
-        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//    @Qualifier("userDetailsService")
+//    @Autowired
+//    private UserDetailsService userDetailsService;
+//
+//
+//    @Value("${access.control.allowed.methods}")
+//    private String accessControlAllowedMethods = "";
+//
+//    @Value("${access.control.allowed.headers}")
+//    private String accessControlAllowedHeaders = "";
+//
+//
+//    @Autowired
+//    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//
+//        authenticationManagerBuilder.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
+//    }
+//
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+//        configuration.setAllowedMethods(Arrays.asList(accessControlAllowedMethods.split(",")));
+//        configuration.setAllowedHeaders(Arrays.asList(accessControlAllowedHeaders.split(",")));
+//        configuration.setAllowCredentials(true);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//
+//        return source;
+//
+//    }
+//
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
+//
+//    @Bean
+//    public AuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+//        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
+//        authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
+//        return authenticationTokenFilter;
+//    }
+//
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable().cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and().authorizeRequests()	.antMatchers("/**").permitAll().
+//                anyRequest().authenticated();
+//
+//        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 }
