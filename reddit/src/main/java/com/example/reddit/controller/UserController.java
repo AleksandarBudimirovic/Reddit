@@ -3,6 +3,8 @@ package com.example.reddit.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +59,28 @@ public class UserController {
 	private ReportService reportService;
 	@Autowired
 	private UserService userService;
+	
+	
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST, consumes="application/json")
+    public ResponseEntity<String> loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
+		System.out.println(userDTO.getUsername());
+        User user = userService.findByUsername(userDTO.getUsername());
+        if (user == null || !user.getPassword().equals(userDTO.getPassword())) {
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+        }
+
+        session.setAttribute("currentUser", user);
+        return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/logout", method=RequestMethod.POST)
+    public ResponseEntity<String> logoutUser(HttpSession session) {
+        session.invalidate();
+        return new ResponseEntity<>("User logged out successfully", HttpStatus.OK);
+    }
+	
+	
 	
 	@RequestMapping(value="/all", method = RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>> getAllUsers() {

@@ -13,7 +13,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/users/user/loginUser',
+            url: 'http://localhost:8080/api/users/loginUser',
             contentType: 'application/json',
             data: JSON.stringify(params),
             success: function(data) {
