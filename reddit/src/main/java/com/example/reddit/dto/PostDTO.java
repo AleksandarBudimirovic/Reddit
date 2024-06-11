@@ -1,21 +1,10 @@
 package com.example.reddit.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import com.example.reddit.model.Comment;
 import com.example.reddit.model.Community;
-import com.example.reddit.model.Flair;
 import com.example.reddit.model.Post;
-import com.example.reddit.model.Reaction;
-import com.example.reddit.model.Report;
 import com.example.reddit.model.User;
-
-
-
-
-
 
 public class PostDTO {
 
@@ -24,163 +13,84 @@ public class PostDTO {
     private String imagePath;
     private String title;
     private String text;
-    private ArrayList<CommentDTO> Comments = new ArrayList<CommentDTO>();
-    private ArrayList<FlairDTO> Flairs = new ArrayList<FlairDTO>();
     private CommunityDTO Community;
     private UserDTO User;
-    private ArrayList<ReactionDTO> Reactions = new ArrayList<ReactionDTO>();
-    private ArrayList<ReportDTO> Reports = new ArrayList<ReportDTO>();
+
+    public PostDTO(Long id, Date creationDate, String imagePath, String title, String text,
+        CommunityDTO community, UserDTO user) {
+        this.id = id;
+        this.creationDate = creationDate;
+        this.imagePath = imagePath;
+        this.title = title;
+        this.text = text;
+        this.Community = community;
+        this.User = user;
+    }
+
+    public PostDTO(Post obj) {
+        this(obj.getId(), obj.getCreationDate(), obj.getImagePath(), obj.getTitle(), obj.getText(),
+            new CommunityDTO(obj.getCommunity()), new UserDTO(obj.getUser()));
+    }
     
-	public PostDTO(Long id, Date creationDate, String imagePath, String title, String text,
-			ArrayList<CommentDTO> comments, CommunityDTO community, UserDTO user,
-			ArrayList<ReactionDTO> reactions, ArrayList<ReportDTO> reports) {
-		super();
-		this.id = id;
-		this.creationDate = creationDate;
-		this.imagePath = imagePath;
-		this.title = title;
-		this.text = text;
-		Comments = comments;
-		Community = community;
-		User = user;
-		Reactions = reactions;
-		Reports = reports;
-	}
+    
 
-	public PostDTO(Post obj) {
-		this(obj.getId(), obj.getCreationDate(), obj.getImagePath(), obj.getTitle(), obj.getText(), getComments(obj.getComments()), new CommunityDTO(obj.getCommunity()), 
-				new UserDTO(obj.getUser()), getReactions(obj.getReactions()), getReports(obj.getReports()));
-	}
-	
-	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
-		ArrayList<CommentDTO> listDTO=new ArrayList();
-		for(Comment object : list) {
-			listDTO.add(new CommentDTO(object));
-		}
-		return listDTO;
-	}
-	
-	public static ArrayList<ReactionDTO> getReactions(List<Reaction> list) {
-		ArrayList<ReactionDTO> listDTO=new ArrayList();
-		for(Reaction object : list) {
-			listDTO.add(new ReactionDTO(object));
-		}
-		return listDTO;
-	}
-	
-
-	
-	public static ArrayList<ReportDTO> getReports(List<Report> list) {
-		ArrayList<ReportDTO> listDTO=new ArrayList();
-		for(Report object : list) {
-			listDTO.add(new ReportDTO(object));
-		}
-		return listDTO;
-	}
-	
-	public static ArrayList<FlairDTO> getFlairs(List<Flair> list) {
-		ArrayList<FlairDTO> listDTO=new ArrayList();
-		for(Flair object : list) {
-			listDTO.add(new FlairDTO(object));
-		}
-		return listDTO;
-	}
-	
-	public PostDTO() {
+    public PostDTO() {
 		super();
 	}
 
 	public Long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
-	public String getImagePath() {
-		return imagePath;
-	}
+    public String getImagePath() {
+        return imagePath;
+    }
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public ArrayList<CommentDTO> getComments() {
-		return Comments;
-	}
+    public CommunityDTO getCommunity() {
+        return Community;
+    }
 
-	public void setComments(ArrayList<CommentDTO> comments) {
-		Comments = comments;
-	}
+    public void setCommunity(CommunityDTO community) {
+        Community = community;
+    }
 
-	public ArrayList<FlairDTO> getFlairs() {
-		return Flairs;
-	}
+    public UserDTO getUser() {
+        return User;
+    }
 
-	public void setFlairs(ArrayList<FlairDTO> flairs) {
-		Flairs = flairs;
-	}
-
-	public CommunityDTO getCommunity() {
-		return Community;
-	}
-
-	public void setCommunity(CommunityDTO community) {
-		Community = community;
-	}
-
-	public UserDTO getUser() {
-		return User;
-	}
-
-	public void setUser(UserDTO user) {
-		User = user;
-	}
-
-	public ArrayList<ReactionDTO> getReactions() {
-		return Reactions;
-	}
-
-	public void setReactions(ArrayList<ReactionDTO> reactions) {
-		Reactions = reactions;
-	}
-
-	public ArrayList<ReportDTO> getReports() {
-		return Reports;
-	}
-
-	public void setReports(ArrayList<ReportDTO> reports) {
-		Reports = reports;
-	}
-
-	
-
-
-    
-	
+    public void setUser(UserDTO user) {
+        User = user;
+    }
 }

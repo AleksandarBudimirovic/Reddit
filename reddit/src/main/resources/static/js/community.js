@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-    
-
     $("#addCommunity").click(function (e) {
         var creationDate = $("#creationDate").val();
         var description = $("#description").val();
@@ -18,7 +16,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '/api/communities/addCommunity',  // Replace with your actual backend endpoint
+            url: '/api/communities/addCommunity',  
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(newCommunity),
@@ -32,16 +30,41 @@ $(document).ready(function () {
     });
 
     function listCommunities() {
-        $.ajax({
-            url: '/api/communities/getCommunities',  // Replace with your actual backend endpoint for listing communities
-            type: 'GET',
-            success: function (data) {
-                console.log('List of communities:', data);
-                // Handle displaying the list on the UI if needed
-            },
-            error: function (error) {
-                console.error('Error listing communities:', error);
-            }
+    $.ajax({
+        url: '/api/communities/getCommunities',
+        type: 'GET',
+        success: function (data) {
+            console.log('List of communities:', data);
+            displayCommunities(data); // Call displayCommunities with the received data
+        },
+        error: function (error) {
+            console.error('Error listing communities:', error);
+        }
+    });
+}
+
+function formatDate(dateString) {
+    var date = new Date(dateString);
+    return date.toLocaleDateString();
+}
+
+function displayCommunities(communities) {
+    var tbody = $('#communityTableBody');
+    tbody.empty();
+
+    communities.forEach(function (community) {
+        var row = '<tr>' +
+            '<td>' + community.id + '</td>' +
+            '<td>' + formatDate(community.creationDate) + '</td>' +
+            '<td>' + community.description + '</td>' +
+            '<td>' + community.isSuspended + '</td>' +
+            '<td>' + community.suspendedReason + '</td>' +
+            '<td>' + community.user.username + '</td>' +
+            '<td>' +
+            '<a class="btn btn-info" href="/community/details/' + community.id + '" role="button">Details</a>' +
+            '</td>' +
+            '</tr>';
+        tbody.append(row);
         });
     }
 
@@ -59,7 +82,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '/api/communities/' + communityId,  // Replace with your actual backend endpoint for updating communities
+            url: '/api/communities/' + communityId,
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(updatedCommunity),
@@ -72,22 +95,18 @@ $(document).ready(function () {
             }
         });
     }
-    
+
     $("#editCommunityForm").submit(function (event) {
-        // Prevent the default form submission
         event.preventDefault();
 
-        // Get the communityId from wherever it comes from (e.g., a data attribute or hidden input)
-        var communityId = getCommunityIdForEdit(); // Replace with the appropriate method to get the communityId
-
-        // Call the editCommunity function with the retrieved communityId
+        var communityId = getCommunityIdForEdit(); 
         editCommunity(communityId);
     });
 
     // Function to handle deleting a community
     function deleteCommunity(communityId) {
         $.ajax({
-            url: '/api/communities/' + communityId,  // Replace with your actual backend endpoint for deleting communities
+            url: '/api/communities/' + communityId,
             type: 'DELETE',
             success: function (data) {
                 console.log('Community deleted successfully:', data);
@@ -98,24 +117,16 @@ $(document).ready(function () {
             }
         });
     }
-    
+
     $("#deleteCommunity").click(function () {
-        // Display a confirmation prompt
         var userConfirmed = window.confirm("Are you sure you want to delete this community?");
 
-        // Check if the user confirmed
         if (userConfirmed) {
-            // Retrieve the communityId from wherever it comes from (e.g., a data attribute or hidden input)
-            var communityId = getCommunityIdForDelete(); // Replace with the appropriate method to get the communityId
-
-            // Call the deleteCommunity function with the retrieved communityId
+            var communityId = getCommunityIdForDelete(); 
             deleteCommunity(communityId);
         }
     });
 
-    // ... Similar functions for BanDTO, ReactionDTO, ReportDTO ...
-
-    // Example usage of the functions
     listCommunities();
 
 });

@@ -168,11 +168,11 @@ public class UserController {
 		user.setPassword(userDTO.getPassword());
 		user.setDisplayName(userDTO.getDisplayName());
 		
-		user.setBans(BanDTOToModel(userDTO.getBanned()));
-		user.setComments(CommentDTOToModel(userDTO.getComments()));
-		user.setCommunities(CommunityDTOToModel(userDTO.getCommunities()));
-		user.setPosts(PostDTOToModel(userDTO.getPosts()));
-		user.setReactions(ReactionDTOToModel(userDTO.getReactions()));
+//		user.setBans(BanDTOToModel(userDTO.getBanned()));
+//		user.setComments(CommentDTOToModel(userDTO.getComments()));
+//		user.setCommunities(CommunityDTOToModel(userDTO.getCommunities()));
+//		user.setPosts(PostDTOToModel(userDTO.getPosts()));
+//		user.setReactions(ReactionDTOToModel(userDTO.getReactions()));
 		
 		
 		user = userService.save(user);

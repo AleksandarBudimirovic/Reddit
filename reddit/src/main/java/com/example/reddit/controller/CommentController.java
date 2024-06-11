@@ -113,9 +113,9 @@ public class CommentController {
 		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
 		comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
 		
-		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
-		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
-		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
+//		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
+//		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
+//		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
 		
 		comment = commentService.save(comment);
 		return new ResponseEntity(HttpStatus.CREATED);	
@@ -137,9 +137,9 @@ public class CommentController {
 		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
 		comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
 		
-		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
-		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
-		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
+//		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
+//		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
+//		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
 		
 		comment = commentService.save(comment);
 		return new ResponseEntity(new CommentDTO(comment), HttpStatus.OK);	

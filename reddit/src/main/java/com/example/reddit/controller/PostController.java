@@ -137,9 +137,9 @@ public class PostController {
 		post.setText(postDTO.getText());
 		post.setTitle(postDTO.getTitle());
 		post.setUser(userService.findOne(postDTO.getUser().getId()));
-		post.setComments(CommentDTOToModel(postDTO.getComments()));
-		post.setReactions(ReactionDTOToModel(postDTO.getReactions()));
-		post.setReports(ReportDTOToModel(postDTO.getReports()));
+//		post.setComments(CommentDTOToModel(postDTO.getComments()));
+//		post.setReactions(ReactionDTOToModel(postDTO.getReactions()));
+//		post.setReports(ReportDTOToModel(postDTO.getReports()));
 		
 		
 		post = postService.save(post);
@@ -161,9 +161,9 @@ public class PostController {
 		post.setText(postDTO.getText());
 		post.setTitle(postDTO.getTitle());
 		post.setUser(userService.findOne(postDTO.getUser().getId()));
-		post.setComments(CommentDTOToModel(postDTO.getComments()));
-		post.setReactions(ReactionDTOToModel(postDTO.getReactions()));
-		post.setReports(ReportDTOToModel(postDTO.getReports()));
+//		post.setComments(CommentDTOToModel(postDTO.getComments()));
+//		post.setReactions(ReactionDTOToModel(postDTO.getReactions()));
+//		post.setReports(ReportDTOToModel(postDTO.getReports()));
 		
 		post = postService.save(post);
 		return new ResponseEntity(new PostDTO(post), HttpStatus.OK);	

@@ -105,8 +105,8 @@ public class CommunityController {
 		community.setIsSuspended(communityDTO.getIsSuspended());
 		community.setSuspendedReason(communityDTO.getSuspendedReason());
 		community.setUser(userService.findOne(communityDTO.getUser().getId()));
-		community.setBans(BanDTOToModel(communityDTO.getBans()));
-		community.setPosts(PostDTOToModel(communityDTO.getPosts()));
+//		community.setBans(BanDTOToModel(communityDTO.getBans()));
+//		community.setPosts(PostDTOToModel(communityDTO.getPosts()));
 
 		
 		community = communityService.save(community);
@@ -127,8 +127,8 @@ public class CommunityController {
 		community.setIsSuspended(communityDTO.getIsSuspended());
 		community.setSuspendedReason(communityDTO.getSuspendedReason());
 		community.setUser(userService.findOne(communityDTO.getUser().getId()));
-		community.setBans(BanDTOToModel(communityDTO.getBans()));
-		community.setPosts(PostDTOToModel(communityDTO.getPosts()));
+//		community.setBans(BanDTOToModel(communityDTO.getBans()));
+//		community.setPosts(PostDTOToModel(communityDTO.getPosts()));
 		
 		community = communityService.save(community);
 		return new ResponseEntity(new CommunityDTO(community), HttpStatus.OK);	
