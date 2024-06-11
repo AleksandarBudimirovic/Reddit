@@ -31,7 +31,7 @@ public class UserDTO {
     private ArrayList<ReactionDTO> Reactions = new ArrayList<ReactionDTO>();
     private ArrayList<PostDTO> Posts = new ArrayList<PostDTO>();
     
-
+    
 
 	public UserDTO(Long id, String avatar, String description, String displayName, String password,
 			Date registrationDate, String role, String username, ArrayList<BanDTO> banned,
@@ -46,11 +46,11 @@ public class UserDTO {
 		this.registrationDate = registrationDate;
 		this.role = role;
 		this.username = username;
-		Banned = banned;
-		Comments = comments;
-		Communities = communities;
-		Reactions = reactions;
-		Posts = posts;
+		this.Banned = banned;
+		this.Comments = comments;
+		this.Communities = communities;
+		this.Reactions = reactions;
+		this.Posts = posts;
 	}
 
 	public UserDTO(User obj) {
@@ -75,11 +75,14 @@ public class UserDTO {
 	}
 	
 	public static ArrayList<CommentDTO> getComments(List<Comment> list) {
-		ArrayList<CommentDTO> listDTO=new ArrayList();
-		for(Comment object : list) {
-			listDTO.add(new CommentDTO(object));
-		}
-		return listDTO;
+	    ArrayList<CommentDTO> listDTO = new ArrayList<>();
+	    if (list != null) {
+	        for (Comment comment : list) {
+	            CommentDTO commentDTO = new CommentDTO(comment);
+	            listDTO.add(commentDTO);
+	        }
+	    }
+	    return listDTO;
 	}
 	
 	public static ArrayList<ReactionDTO> getReactions(List<Reaction> list) {

@@ -38,19 +38,19 @@ public class User {
 
     private String username;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="user")
     private List<Ban> bans;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="user")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="user")
     private List<Community> communities;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="user")
     private List<Reaction> reactions;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="user")
     private List<Post> posts;
 
 	public User(Long id, String avatar, String description, String displayName, String password, Date registrationDate,

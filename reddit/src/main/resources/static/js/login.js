@@ -13,7 +13,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/users/loginUser',
+            url: 'http://localhost:8080/api/users/login',
             contentType: 'application/json',
             data: JSON.stringify(params),
             success: function(data) {
@@ -21,7 +21,7 @@ $(document).ready(function() {
                 console.log(data);
 
                 // Redirect to the desired page on successful login
-                window.location.href = 'accounts.html';
+                window.location.href = '/templates/listCommunities.html';
             },
             error: function(error) {
                 console.error('Invalid username or password. Please try again.');

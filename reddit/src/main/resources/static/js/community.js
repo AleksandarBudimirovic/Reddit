@@ -18,7 +18,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '/api/communities',  // Replace with your actual backend endpoint
+            url: '/api/communities/addCommunity',  // Replace with your actual backend endpoint
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(newCommunity),
@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     function listCommunities() {
         $.ajax({
-            url: '/api/communities',  // Replace with your actual backend endpoint for listing communities
+            url: '/api/communities/getCommunities',  // Replace with your actual backend endpoint for listing communities
             type: 'GET',
             success: function (data) {
                 console.log('List of communities:', data);

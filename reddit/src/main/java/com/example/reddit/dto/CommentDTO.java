@@ -33,26 +33,26 @@ public class CommentDTO {
     private ArrayList<ReactionDTO> Reactions  = new ArrayList<ReactionDTO>();
     private ArrayList<ReportDTO> Reports  = new ArrayList<ReportDTO>();
     
-    
+   
     
 	public CommentDTO(Long id, byte isDeleted, String text, Date timestamp, UserDTO user, PostDTO post,
 			CommentDTO mainComment, ArrayList<CommentDTO> subComments, ArrayList<ReactionDTO> reactions,
 			ArrayList<ReportDTO> reports) {
 		super();
-		this.id = id;
-		this.isDeleted = isDeleted;
-		this.text = text;
-		this.timestamp = timestamp;
-		User = user;
-		Post = post;
-		this.mainComment = mainComment;
-		this.subComments = subComments;
-		Reactions = reactions;
-		Reports = reports;
+	    this.id = id;
+	    this.isDeleted = isDeleted;
+	    this.text = text;
+	    this.timestamp = timestamp;
+	    this.User = user;
+	    this.Post = post;
+	    this.mainComment = mainComment;
+	    this.subComments = subComments;
+	    this.Reactions = reactions;
+	    this.Reports = reports;
 	}
 	
 	public CommentDTO(Comment obj) {
-		this(obj.getId(), obj.getIsDeleted(), obj.getText(), obj.getTimestamp(), new UserDTO(obj.getUser()), new PostDTO(obj.getPost()), new CommentDTO(obj.getMainComment()), getComments(obj.getSubComments()), 
+		this(obj.getId(), obj.getIsDeleted(), obj.getText(), obj.getTimestamp(), new UserDTO(obj.getUser()), new PostDTO(obj.getPost()), new CommentDTO(obj.getMainComment()), new ArrayList<>(), 
 				getReactions(obj.getReactions()), getReports(obj.getReports()));
 	}
 	

@@ -54,7 +54,7 @@ public class CommunityController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/all", method = RequestMethod.GET)
+	@RequestMapping(value="/getCommunities", method = RequestMethod.GET)
 	public ResponseEntity<List<CommunityDTO>> getAllCommunitys() {
 		List<Community> communitys = communityService.findAll();
 		

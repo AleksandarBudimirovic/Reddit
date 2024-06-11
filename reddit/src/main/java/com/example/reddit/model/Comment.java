@@ -45,10 +45,10 @@ public class Comment {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "mainComment")
     private List<Comment> subComments;
 
-    @OneToMany(mappedBy="comment")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="comment")
     private List<Reaction> reactions;
 
-    @OneToMany(mappedBy="comment")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="comment")
     private List<Report> reports;
 
 	public Comment(Long id, byte isDeleted, String text, Date timestamp, com.example.reddit.model.Post post, User user,
@@ -58,7 +58,7 @@ public class Comment {
 		this.isDeleted = isDeleted;
 		this.text = text;
 		this.timestamp = timestamp;
-		post = post;
+		this.post = post;
 		this.user = user;
 		this.mainComment = mainComment;
 		this.subComments = subComments;
