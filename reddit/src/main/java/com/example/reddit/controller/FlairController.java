@@ -62,10 +62,10 @@ public class FlairController {
 
         Set<Community> communities = new HashSet<>();
         
-        for (CommunityDTO communityDTO : flairDTO.getCommunity()) {
-            // Convert CommunityDTO to Community and add to the list
-            communities.add(convertToCommunity(communityDTO));
-        }
+//        for (CommunityDTO communityDTO : flairDTO.getCommunity()) {
+//            // Convert CommunityDTO to Community and add to the list
+//            communities.add(convertToCommunity(communityDTO));
+//        }
 
         flair.setCommunities(communities);
 
