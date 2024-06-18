@@ -21,7 +21,7 @@ $(document).ready(function() {
                 console.log(data);
 
                 // Redirect to the desired page on successful login
-                window.location.href = '/templates/listCommunities.html';
+                window.location.href = '/listCommunities.html';
             },
             error: function(error) {
                 console.error('Invalid username or password. Please try again.');
