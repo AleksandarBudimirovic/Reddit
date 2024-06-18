@@ -22,7 +22,7 @@ $(document).ready(function() {
 
                 // Redirect to the desired page on successful login
        
-                window.location.href = 'http://localhost:8080/api/communities/listCommunities';
+                window.location.href = 'http://localhost:8080/api/view/listCommunities';
             },
             error: function(error) {
                 console.error('Invalid username or password. Please try again.');

@@ -39,7 +39,7 @@ import com.example.reddit.service.ReactionService;
 import com.example.reddit.service.ReportService;
 import com.example.reddit.service.UserService;
 
-@Controller
+@RestController
 @RequestMapping(value="api/communities")
 public class CommunityController {
 
@@ -57,6 +57,18 @@ public class CommunityController {
 	private ReportService reportService;
 	@Autowired
 	private UserService userService;
+	
+	@RequestMapping(value="/all", method = RequestMethod.GET)
+    public ResponseEntity<List<CommunityDTO>> getAllCommunities() {
+        List<Community> communities = communityService.findAll(); // Assuming communityService is properly autowired
+
+        List<CommunityDTO> communitiesDTO = new ArrayList<>();
+        for (Community community : communities) {
+            communitiesDTO.add(new CommunityDTO(community));
+        }
+        System.out.println("BLYAT");
+        return new ResponseEntity(communitiesDTO, HttpStatus.OK);
+    }
 	
     @RequestMapping(value="/listCommunities", method = RequestMethod.GET)
     public String getAllCommunitys(Model model) {

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,7 @@ import com.example.reddit.mapper.UserMapper;
 import com.example.reddit.dto.PostDTO;
 import com.example.reddit.model.Ban;
 import com.example.reddit.model.Comment;
+import com.example.reddit.model.Community;
 import com.example.reddit.model.Flair;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
@@ -62,16 +65,18 @@ public class PostController {
 	private UserService userService;
 	
 	@RequestMapping(value="/all", method = RequestMethod.GET)
-	public ResponseEntity<List<PostDTO>> getAllPosts() {
-		List<Post> posts = postService.findAll();
-		
-		List<PostDTO> postsDTO = new ArrayList();
-		for (Post obj : posts) {
-			PostDTO post = new PostDTO (obj);
-			
-			postsDTO.add(post);
-		}
-		return new ResponseEntity(postsDTO, HttpStatus.OK);
+	public ResponseEntity<List<CommunityDTO>> getAllCommunities() {
+	    List<Community> communities = communityService.findAll(); // Assuming communityService is properly autowired
+
+	    List<CommunityDTO> communitiesDTO = new ArrayList<>();
+	    for (Community community : communities) {
+	        communitiesDTO.add(new CommunityDTO(community));
+	    }
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON); // Set content type as application/json
+
+	    return new ResponseEntity<>(communitiesDTO, headers, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)

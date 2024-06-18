@@ -44,7 +44,7 @@ import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
 
-@Controller
+@RestController
 @RequestMapping(value="api/users")
 public class UserController {
 
@@ -63,22 +63,35 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	
-	
     @PostMapping("/login")
-    public ModelAndView loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<String> loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
         User user = userService.findByUsername(userDTO.getUsername());
         if (user == null || !user.getPassword().equals(userDTO.getPassword())) {
             // Handle invalid login
-            return new ModelAndView("redirect:/login?error");
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
         }
 
         // Valid login, store user in session
         session.setAttribute("currentUser", user);
 
-        // Redirect to listCommunities.html
-        return new ModelAndView("redirect:/api/communities/listCommunities");
+        // Return success message
+        return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
     }
+	
+//    @PostMapping("/login")
+//    public ModelAndView loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
+//        User user = userService.findByUsername(userDTO.getUsername());
+//        if (user == null || !user.getPassword().equals(userDTO.getPassword())) {
+//            // Handle invalid login
+//            return new ModelAndView("redirect:/login?error");
+//        }
+//
+//        // Valid login, store user in session
+//        session.setAttribute("currentUser", user);
+//
+//        // Redirect to listCommunities.html
+//        return new ModelAndView("redirect:/api/communities/listCommunities");
+//    }
     
 
     @RequestMapping(value="/logout", method=RequestMethod.POST)

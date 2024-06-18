@@ -98,9 +98,7 @@ $(document).ready(function () {
         }
     });
 
-    // ... Similar functions for other entities ...
 
-    // Example usage of the functions
     listComments();
 
     // ... Other functionalities ...
