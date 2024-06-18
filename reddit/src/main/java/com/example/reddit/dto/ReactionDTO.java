@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 public class ReactionDTO {
@@ -11,8 +12,11 @@ public class ReactionDTO {
     private Long id;
     private Date timestamp;
     private String type;
+    @JsonIgnore
     private CommentDTO comment;
+    @JsonIgnore
     private PostDTO post;
+    @JsonIgnore
     private UserDTO user;
 
 	

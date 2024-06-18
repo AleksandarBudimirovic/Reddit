@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <div th:replace="template :: header"></div>
     <title>Communities</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/mainCss.css">
+    <link rel="stylesheet" href="/css/mainCss.css">
+    
+    
 </head>
 
 <body>
-    <div th:insert="template :: navbar"></div>
+    
+    
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Home</a>
@@ -45,33 +47,33 @@
                         <th>Creator</th>
                     </tr>
                 </thead>
-	                <tbody id="communityTableBody">
-					    <tr th:each="community, iterationStat : ${communities}" th:style="${iterationStat.odd} ? 'color: gray' : 'color: black;'">
-					        <td th:text="${community.id}">Community ID</td>
-					        <td>
-					                <a th:href="@{'/community/details/' + ${community.id}}"
-								       th:text="${community.description}"
-								       class="community-link"
-								       data-community-id="${community.id}">
-								       Name
-    								</a>
-					        </td>
-					        <td th:text="${community.creationDate}">Creation Date</td>
-					        <td th:text="${community.isSuspended}">Is Suspended</td>
-					        <td th:text="${community.suspendedReason}">Suspended Reason</td>
-					        <td th:text="${community.creator}">User</td>
-					        <td th:text="${community.creator}">User</td>
-					    </tr>
-					</tbody>
+                <tbody id="communityTableBody">
+                    <tr th:each="community, iterationStat : ${communities}" th:style="${iterationStat.odd} ? 'color: gray' : 'color: black;'">
+                        <td th:text="${community.id}">Community ID</td>
+                        <td>
+                            <a th:href="@{'/community/details/' + ${community.id}}"
+                               th:text="${community.description}"
+                               class="community-link"
+                               data-community-id="${community.id}">
+                               Name
+                            </a>
+                        </td>
+                        <td th:text="${community.creationDate}">Creation Date</td>
+                        <td th:text="${community.isSuspended}">Is Suspended</td>
+                        <td th:text="${community.suspendedReason}">Suspended Reason</td>
+                        <td th:text="${community.user}">User</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
-    <div th:replace="template :: scriptFrag"></div>
+    
+
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="../js/community.js"></script>
+    <script src="js/community.js"></script>
 </body>
 </html>

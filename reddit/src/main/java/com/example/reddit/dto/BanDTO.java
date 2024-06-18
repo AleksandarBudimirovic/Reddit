@@ -3,6 +3,7 @@ package com.example.reddit.dto;
 import java.util.Date;
 
 import com.example.reddit.model.Ban;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -10,7 +11,9 @@ public class BanDTO {
 	
     private Long id;
     private Date timestamp;
+    @JsonIgnore
     private CommunityDTO Community;
+    @JsonIgnore
     private UserDTO User;
     
 	public BanDTO(Long id, Date timestamp, CommunityDTO community, UserDTO user) {

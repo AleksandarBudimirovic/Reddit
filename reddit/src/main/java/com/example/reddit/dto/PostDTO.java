@@ -5,6 +5,7 @@ import java.util.Date;
 import com.example.reddit.model.Community;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class PostDTO {
 
@@ -14,6 +15,7 @@ public class PostDTO {
     private String title;
     private String text;
     private CommunityDTO Community;
+    @JsonIgnore
     private UserDTO User;
 
     public PostDTO(Long id, Date creationDate, String imagePath, String title, String text,

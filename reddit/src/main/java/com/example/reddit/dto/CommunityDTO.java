@@ -10,6 +10,7 @@ import com.example.reddit.model.Community;
 import com.example.reddit.model.Flair;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CommunityDTO {
 
@@ -18,6 +19,7 @@ public class CommunityDTO {
     private String description;
     private byte isSuspended;
     private String suspendedReason;
+    @JsonIgnore
     private UserDTO user;
     
     public CommunityDTO() {

@@ -8,11 +8,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.reddit.dto.BanDTO;
 import com.example.reddit.dto.CommentDTO;
@@ -41,7 +44,7 @@ import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
 
-@RestController
+@Controller
 @RequestMapping(value="api/users")
 public class UserController {
 
@@ -62,17 +65,21 @@ public class UserController {
 	
 	
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST, consumes="application/json")
-    public ResponseEntity<String> loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
-		System.out.println(userDTO.getUsername());
+    @PostMapping("/login")
+    public ModelAndView loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
         User user = userService.findByUsername(userDTO.getUsername());
         if (user == null || !user.getPassword().equals(userDTO.getPassword())) {
-            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+            // Handle invalid login
+            return new ModelAndView("redirect:/login?error");
         }
 
+        // Valid login, store user in session
         session.setAttribute("currentUser", user);
-        return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
+
+        // Redirect to listCommunities.html
+        return new ModelAndView("redirect:/api/communities/listCommunities");
     }
+    
 
     @RequestMapping(value="/logout", method=RequestMethod.POST)
     public ResponseEntity<String> logoutUser(HttpSession session) {

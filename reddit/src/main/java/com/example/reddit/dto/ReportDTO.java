@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -13,7 +14,9 @@ public class ReportDTO {
     private byte accepted;
     private String reason;
     private Date timestamp;
+    @JsonIgnore
     private CommentDTO Comment;
+    @JsonIgnore
     private PostDTO Post;
     
 	public ReportDTO(Long id, byte accepted, String reason, Date timestamp, CommentDTO comment, PostDTO post) {

@@ -7,6 +7,7 @@ import java.util.List;
 import com.example.reddit.model.Comment;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CommentDTO {
 
@@ -14,8 +15,11 @@ public class CommentDTO {
     private byte isDeleted;
     private String text;
     private Date timestamp;
+    @JsonIgnore
     private UserDTO user;
+    @JsonIgnore
     private PostDTO post;
+    @JsonIgnore
     private CommentDTO mainComment;
     
     public CommentDTO(Long id, byte isDeleted, String text, Date timestamp, UserDTO user, PostDTO post,

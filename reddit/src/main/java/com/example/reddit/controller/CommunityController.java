@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
 
 import com.example.reddit.dto.BanDTO;
 import com.example.reddit.dto.CommunityDTO;
@@ -37,7 +39,7 @@ import com.example.reddit.service.ReactionService;
 import com.example.reddit.service.ReportService;
 import com.example.reddit.service.UserService;
 
-@RestController
+@Controller
 @RequestMapping(value="api/communities")
 public class CommunityController {
 
@@ -56,18 +58,18 @@ public class CommunityController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/getCommunities", method = RequestMethod.GET)
-	public ResponseEntity<List<CommunityDTO>> getAllCommunitys() {
-		List<Community> communitys = communityService.findAll();
-		
-		List<CommunityDTO> communitysDTO = new ArrayList();
-		for (Community obj : communitys) {
-			CommunityDTO community = new CommunityDTO (obj);
-			
-			communitysDTO.add(community);
-		}
-		return new ResponseEntity(communitysDTO, HttpStatus.OK);
-	}
+    @RequestMapping(value="/listCommunities", method = RequestMethod.GET)
+    public String getAllCommunitys(Model model) {
+        List<Community> communities = communityService.findAll();
+        List<CommunityDTO> communitiesDTO = new ArrayList<>();
+        for (Community community : communities) {
+            communitiesDTO.add(new CommunityDTO(community));
+        }
+        model.addAttribute("communities", communitiesDTO);
+        System.out.println("BWAAAAAAAH");
+        return "listCommunities"; // Assuming "listCommunities" is the view name
+        //return "redirect:/api/communities/listCommunities";
+    }
 	
     @GetMapping("/details/{id}")
     public String getCommunityDetails(@PathVariable Long id, Model model) {
