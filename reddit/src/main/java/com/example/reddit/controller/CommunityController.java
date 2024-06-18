@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,18 +69,18 @@ public class CommunityController {
 		return new ResponseEntity(communitysDTO, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<CommunityDTO> getCommunity(@PathVariable Long id){
-		Community community = communityService.findOne(id);
-		if(community == null){
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-		
-		CommunityDTO communityDTO = new CommunityDTO(community);
-		
-		
-		return new ResponseEntity(communityDTO, HttpStatus.OK);
-	}
+    @GetMapping("/details/{id}")
+    public String getCommunityDetails(@PathVariable Long id, Model model) {
+        Community community = communityService.findOne(id);
+        if (community == null) {
+            return "communityNotFound"; // Handle case where community is not found
+        }
+
+        CommunityDTO communityDTO = new CommunityDTO(community);
+        
+        model.addAttribute("community", communityDTO);
+        return "detailsCommunity"; // This should be the logical view name
+    }
 	
 	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
 		ArrayList<Post> list=new ArrayList();

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/mainCss.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <form class="form-inline">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/account">Account Name</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Community Information -->
+        <div class="community-info">
+            <h2 id="communityName">Community Name</h2>
+            <p id="communityDescription">Description</p>
+            <p id="communityCreationDate">Creation Date: 2024-06-17</p>
+            <p id="communitySuspendedReason" style="display: none;">Suspended Reason: Reason goes here</p>
+            <p id="communityNotSuspended" style="display: none;">This community is not suspended.</p>
+            <p id="communityMembers">Members: 12345</p>
+            <button class="btn btn-primary" id="joinButton" style="display: none;">Join Community</button>
+            <button class="btn btn-secondary" id="leaveButton" style="display: none;">Leave Community</button>
+        </div>
+
+        <!-- Posts List -->
+        <div class="posts-list">
+            <h2>Posts</h2>
+            <div id="postsContainer"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../js/community-details.js"></script>
+</body>
+</html>

@@ -35,31 +35,34 @@
         <h1>Communities</h1>
         <div class="row col-md-12 table-responsive">
             <table id="communityTable" class="table">
-		<thead>
-	    <tr>
-	        <th>ID</th>
-	        <th>Name</th>
-	        <th>Creation Date</th>
-	        <th>Is Suspended</th>
-	        <th>Suspended Reason</th>
-	        <th>User</th>
-	        <th>Action</th>
-	    </tr>
-		</thead>
-		<tbody id="communityTableBody">
-		    <tr th:each="community, iterationStat : ${communities}" th:style="${iterationStat.odd} ? 'color: gray' : 'color: black;'">
-		        <td th:text="${community.id}">Community ID</td>
-		        <td th:text="${community.description}">Name</td>
-		        <td th:text="${community.creationDate}">Creation Date</td>
-		        <td th:text="${community.isSuspended}">Is Suspended</td>
-		        <td th:text="${community.suspendedReason}">Suspended Reason</td>
-		        <td th:text="${community.user.username}">User</td>
-		        <td>
-		            <a class="btn btn-info" th:href="@{'/community/details/' + ${community.id}}" role="button">Details</a>
-		        </td>
-		    </tr>
-		</tbody>
-
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Creation Date</th>
+                        <th>Is Suspended</th>
+                        <th>Suspended Reason</th>
+                        <th>Creator</th>
+                    </tr>
+                </thead>
+	                <tbody id="communityTableBody">
+					    <tr th:each="community, iterationStat : ${communities}" th:style="${iterationStat.odd} ? 'color: gray' : 'color: black;'">
+					        <td th:text="${community.id}">Community ID</td>
+					        <td>
+					                <a th:href="@{'/community/details/' + ${community.id}}"
+								       th:text="${community.description}"
+								       class="community-link"
+								       data-community-id="${community.id}">
+								       Name
+    								</a>
+					        </td>
+					        <td th:text="${community.creationDate}">Creation Date</td>
+					        <td th:text="${community.isSuspended}">Is Suspended</td>
+					        <td th:text="${community.suspendedReason}">Suspended Reason</td>
+					        <td th:text="${community.creator}">User</td>
+					        <td th:text="${community.creator}">User</td>
+					    </tr>
+					</tbody>
             </table>
         </div>
     </div>
