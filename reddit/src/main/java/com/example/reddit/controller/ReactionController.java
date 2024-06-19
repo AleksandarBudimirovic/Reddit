@@ -32,7 +32,6 @@ import com.example.reddit.service.UserService;
 import com.example.reddit.model.Post;
 
 @RestController
-@RequestMapping(value="api/reactions")
 public class ReactionController {
 
 	@Autowired
@@ -50,123 +49,123 @@ public class ReactionController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/all", method = RequestMethod.GET)
-	public ResponseEntity<List<ReactionDTO>> getAllReactions() {
-		List<Reaction> reactions = reactionService.findAll();
-		
-		List<ReactionDTO> reactionsDTO = new ArrayList();
-		for (Reaction obj : reactions) {
-			ReactionDTO reaction = new ReactionDTO (obj);
-			
-			reactionsDTO.add(reaction);
-		}
-		return new ResponseEntity(reactionsDTO, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<ReactionDTO> getReaction(@PathVariable Long id){
-		Reaction reaction = reactionService.findOne(id);
-		if(reaction == null){
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-		
-		ReactionDTO reactionDTO = new ReactionDTO(reaction);
-		
-		
-		return new ResponseEntity(reactionDTO, HttpStatus.OK);
-	}
-	
-	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
-		ArrayList<Post> list=new ArrayList();
-		for(PostDTO objectDTO : listDTO) {
-			list.add(postService.findOne(objectDTO.getId()));
-		}
-		return list;
-	}
-	
-	public ArrayList<Ban> BanDTOToModel(List<BanDTO> listDTO) {
-		ArrayList<Ban> list=new ArrayList();
-		for(BanDTO objectDTO : listDTO) {
-			list.add(banService.findOne(objectDTO.getId()));
-		}
-		return list;
-	}
-	
-	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<ReactionDTO> saveReaction(@RequestBody ReactionDTO reactionDTO){		
-		Reaction reaction = new Reaction();
-		
-		reaction.setTimestamp(reactionDTO.getTimestamp());
-		reaction.setType(reactionDTO.getType());
-		reaction.setComment(commentService.findOne(reactionDTO.getComment().getId()));
-		reaction.setPost(postService.findOne(reactionDTO.getPost().getId()));
-		reaction.setUser(userService.findOne(reactionDTO.getUser().getId()));
-
-		
-		reaction = reactionService.save(reaction);
-		return new ResponseEntity(HttpStatus.CREATED);	
-	}
-	
-	
-	@RequestMapping(method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<ReactionDTO> updateReaction(@RequestBody ReactionDTO reactionDTO){
-		
-		Reaction reaction = reactionService.findOne(reactionDTO.getId()); 
-		if (reaction == null) {
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
-		
-		reaction.setTimestamp(reactionDTO.getTimestamp());
-		reaction.setType(reactionDTO.getType());
-		reaction.setComment(commentService.findOne(reactionDTO.getComment().getId()));
-		reaction.setPost(postService.findOne(reactionDTO.getPost().getId()));
-		reaction.setUser(userService.findOne(reactionDTO.getUser().getId()));
-		
-		reaction = reactionService.save(reaction);
-		return new ResponseEntity(new ReactionDTO(reaction), HttpStatus.OK);	
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteReaction(@PathVariable Long id){
-		Reaction reaction = reactionService.findOne(id);
-
-		if (reaction != null){
-			
-			reactionService.remove(id);
-			return new ResponseEntity(HttpStatus.OK);
-		} else {		
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	public CommentDTO getCommentForReaction(Long id) {
-        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
-
-        if (reaction == null || reaction.getComment() == null) {
-            return null;
-        }
-
-        return new CommentMapper().modelToDto(reaction.getComment());
-    }
-
-    public PostDTO getPostForReaction(Long id) {
-        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
-
-        if (reaction == null || reaction.getPost() == null) {
-            return null;
-        }
-
-        return new PostMapper().modelToDto(reaction.getPost());
-    }
-
-    public UserDTO getUserForReaction(Long id) {
-        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
-
-        if (reaction == null || reaction.getUser() == null) {
-            return null;
-        }
-
-        return new UserMapper().modelToDto(reaction.getUser());
-    }
+//	@RequestMapping(value="/all", method = RequestMethod.GET)
+//	public ResponseEntity<List<ReactionDTO>> getAllReactions() {
+//		List<Reaction> reactions = reactionService.findAll();
+//		
+//		List<ReactionDTO> reactionsDTO = new ArrayList();
+//		for (Reaction obj : reactions) {
+//			ReactionDTO reaction = new ReactionDTO (obj);
+//			
+//			reactionsDTO.add(reaction);
+//		}
+//		return new ResponseEntity(reactionsDTO, HttpStatus.OK);
+//	}
+//	
+//	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+//	public ResponseEntity<ReactionDTO> getReaction(@PathVariable Long id){
+//		Reaction reaction = reactionService.findOne(id);
+//		if(reaction == null){
+//			return new ResponseEntity(HttpStatus.NOT_FOUND);
+//		}
+//		
+//		ReactionDTO reactionDTO = new ReactionDTO(reaction);
+//		
+//		
+//		return new ResponseEntity(reactionDTO, HttpStatus.OK);
+//	}
+//	
+//	public ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
+//		ArrayList<Post> list=new ArrayList();
+//		for(PostDTO objectDTO : listDTO) {
+//			list.add(postService.findOne(objectDTO.getId()));
+//		}
+//		return list;
+//	}
+//	
+//	public ArrayList<Ban> BanDTOToModel(List<BanDTO> listDTO) {
+//		ArrayList<Ban> list=new ArrayList();
+//		for(BanDTO objectDTO : listDTO) {
+//			list.add(banService.findOne(objectDTO.getId()));
+//		}
+//		return list;
+//	}
+//	
+//	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
+//	public ResponseEntity<ReactionDTO> saveReaction(@RequestBody ReactionDTO reactionDTO){		
+//		Reaction reaction = new Reaction();
+//		
+//		reaction.setTimestamp(reactionDTO.getTimestamp());
+//		reaction.setType(reactionDTO.getType());
+//		reaction.setComment(commentService.findOne(reactionDTO.getComment().getId()));
+//		reaction.setPost(postService.findOne(reactionDTO.getPost().getId()));
+//		reaction.setUser(userService.findOne(reactionDTO.getUser().getId()));
+//
+//		
+//		reaction = reactionService.save(reaction);
+//		return new ResponseEntity(HttpStatus.CREATED);	
+//	}
+//	
+//	
+//	@RequestMapping(method=RequestMethod.PUT, consumes="application/json")
+//	public ResponseEntity<ReactionDTO> updateReaction(@RequestBody ReactionDTO reactionDTO){
+//		
+//		Reaction reaction = reactionService.findOne(reactionDTO.getId()); 
+//		if (reaction == null) {
+//			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//		}
+//		
+//		reaction.setTimestamp(reactionDTO.getTimestamp());
+//		reaction.setType(reactionDTO.getType());
+//		reaction.setComment(commentService.findOne(reactionDTO.getComment().getId()));
+//		reaction.setPost(postService.findOne(reactionDTO.getPost().getId()));
+//		reaction.setUser(userService.findOne(reactionDTO.getUser().getId()));
+//		
+//		reaction = reactionService.save(reaction);
+//		return new ResponseEntity(new ReactionDTO(reaction), HttpStatus.OK);	
+//	}
+//	
+//	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+//	public ResponseEntity<Void> deleteReaction(@PathVariable Long id){
+//		Reaction reaction = reactionService.findOne(id);
+//
+//		if (reaction != null){
+//			
+//			reactionService.remove(id);
+//			return new ResponseEntity(HttpStatus.OK);
+//		} else {		
+//			return new ResponseEntity(HttpStatus.NOT_FOUND);
+//		}
+//	}
+//	
+//	public CommentDTO getCommentForReaction(Long id) {
+//        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
+//
+//        if (reaction == null || reaction.getComment() == null) {
+//            return null;
+//        }
+//
+//        return new CommentMapper().modelToDto(reaction.getComment());
+//    }
+//
+//    public PostDTO getPostForReaction(Long id) {
+//        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
+//
+//        if (reaction == null || reaction.getPost() == null) {
+//            return null;
+//        }
+//
+//        return new PostMapper().modelToDto(reaction.getPost());
+//    }
+//
+//    public UserDTO getUserForReaction(Long id) {
+//        Reaction reaction = reactionService.findOne(id); // Assuming you have a ReactionService to retrieve Reaction by ID
+//
+//        if (reaction == null || reaction.getUser() == null) {
+//            return null;
+//        }
+//
+//        return new UserMapper().modelToDto(reaction.getUser());
+//    }
 	
 }

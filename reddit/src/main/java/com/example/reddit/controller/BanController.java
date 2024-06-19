@@ -30,7 +30,6 @@ import com.example.reddit.service.UserService;
 
 
 @RestController
-@RequestMapping(value="api/bans")
 public class BanController {
 
 	@Autowired
@@ -48,94 +47,94 @@ public class BanController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/all", method = RequestMethod.GET)
-	public ResponseEntity<List<BanDTO>> getAllBans() {
-		List<Ban> bans = banService.findAll();
-		
-		List<BanDTO> bansDTO = new ArrayList();
-		for (Ban obj : bans) {
-			BanDTO ban = new BanDTO (obj);
-			
-			bansDTO.add(ban);
-		}
-		return new ResponseEntity(bansDTO, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<BanDTO> getBan(@PathVariable Long id){
-		Ban ban = banService.findOne(id);
-		if(ban == null){
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-		
-		BanDTO banDTO = new BanDTO(ban);
-		
-		
-		return new ResponseEntity(banDTO, HttpStatus.OK);
-	}
-	
-	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<BanDTO> saveBan(@RequestBody BanDTO banDTO){		
-		Ban ban = new Ban();
-		
-		ban.setUser(userService.findOne(banDTO.getUser().getId()));
-		ban.setTimestamp(banDTO.getTimestamp());
-		ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
-		
-		ban = banService.save(ban);
-		return new ResponseEntity(HttpStatus.CREATED);	
-	}
-	
-	
-	
-	@RequestMapping(method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<BanDTO> updateBan(@RequestBody BanDTO banDTO){
-		
-		Ban ban = banService.findOne(banDTO.getId()); 
-		if (ban == null) {
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
-		
-		ban.setUser(userService.findOne(banDTO.getUser().getId()));
-		ban.setTimestamp(banDTO.getTimestamp());
-		ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
-		
-		ban = banService.save(ban);
-		return new ResponseEntity(new BanDTO(ban), HttpStatus.OK);	
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteBan(@PathVariable Long id){
-		Ban ban = banService.findOne(id);
-
-		if (ban != null){
-			
-			banService.remove(id);
-			return new ResponseEntity(HttpStatus.OK);
-		} else {		
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	public CommunityDTO getCommunityForBan(Long id) {
-	    Ban ban = banService.findOne(id); // Assuming you have a BanService to retrieve Ban by ID
-
-	    if (ban == null || ban.getCommunity() == null) {
-	        return null;
-	    }
-
-	    return new CommunityMapper().modelToDto(ban.getCommunity());
-	}
-
-	public UserDTO getUserForBan(Long id) {
-	    Ban ban = banService.findOne(id); // Assuming you have a BanService to retrieve Ban by ID
-
-	    if (ban == null || ban.getUser() == null) {
-	        return null;
-	    }
-
-	    return new UserMapper().modelToDto(ban.getUser());
-	}
+//	@RequestMapping(value="/all", method = RequestMethod.GET)
+//	public ResponseEntity<List<BanDTO>> getAllBans() {
+//		List<Ban> bans = banService.findAll();
+//		
+//		List<BanDTO> bansDTO = new ArrayList();
+//		for (Ban obj : bans) {
+//			BanDTO ban = new BanDTO (obj);
+//			
+//			bansDTO.add(ban);
+//		}
+//		return new ResponseEntity(bansDTO, HttpStatus.OK);
+//	}
+//	
+//	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+//	public ResponseEntity<BanDTO> getBan(@PathVariable Long id){
+//		Ban ban = banService.findOne(id);
+//		if(ban == null){
+//			return new ResponseEntity(HttpStatus.NOT_FOUND);
+//		}
+//		
+//		BanDTO banDTO = new BanDTO(ban);
+//		
+//		
+//		return new ResponseEntity(banDTO, HttpStatus.OK);
+//	}
+//	
+//	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
+//	public ResponseEntity<BanDTO> saveBan(@RequestBody BanDTO banDTO){		
+//		Ban ban = new Ban();
+//		
+//		ban.setUser(userService.findOne(banDTO.getUser().getId()));
+//		ban.setTimestamp(banDTO.getTimestamp());
+//		ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
+//		
+//		ban = banService.save(ban);
+//		return new ResponseEntity(HttpStatus.CREATED);	
+//	}
+//	
+//	
+//	
+//	@RequestMapping(method=RequestMethod.PUT, consumes="application/json")
+//	public ResponseEntity<BanDTO> updateBan(@RequestBody BanDTO banDTO){
+//		
+//		Ban ban = banService.findOne(banDTO.getId()); 
+//		if (ban == null) {
+//			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//		}
+//		
+//		ban.setUser(userService.findOne(banDTO.getUser().getId()));
+//		ban.setTimestamp(banDTO.getTimestamp());
+//		ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
+//		
+//		ban = banService.save(ban);
+//		return new ResponseEntity(new BanDTO(ban), HttpStatus.OK);	
+//	}
+//	
+//	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+//	public ResponseEntity<Void> deleteBan(@PathVariable Long id){
+//		Ban ban = banService.findOne(id);
+//
+//		if (ban != null){
+//			
+//			banService.remove(id);
+//			return new ResponseEntity(HttpStatus.OK);
+//		} else {		
+//			return new ResponseEntity(HttpStatus.NOT_FOUND);
+//		}
+//	}
+//	
+//	public CommunityDTO getCommunityForBan(Long id) {
+//	    Ban ban = banService.findOne(id); // Assuming you have a BanService to retrieve Ban by ID
+//
+//	    if (ban == null || ban.getCommunity() == null) {
+//	        return null;
+//	    }
+//
+//	    return new CommunityMapper().modelToDto(ban.getCommunity());
+//	}
+//
+//	public UserDTO getUserForBan(Long id) {
+//	    Ban ban = banService.findOne(id); // Assuming you have a BanService to retrieve Ban by ID
+//
+//	    if (ban == null || ban.getUser() == null) {
+//	        return null;
+//	    }
+//
+//	    return new UserMapper().modelToDto(ban.getUser());
+//	}
 
 
 	

@@ -13,16 +13,16 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/users/login',
+            url: 'http://localhost:8080/users/login',
             contentType: 'application/json',
             data: JSON.stringify(params),
             success: function(data) {
                 console.log('Login successful!');
-                console.log(data);
+                //console.log(data);
 
                 // Redirect to the desired page on successful login
        
-                window.location.href = 'http://localhost:8080/api/view/listCommunities';
+                window.location.href = '/communities';
             },
             error: function(error) {
                 console.error('Invalid username or password. Please try again.');

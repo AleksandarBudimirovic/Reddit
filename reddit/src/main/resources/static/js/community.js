@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    listCommunities(); // Initial call to list communities
+    
 
     // Function to list communities
     function listCommunities() {
@@ -24,57 +24,23 @@ $(document).ready(function() {
 
     // Function to display communities in the table
 
-	function displayCommunities(communities) {
-	    //debugger; // Pause execution here
-	
-	    console.log(communities); // Log the communities array to inspect in browser console
-	
-			    var tbody = $('#communityTableBody');
-	    tbody.empty();
-	
-	    communities.forEach(function(community) {
-	        var row = '<tr>' +
-	            '<td>' + community.id + '</td>' +
-	            '<td>' +
-	            '<a href="/community/details/' + community.id + '" class="community-link" data-community-id="' + community.id + '">' + community.description + '</a>' +
-	            '</td>' +
-	            '<td>' + formatDate(community.creationDate) + '</td>' +
-	            '<td>' + community.isSuspended + '</td>' +
-	            '<td>' + community.suspendedReason + '</td>' +
-	            '<td>' + community.suspendedReason + '</td>' +
-	            '</tr>';
-	        tbody.append(row);
-	    });
-	}
-	//'<td>' + community.user.username + '</td>' +
 
-    // Event listener using event delegation for community links
-    $(document).on('click', 'a.community-link', function(e) {
-        e.preventDefault(); // Prevent default anchor behavior
-        
-        var communityId = $(this).data('community-id'); // Get community ID from data attribute
-        fetchCommunityDetails(communityId); // Fetch community details
-    });
+	
+	
 
-    // Function to fetch and display community details
-    function fetchCommunityDetails(id) {
-        fetch(`/api/communities/details/${id}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                updateCommunityDetails(data);
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    }
+
+
+	$(document).on('click', 'a.community-link', function(e) {
+	    e.preventDefault(); // Prevent default anchor behavior
+	    
+	    var communityId = $(this).data('community-id'); // Get community ID from data attribute
+	    console.log('Id = ', communityId);
+	    window.location.href = `/community/detailsCommunity?id=${communityId}`; // Redirect to the details page with the community ID
+	});
 
     // Update HTML with community details
  
+
 
     // Event listener for adding a new community
     $("#addCommunity").click(function(e) {

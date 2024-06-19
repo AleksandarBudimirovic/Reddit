@@ -4,37 +4,35 @@
     <title>Communities</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/mainCss.css">
-    
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
-    
-    
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto"> <!-- Center the content -->
-                    <li class="nav-item">
-                        <!-- Centered search field -->
-                        <form class="form-inline">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                        </form>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/account">Account Name</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
 
-        <h1>Communities</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto"> <!-- Center the content -->
+                <li class="nav-item">
+                    <!-- Centered search field -->
+                    <form class="form-inline">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/account">Account Name</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Communities</h2> <!-- Added heading -->
         <div class="row col-md-12 table-responsive">
             <table id="communityTable" class="table">
                 <thead>
@@ -51,7 +49,7 @@
                     <tr th:each="community, iterationStat : ${communities}" th:style="${iterationStat.odd} ? 'color: gray' : 'color: black;'">
                         <td th:text="${community.id}">Community ID</td>
                         <td>
-                            <a th:href="@{'/community/details/' + ${community.id}}"
+                            <a th:href="@{|/api/community/detailsCommunity.html?id=${community.id}|}"
                                th:text="${community.description}"
                                class="community-link"
                                data-community-id="${community.id}">
@@ -61,20 +59,17 @@
                         <td th:text="${community.creationDate}">Creation Date</td>
                         <td th:text="${community.isSuspended}">Is Suspended</td>
                         <td th:text="${community.suspendedReason}">Suspended Reason</td>
-                        <td th:text="${community.user}">User</td>
+                        <td th:text="${community.user.username}">Creator Username</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    
-
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="/js/community.js"></script>
-
 </body>
 </html>

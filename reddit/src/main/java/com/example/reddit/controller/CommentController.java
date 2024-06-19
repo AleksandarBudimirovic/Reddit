@@ -34,7 +34,6 @@ import com.example.reddit.service.ReportService;
 import com.example.reddit.service.UserService;
 
 @RestController
-@RequestMapping(value="api/comments")
 public class CommentController {
 
 	@Autowired
@@ -52,155 +51,155 @@ public class CommentController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/all", method = RequestMethod.GET)
-	public ResponseEntity<List<CommentDTO>> getAllComments() {
-		List<Comment> comments = commentService.findAll();
-		
-		List<CommentDTO> commentsDTO = new ArrayList();
-		for (Comment obj : comments) {
-			CommentDTO comment = new CommentDTO (obj);
-			
-			commentsDTO.add(comment);
-		}
-		return new ResponseEntity(commentsDTO, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<CommentDTO> getComment(@PathVariable Long id){
-		Comment comment = commentService.findOne(id);
-		if(comment == null){
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-		
-		CommentDTO commentDTO = new CommentDTO(comment);
-		
-		
-		return new ResponseEntity(commentDTO, HttpStatus.OK);
-	}
-	
-	public ArrayList<Comment> CommentDTOToModel(List<CommentDTO> listDTO) {
-		ArrayList<Comment> list=new ArrayList();
-		for(CommentDTO objectDTO : listDTO) {
-			list.add(commentService.findOne(objectDTO.getId()));
-		}
-		return list;
-	}
-	
-	public ArrayList<Reaction> ReactionDTOToModel(List<ReactionDTO> listDTO) {
-		ArrayList<Reaction> list=new ArrayList();
-		for(ReactionDTO objectDTO : listDTO) {
-			list.add(reactionService.findOne(objectDTO.getId()));
-		}
-		return list;
-	}
-	
-	public ArrayList<Report> ReportDTOToModel(List<ReportDTO> listDTO) {
-		ArrayList<Report> list=new ArrayList();
-		for(ReportDTO objectDTO : listDTO) {
-			list.add(reportService.findOne(objectDTO.getId()));
-		}
-		return list;
-	}
-	
-	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<CommentDTO> saveComment(@RequestBody CommentDTO commentDTO){		
-		Comment comment = new Comment();
-		
-		comment.setIsDeleted(commentDTO.getIsDeleted());
-		comment.setText(commentDTO.getText());
-		comment.setTimestamp(commentDTO.getTimestamp());
-		comment.setUser(userService.findOne(commentDTO.getUser().getId()));
-		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
-		comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
-		
-//		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
-//		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
-//		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
-		
-		comment = commentService.save(comment);
-		return new ResponseEntity(HttpStatus.CREATED);	
-	}
-	
-	
-	@RequestMapping(method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<CommentDTO> updateComment(@RequestBody CommentDTO commentDTO){
-		
-		Comment comment = commentService.findOne(commentDTO.getId()); 
-		if (comment == null) {
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
-		
-		comment.setIsDeleted(commentDTO.getIsDeleted());
-		comment.setText(commentDTO.getText());
-		comment.setTimestamp(commentDTO.getTimestamp());
-		comment.setUser(userService.findOne(commentDTO.getUser().getId()));
-		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
-		comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
-		
-//		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
-//		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
-//		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
-		
-		comment = commentService.save(comment);
-		return new ResponseEntity(new CommentDTO(comment), HttpStatus.OK);	
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteComment(@PathVariable Long id){
-		Comment comment = commentService.findOne(id);
-
-		if (comment != null){
-			
-			commentService.remove(id);
-			return new ResponseEntity(HttpStatus.OK);
-		} else {		
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	public ArrayList<CommentDTO> getSubCommentsForComment(Long id) {
-        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
-
-        if (comment == null || comment.getSubComments() == null) {
-            return new ArrayList(); // or null, depending on your preference
-        }
-
-        ArrayList<CommentDTO> subComments = new ArrayList();
-        for (Comment subComment : comment.getSubComments()) {
-            subComments.add(new CommentMapper().modelToDto(subComment));
-        }
-
-        return subComments;
-    }
-	
-	public ArrayList<ReactionDTO> getReactionsForComment(Long id) {
-        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
-
-        if (comment == null || comment.getReactions() == null) {
-            return new ArrayList(); // or null, depending on your preference
-        }
-
-        ArrayList<ReactionDTO> reactions = new ArrayList();
-        for (Reaction reaction : comment.getReactions()) {
-            reactions.add(new ReactionMapper().modelToDto(reaction));
-        }
-
-        return reactions;
-    }
-	
-	 public ArrayList<ReportDTO> getReportsForComment(Long id) {
-	        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
-
-	        if (comment == null || comment.getReports() == null) {
-	            return new ArrayList(); // or null, depending on your preference
-	        }
-
-	        ArrayList<ReportDTO> reports = new ArrayList();
-	        for (Report report : comment.getReports()) {
-	            reports.add(new ReportMapper().modelToDto(report));
-	        }
-
-	        return reports;
-	    }
+//	@RequestMapping(value="/all", method = RequestMethod.GET)
+//	public ResponseEntity<List<CommentDTO>> getAllComments() {
+//		List<Comment> comments = commentService.findAll();
+//		
+//		List<CommentDTO> commentsDTO = new ArrayList();
+//		for (Comment obj : comments) {
+//			CommentDTO comment = new CommentDTO (obj);
+//			
+//			commentsDTO.add(comment);
+//		}
+//		return new ResponseEntity(commentsDTO, HttpStatus.OK);
+//	}
+//	
+//	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+//	public ResponseEntity<CommentDTO> getComment(@PathVariable Long id){
+//		Comment comment = commentService.findOne(id);
+//		if(comment == null){
+//			return new ResponseEntity(HttpStatus.NOT_FOUND);
+//		}
+//		
+//		CommentDTO commentDTO = new CommentDTO(comment);
+//		
+//		
+//		return new ResponseEntity(commentDTO, HttpStatus.OK);
+//	}
+//	
+//	public ArrayList<Comment> CommentDTOToModel(List<CommentDTO> listDTO) {
+//		ArrayList<Comment> list=new ArrayList();
+//		for(CommentDTO objectDTO : listDTO) {
+//			list.add(commentService.findOne(objectDTO.getId()));
+//		}
+//		return list;
+//	}
+//	
+//	public ArrayList<Reaction> ReactionDTOToModel(List<ReactionDTO> listDTO) {
+//		ArrayList<Reaction> list=new ArrayList();
+//		for(ReactionDTO objectDTO : listDTO) {
+//			list.add(reactionService.findOne(objectDTO.getId()));
+//		}
+//		return list;
+//	}
+//	
+//	public ArrayList<Report> ReportDTOToModel(List<ReportDTO> listDTO) {
+//		ArrayList<Report> list=new ArrayList();
+//		for(ReportDTO objectDTO : listDTO) {
+//			list.add(reportService.findOne(objectDTO.getId()));
+//		}
+//		return list;
+//	}
+//	
+//	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
+//	public ResponseEntity<CommentDTO> saveComment(@RequestBody CommentDTO commentDTO){		
+//		Comment comment = new Comment();
+//		
+//		comment.setIsDeleted(commentDTO.getIsDeleted());
+//		comment.setText(commentDTO.getText());
+//		comment.setTimestamp(commentDTO.getTimestamp());
+//		comment.setUser(userService.findOne(commentDTO.getUser().getId()));
+//		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
+//		comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
+//		
+////		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
+////		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
+////		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
+//		
+//		comment = commentService.save(comment);
+//		return new ResponseEntity(HttpStatus.CREATED);	
+//	}
+//	
+//	
+//	@RequestMapping(method=RequestMethod.PUT, consumes="application/json")
+//	public ResponseEntity<CommentDTO> updateComment(@RequestBody CommentDTO commentDTO){
+//		
+//		Comment comment = commentService.findOne(commentDTO.getId()); 
+//		if (comment == null) {
+//			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//		}
+//		
+//		comment.setIsDeleted(commentDTO.getIsDeleted());
+//		comment.setText(commentDTO.getText());
+//		comment.setTimestamp(commentDTO.getTimestamp());
+//		comment.setUser(userService.findOne(commentDTO.getUser().getId()));
+//		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
+//		comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
+//		
+////		comment.setSubComments(CommentDTOToModel(commentDTO.getSubComments()));
+////		comment.setReactions(ReactionDTOToModel(commentDTO.getReactions()));
+////		comment.setReports(ReportDTOToModel(commentDTO.getReports()));
+//		
+//		comment = commentService.save(comment);
+//		return new ResponseEntity(new CommentDTO(comment), HttpStatus.OK);	
+//	}
+//	
+//	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+//	public ResponseEntity<Void> deleteComment(@PathVariable Long id){
+//		Comment comment = commentService.findOne(id);
+//
+//		if (comment != null){
+//			
+//			commentService.remove(id);
+//			return new ResponseEntity(HttpStatus.OK);
+//		} else {		
+//			return new ResponseEntity(HttpStatus.NOT_FOUND);
+//		}
+//	}
+//	
+//	public ArrayList<CommentDTO> getSubCommentsForComment(Long id) {
+//        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
+//
+//        if (comment == null || comment.getSubComments() == null) {
+//            return new ArrayList(); // or null, depending on your preference
+//        }
+//
+//        ArrayList<CommentDTO> subComments = new ArrayList();
+//        for (Comment subComment : comment.getSubComments()) {
+//            subComments.add(new CommentMapper().modelToDto(subComment));
+//        }
+//
+//        return subComments;
+//    }
+//	
+//	public ArrayList<ReactionDTO> getReactionsForComment(Long id) {
+//        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
+//
+//        if (comment == null || comment.getReactions() == null) {
+//            return new ArrayList(); // or null, depending on your preference
+//        }
+//
+//        ArrayList<ReactionDTO> reactions = new ArrayList();
+//        for (Reaction reaction : comment.getReactions()) {
+//            reactions.add(new ReactionMapper().modelToDto(reaction));
+//        }
+//
+//        return reactions;
+//    }
+//	
+//	 public ArrayList<ReportDTO> getReportsForComment(Long id) {
+//	        Comment comment = commentService.findOne(id); // Assuming you have a CommentService to retrieve Comment by ID
+//
+//	        if (comment == null || comment.getReports() == null) {
+//	            return new ArrayList(); // or null, depending on your preference
+//	        }
+//
+//	        ArrayList<ReportDTO> reports = new ArrayList();
+//	        for (Report report : comment.getReports()) {
+//	            reports.add(new ReportMapper().modelToDto(report));
+//	        }
+//
+//	        return reports;
+//	    }
 	
 }
