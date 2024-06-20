@@ -49,12 +49,12 @@
                     <tr th:each="community, iterationStat : ${communities}" th:style="${iterationStat.odd} ? 'color: gray' : 'color: black;'">
                         <td th:text="${community.id}">Community ID</td>
                         <td>
-                            <a th:href="@{|/api/community/detailsCommunity.html?id=${community.id}|}"
-                               th:text="${community.description}"
-                               class="community-link"
-                               data-community-id="${community.id}">
-                               Name
-                            </a>
+                           <a th:href="@{/communities/details/{id}(id=${community.id})}"
+							   th:text="${community.description}"
+							   class="community-link"
+							   th:attr="data-community-id=${community.id}">
+							   Name
+							</a>
                         </td>
                         <td th:text="${community.creationDate}">Creation Date</td>
                         <td th:text="${community.isSuspended}">Is Suspended</td>

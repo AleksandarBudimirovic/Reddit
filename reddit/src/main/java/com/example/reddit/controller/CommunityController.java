@@ -41,25 +41,20 @@ public class CommunityController {
             communitiesDTO.add(new CommunityDTO(community));
         }
 
-        // Logging each community description to console
-        for (CommunityDTO communityDTO : communitiesDTO) {
-            System.out.println("Community Description: " + communityDTO.getDescription());
-        }
-
         model.addAttribute("communities", communitiesDTO);
         return "listCommunities";
     }
 
-    @GetMapping("/comunities/details/{id}")
+    @GetMapping("/communities/details/{id}")
     public String getCommunityDetails(@PathVariable Long id, Model model) {
         Community community = communityService.findOne(id);
         if (community == null) {
             // Handle not found scenario
             return "error";
         }
-
+        System.out.println("found community");
         model.addAttribute("community", new CommunityDTO(community));
-        return "communityDetails";
+        return "detailsCommunity";
     }
 
 //    @PostMapping(consumes="application/json")

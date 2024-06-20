@@ -29,7 +29,7 @@ $(document).ready(function() {
 	
 
 
-
+	/*
 	$(document).on('click', 'a.community-link', function(e) {
 	    e.preventDefault(); // Prevent default anchor behavior
 	    
@@ -37,6 +37,7 @@ $(document).ready(function() {
 	    console.log('Id = ', communityId);
 	    window.location.href = `/community/detailsCommunity?id=${communityId}`; // Redirect to the details page with the community ID
 	});
+	*/
 
     // Update HTML with community details
  
