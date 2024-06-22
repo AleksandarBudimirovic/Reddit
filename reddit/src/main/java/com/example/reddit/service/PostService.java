@@ -20,6 +20,10 @@ public class PostService {
 		return postRepository.findById(id).orElse(null);
 	}
 	
+    
+    public List<Post> findByCommunityId(Long communityId) {
+        return postRepository.findByCommunityId(communityId);
+    }
 	
 	public List<Post> findAll() {
 

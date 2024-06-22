@@ -15,7 +15,6 @@ public class CommentDTO {
     private byte isDeleted;
     private String text;
     private Date timestamp;
-    @JsonIgnore
     private UserDTO user;
     @JsonIgnore
     private PostDTO post;

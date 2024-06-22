@@ -51,27 +51,76 @@ public class PostController {
     private ReportService reportService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CommentMapper commentMapper;
 
     @GetMapping("/posts")
     public String getAllPosts(Model model) {
-        List<Community> communities = communityService.findAll();
-        List<CommunityDTO> communitiesDTO = new ArrayList<>();
-        for (Community community : communities) {
-            communitiesDTO.add(new CommunityDTO(community));
+        List<Post> posts = postService.findAll();
+        List<PostDTO> postsDTO = new ArrayList<>();
+        for (Post post : posts) {
+            postsDTO.add(new PostDTO(post));
         }
-        model.addAttribute("communities", communitiesDTO);
+        model.addAttribute("posts", postsDTO);
         return "posts";
     }
 
-    @GetMapping("/posts/{id}")
+
+    @GetMapping("/posts/details/{id}")
     public String getPost(@PathVariable Long id, Model model) {
         Post post = postService.findOne(id);
         if (post == null) {
-            return "error/404";
+            return "error/404"; // Handle post not found scenario
         }
+
         PostDTO postDTO = new PostDTO(post);
+        
+
+        List<CommentDTO> commentsDTO = findCommentsByPostId(postDTO.getId());
+        for (CommentDTO com : commentsDTO) {
+            
+        }
+
         model.addAttribute("post", postDTO);
-        return "post";
+        model.addAttribute("comments", commentsDTO);
+
+        return "detailsPost";
+    }
+    
+    public List<CommentDTO> findCommentsByPostId(Long postId) {
+        List<Comment> comments = commentService.findByPostId(postId);
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+
+        if (comments != null && !comments.isEmpty()) {
+            for (Comment comment : comments) {
+                if (comment != null) {
+                    try {
+                        commentsDTO.add(commentMapper.modelToDto(comment));
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("IllegalArgumentException when creating CommentDTO: " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Found a null comment for postId: " + postId);
+                }
+            }
+        } else {
+            System.err.println("No comments found or comments list is null for postId: " + postId);
+        }
+
+        return commentsDTO;
+    }
+    
+    @GetMapping("/addPostForm")
+    public String addPostForm(@RequestParam("postId") Long postId, Model model) {
+        model.addAttribute("postId", postId);
+        return "addPost";
+    }
+
+    @GetMapping("/editPostForm/{postId}")
+    public String editPostForm(@PathVariable("postId") Long postId, Model model) {
+        Post post = postService.findOne(postId);
+        model.addAttribute("post", post);
+        return "editPost"; 
     }
 
     private ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
@@ -161,17 +210,7 @@ public class PostController {
         }
     }
 
-    private ArrayList<CommentDTO> getCommentsForPost(Long id) {
-        Post post = postService.findOne(id);
-        if (post == null || post.getComments() == null) {
-            return new ArrayList<>();
-        }
-        ArrayList<CommentDTO> comments = new ArrayList<>();
-        for (Comment comment : post.getComments()) {
-            comments.add(new CommentMapper().modelToDto(comment));
-        }
-        return comments;
-    }
+
 
     private CommunityDTO getCommunityForPost(Long id) {
         Post post = postService.findOne(id);

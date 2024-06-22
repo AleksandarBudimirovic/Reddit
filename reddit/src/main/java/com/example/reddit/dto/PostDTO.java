@@ -1,7 +1,10 @@
 package com.example.reddit.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import com.example.reddit.model.Comment;
 import com.example.reddit.model.Community;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.User;
@@ -15,7 +18,6 @@ public class PostDTO {
     private String title;
     private String text;
     private CommunityDTO Community;
-    @JsonIgnore
     private UserDTO User;
 
     public PostDTO(Long id, Date creationDate, String imagePath, String title, String text,
@@ -34,6 +36,13 @@ public class PostDTO {
             new CommunityDTO(obj.getCommunity()), new UserDTO(obj.getUser()));
     }
     
+    public static ArrayList<CommentDTO> getCommentsFromPost(List<Comment> list) {
+        ArrayList<CommentDTO> listDTO = new ArrayList<>();
+        for (Comment object : list) {
+            listDTO.add(new CommentDTO(object));
+        }
+        return listDTO;
+    }
     
 
     public PostDTO() {

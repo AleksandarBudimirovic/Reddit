@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/mainCss.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <form class="form-inline">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/account">Account Name</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Community Information -->
+        <div class="community-info" th:if="${community != null}">
+            <p th:text="${community.description}">Description</p>
+            <p th:text="'Creation Date: ' + ${#dates.format(community.creationDate, 'yyyy-MM-dd')}" th:if="${community.creationDate != null}">Creation Date: </p>
+          
+            <p th:if="${community.isSuspended == 1}">
+                <span th:if="${community.suspendedReason != null}" th:text="'Suspended Reason: ' + ${community.suspendedReason}">Suspended Reason: Reason goes here</span>
+                <span th:if="${community.suspendedReason == null}">Suspended Reason is not provided.</span>
+            </p>
+        
+            <!-- Display message if community is not suspended -->
+            <p th:unless="${community.isSuspended == 1}">This community is not suspended.</p>
+            <button class="btn btn-primary" onclick="location.href='/communities/edit/${community.id}'">Edit Community</button>
+            <button class="btn btn-danger" onclick="deleteCommunity(/*[[${community.id}]]*/)">Delete Community</button>
+            <button class="btn btn-success" onclick="location.href='/posts/add?communityId=${community.id}'">Create New Post</button>
+        </div>
+        
+        <div th:unless="${community != null}">
+            <p>No community information available.</p>
+        </div>
+        
+        <!-- Posts Table -->
+        <div class="posts-list" th:if="${posts != null and not #lists.isEmpty(posts)}">
+            <h2>Posts</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Text</th>
+                            <th>Creation Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Thymeleaf iteration to display posts -->
+                        <tr th:each="post : ${posts}">
+                            <td th:text="${post.id}">Post ID</td>
+                            <td>
+						        <a th:href="@{/posts/details/{id}(id=${post.id})}" th:text="${post.title}">Post Title</a>
+						    </td>
+                            <td th:text="${post.text}">Post Text</td>
+                            <td th:text="${#dates.format(post.creationDate, 'yyyy-MM-dd HH:mm:ss')}">Creation Date</td>
+                            <td>
+                                <!-- Example action buttons, adjust as needed -->
+                                <button class="btn btn-sm btn-primary">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div th:if="${posts == null or #lists.isEmpty(posts)}">
+            <p>No posts available.</p>
+        </div>
+        
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Your custom JavaScript file -->
+    <script src="/js/community-details.js"></script>
+</body>
+</html>

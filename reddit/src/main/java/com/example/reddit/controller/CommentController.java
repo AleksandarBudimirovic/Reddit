@@ -59,6 +59,20 @@ public class CommentController {
         model.addAttribute("comment", commentDTO);
         return "viewComment";
     }
+    
+    @GetMapping("/editCommentForm/{commentId}")
+    public String editCommentForm(@PathVariable("commentId") Long commentId, Model model) {
+        Comment comment = commentService.findOne(commentId);
+        model.addAttribute("comment", comment);
+        return "editComment"; 
+    }
+    
+    @GetMapping("/addCommentForm")
+    public String addCommentForm(@RequestParam("commentId") Long commentId, Model model) {
+        model.addAttribute("commentId", commentId);
+        return "addComment";
+    }
+
 
     public ArrayList<Comment> CommentDTOToModel(List<CommentDTO> listDTO) {
         ArrayList<Comment> list = new ArrayList<>();
