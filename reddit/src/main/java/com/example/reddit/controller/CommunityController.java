@@ -10,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class CommunityController {
@@ -32,16 +35,22 @@ public class CommunityController {
     private UserService userService;
 
     @GetMapping("/communities")
-    public String getAllCommunities(Model model) {
+    public String getAllCommunities(Model model, HttpSession session) {
+    	User currentUser = (User) session.getAttribute("currentUser");
+
+        if (currentUser == null) {
+            // Handle case where user is not logged in
+            return "redirect:/index";
+        }
         List<Community> communities = communityService.findAll();
 
         List<CommunityDTO> communitiesDTO = new ArrayList<>();
         for (Community community : communities) {
             communitiesDTO.add(new CommunityDTO(community));
         }
-
+        model.addAttribute("user", currentUser);
         model.addAttribute("communities", communitiesDTO);
-        return "listCommunities";
+        return "communities";
     }
 
     @GetMapping("/communities/details/{id}")
@@ -61,11 +70,12 @@ public class CommunityController {
         for (PostDTO postDTO : postsDTO) {
             System.out.println("Post ID: " + postDTO.getId());
         }
+        System.out.println("first com id " + communityDTO.getId());
 
         model.addAttribute("community", communityDTO);
         model.addAttribute("posts", postsDTO);
 
-        return "detailsCommunity";
+        return "community";
     }
 
     public List<PostDTO> findByCommunityId(Long communityId) {
@@ -76,35 +86,49 @@ public class CommunityController {
         }
         return postsDTO;
     }
-
-    @GetMapping("/addCommunityForm")
-    public String addCommunityForm(@RequestParam("communityId") Long communityId, Model model) {
-        model.addAttribute("communityId", communityId);
-        return "addCommunity"; 
-    }
     
-    @GetMapping("/editCommunityForm/{communityId}")
-    public String editCommunityForm(@PathVariable("communityId") Long communityId, Model model) {
-        Community community = communityService.findOne(communityId);
-        model.addAttribute("community", community);
-        return "editCommunity"; 
-    }
-    
-    @PostMapping(value = "/communities", consumes = "application/json")
-    public String saveCommunity(@RequestBody CommunityDTO communityDTO, Model model) {
+    @PostMapping("/communities/add")
+    public String addCommunity(@RequestParam("communityName") String communityName,
+                               @RequestParam("description") String description,
+                               Model model, HttpSession session) {
+        // Create a new Community object and set its properties
         Community community = new Community();
+        //community.setName(communityName);
+        community.setDescription(description);
+        community.setCreationDate(new Date()); 
+        community.setIsSuspended((byte) 0);
+        
+        User currentUser = (User) session.getAttribute("currentUser");
 
-        community.setCreationDate(communityDTO.getCreationDate());
-        community.setDescription(communityDTO.getDescription());
-        community.setIsSuspended(communityDTO.getIsSuspended());
-        community.setSuspendedReason(communityDTO.getSuspendedReason());
-        community.setUser(userService.findOne(communityDTO.getUser().getId()));
-        // Set other properties as needed
-
+        if (currentUser == null) {
+            return "redirect:/index";
+        }
+        community.setUser(currentUser); 
         community = communityService.save(community);
         model.addAttribute("community", new CommunityDTO(community));
         return "redirect:/communities";
     }
+
+
+
+    
+    @PostMapping("/communities/edit")
+    public String editCommunity(@RequestParam Long id,
+                                @RequestParam String description,
+                                Model model) {
+        Community existingCommunity = communityService.findOne(id);
+
+        if (existingCommunity == null) {
+            return "redirect:/error";
+        }
+
+        existingCommunity.setDescription(description);
+
+        Community updatedCommunity = communityService.save(existingCommunity);
+
+        return "redirect:/communities/details/" + updatedCommunity.getId();
+    }
+
 
     @PutMapping(value = "/communities", consumes = "application/json")
     public String updateCommunity(@RequestBody CommunityDTO communityDTO, Model model) {

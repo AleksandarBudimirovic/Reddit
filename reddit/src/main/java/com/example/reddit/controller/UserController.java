@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -40,15 +41,12 @@ public class UserController {
     public String loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
         User user = userService.findByUsername(userDTO.getUsername());
         if (user == null || !user.getPassword().equals(userDTO.getPassword())) {
-            // Handle invalid login
-            return "redirect:/login?error";
+            
+            return "redirect:/index";
         }
 
-        // Valid login, store user in session
         session.setAttribute("currentUser", user);
 
-        // Redirect to listCommunities.html
-        System.out.println("blah");
         return "redirect:/communities";
     }
 
@@ -69,7 +67,7 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public String getUser(@PathVariable Long id, Model model) {
         User user = userService.findOne(id);
         if (user == null) {
@@ -81,14 +79,60 @@ public class UserController {
         model.addAttribute("user", userDTO);
         return "user";
     }
-
-    @PostMapping(consumes="application/json")
-    public String saveUser(@RequestBody UserDTO userDTO) {
-        User user = new User();
-        // Populate user object from userDTO
-        user = userService.save(user);
-        return "redirect:/api/users/" + user.getId();
+    
+    @GetMapping("/register")
+    public String showRegisterForm() {
+        return "register"; // Assuming "register.html" is in your templates directory
     }
+
+    @PostMapping("/users/register")
+    public String saveUser(@RequestParam String username,
+                           @RequestParam String password,
+                           @RequestParam String confirmPassword,
+                           @RequestParam String displayName,
+                           @RequestParam String description) {
+        if (!password.equals(confirmPassword)) {
+            // Handle password mismatch
+            //return "redirect:/register";
+        }
+        System.out.println("mlem");
+
+        User user = new User();
+        user.setAvatar("avatar");
+        user.setDescription(description);
+        user.setDisplayName(displayName);
+        user.setPassword(password);
+        user.setRegistrationDate(new Date());
+        user.setRole("ROLE_USER");
+        user.setUsername(username);
+
+        user = userService.save(user);
+        return "redirect:/"; 
+    }
+    
+    @PostMapping("/users/update")
+    public String updateUser(@ModelAttribute User user,
+                             @RequestParam(value = "password", required = false) String newPassword,
+                             Model model, HttpSession session) {
+    	User currentUser = (User) session.getAttribute("currentUser");
+
+        if (currentUser == null) {
+            // Handle case where user is not logged in
+            return "redirect:/index";
+        }
+    	
+        User existingUser = userService.findOne(currentUser.getId());
+        existingUser.setDescription(user.getDescription());
+        existingUser.setDisplayName(user.getDisplayName());
+        existingUser.setUsername(user.getUsername());
+        if (newPassword != null && !newPassword.isEmpty()) {
+            existingUser.setPassword(newPassword);
+        }
+        userService.save(existingUser);
+        return "redirect:/users/" + existingUser.getId();
+    }
+
+
 
     @PutMapping(consumes="application/json")
     public String updateUser(@RequestBody UserDTO userDTO) {
@@ -103,7 +147,7 @@ public class UserController {
         return "redirect:/api/users/" + user.getId();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         User user = userService.findOne(id);
         if (user == null) {
@@ -115,68 +159,5 @@ public class UserController {
         return "redirect:/api/users/all";
     }
 
-    // Methods to retrieve related entities
-
-    @GetMapping("/{id}/bans")
-    public String getBannedForUser(@PathVariable Long id, Model model) {
-        List<BanDTO> bansDTO = getBannedDTOs(id); // Assume a method to retrieve BanDTOs for user
-        model.addAttribute("bans", bansDTO);
-        return "bans";
-    }
-
-    @GetMapping("/{id}/comments")
-    public String getCommentsForUser(@PathVariable Long id, Model model) {
-        List<CommentDTO> commentsDTO = getCommentsDTOs(id); // Assume a method to retrieve CommentDTOs for user
-        model.addAttribute("comments", commentsDTO);
-        return "comments";
-    }
-
-    @GetMapping("/{id}/communities")
-    public String getCommunitiesForUser(@PathVariable Long id, Model model) {
-        List<CommunityDTO> communitiesDTO = getCommunitiesDTOs(id); // Assume a method to retrieve CommunityDTOs for user
-        model.addAttribute("communities", communitiesDTO);
-        return "communities";
-    }
-
-    @GetMapping("/{id}/reactions")
-    public String getReactionsForUser(@PathVariable Long id, Model model) {
-        List<ReactionDTO> reactionsDTO = getReactionsDTOs(id); // Assume a method to retrieve ReactionDTOs for user
-        model.addAttribute("reactions", reactionsDTO);
-        return "reactions";
-    }
-
-    @GetMapping("/{id}/posts")
-    public String getPostsForUser(@PathVariable Long id, Model model) {
-        List<PostDTO> postsDTO = getPostsDTOs(id); // Assume a method to retrieve PostDTOs for user
-        model.addAttribute("posts", postsDTO);
-        return "posts";
-    }
-
-    // Helper methods to convert DTOs to models
-    // These methods are similar to the ones you previously had for converting DTOs to entity models
-
-    private List<BanDTO> getBannedDTOs(Long id) {
-        // Implement logic to retrieve BanDTOs for user with given id
-        return new ArrayList<>(); // Placeholder implementation
-    }
-
-    private List<CommentDTO> getCommentsDTOs(Long id) {
-        // Implement logic to retrieve CommentDTOs for user with given id
-        return new ArrayList<>(); // Placeholder implementation
-    }
-
-    private List<CommunityDTO> getCommunitiesDTOs(Long id) {
-        // Implement logic to retrieve CommunityDTOs for user with given id
-        return new ArrayList<>(); // Placeholder implementation
-    }
-
-    private List<ReactionDTO> getReactionsDTOs(Long id) {
-        // Implement logic to retrieve ReactionDTOs for user with given id
-        return new ArrayList<>(); // Placeholder implementation
-    }
-
-    private List<PostDTO> getPostsDTOs(Long id) {
-        // Implement logic to retrieve PostDTOs for user with given id
-        return new ArrayList<>(); // Placeholder implementation
-    }
+  
 }

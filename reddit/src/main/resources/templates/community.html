@@ -44,9 +44,11 @@
         
             <!-- Display message if community is not suspended -->
             <p th:unless="${community.isSuspended == 1}">This community is not suspended.</p>
-            <button class="btn btn-primary" onclick="location.href='/communities/edit/${community.id}'">Edit Community</button>
-            <button class="btn btn-danger" onclick="deleteCommunity(/*[[${community.id}]]*/)">Delete Community</button>
-            <button class="btn btn-success" onclick="location.href='/posts/add?communityId=${community.id}'">Create New Post</button>
+            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editCommunityModal">Edit Community</button>
+            <button class="btn btn-danger" onclick="deleteCommunity('${community.id}')">Delete Community</button>
+            
+            <!-- Button to trigger add post modal -->
+            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addPostModal">Create New Post</button>
         </div>
         
         <div th:unless="${community != null}">
@@ -93,10 +95,79 @@
         
     </div>
 
+<!-- Modal for Editing Community -->
+<div class="modal fade" id="editCommunityModal" tabindex="-1" role="dialog" aria-labelledby="editCommunityModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCommunityModalLabel">Edit Community</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/communities/edit}" method="post">
+                <!-- Hidden input for community ID -->
+                <input type="hidden" name="id" th:value="${community.id}">
+                
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editCommunityDescription">Description</label>
+                        <textarea class="form-control" id="editCommunityDescription" name="description" rows="3" th:text="${community.description}" required autocomplete="off"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="communityIdDisplay">Community ID</label>
+                        <p id="communityIdDisplay" class="form-control-static" th:text="${community.id}">Community ID</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Modal for Adding Post -->
+    <div class="modal fade" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="addPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPostModalLabel">Create New Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <form id="addPostForm" th:action="@{'/posts/add/' + ${community.id}}" method="post">
+                
+                    <div class="modal-body">
+                        <input type="hidden" name="communityId" th:value="${community.id}">
+                        <div class="form-group">
+                            <label for="postTitle">Post Title</label>
+                            <input type="text" class="form-control" id="postTitle" name="title" required autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="postText">Post Text</label>
+                            <textarea class="form-control" id="postText" name="text" rows="3" required autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- Your custom JavaScript file -->
-    <script src="/js/community-details.js"></script>
+    
+
 </body>
 </html>

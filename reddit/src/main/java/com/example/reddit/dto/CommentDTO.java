@@ -18,24 +18,21 @@ public class CommentDTO {
     private UserDTO user;
     @JsonIgnore
     private PostDTO post;
-    @JsonIgnore
-    private CommentDTO mainComment;
     
-    public CommentDTO(Long id, byte isDeleted, String text, Date timestamp, UserDTO user, PostDTO post,
-                      CommentDTO mainComment) {
+    public CommentDTO(Long id, byte isDeleted, String text, Date timestamp, UserDTO user, PostDTO post) {
         this.id = id;
         this.isDeleted = isDeleted;
         this.text = text;
         this.timestamp = timestamp;
         this.user = user;
         this.post = post;
-        this.mainComment = mainComment;
     }
     
     public CommentDTO(Comment obj) {
         this(obj.getId(), obj.getIsDeleted(), obj.getText(), obj.getTimestamp(), new UserDTO(obj.getUser()),
-                new PostDTO(obj.getPost()), new CommentDTO(obj.getMainComment()));
+                new PostDTO(obj.getPost()));
     }
+
     
     public static ArrayList<CommentDTO> getComments(List<Comment> list) {
         ArrayList<CommentDTO> listDTO = new ArrayList<>();
@@ -84,11 +81,5 @@ public class CommentDTO {
     }
     public void setPost(PostDTO post) {
         this.post = post;
-    }
-    public CommentDTO getMainComment() {
-        return mainComment;
-    }
-    public void setMainComment(CommentDTO mainComment) {
-        this.mainComment = mainComment;
     }
 }

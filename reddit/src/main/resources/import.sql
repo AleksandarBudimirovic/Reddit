@@ -19,12 +19,12 @@ INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_
 INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_id) VALUES (5, '2022-01-21', NULL, 'Sunset Views', 'Beautiful sunset views from my balcony', 1, 1);
 INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_id) VALUES (6, '2022-01-21', NULL, 'Coding Life', 'Late-night coding session. Anyone else awake?', 2, 2);
 
-INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id, main_comment_id) VALUES (1, 0, 'some text', '2012-02-10', 1, 1, NULL);
-INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id, main_comment_id) VALUES (2, 0, 'some other text', '2012-02-10', 1, 1, 1);
-INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id, main_comment_id) VALUES (3, 0, 'another text', '2012-02-10', 1, 1, NULL);
-INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id, main_comment_id) VALUES (4, 0, 'more text', '2012-02-10', 1, 1, 1);
-INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id, main_comment_id) VALUES (5, 0, 'additional text', '2012-02-10', 1, 1, 1);
-INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id, main_comment_id) VALUES (6, 0, 'extra text', '2012-02-10', 1, 1, NULL);
+INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id) VALUES (1, 0, 'some text', '2012-02-10', 1, 1);
+INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id) VALUES (2, 0, 'some other text', '2012-02-10', 1, 1);
+INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id) VALUES (3, 0, 'another text', '2012-02-10', 1, 1);
+INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id) VALUES (4, 0, 'more text', '2012-02-10', 1, 1);
+INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id) VALUES (5, 0, 'additional text', '2012-02-10', 1, 1);
+INSERT INTO comment(id, is_deleted, text, timestamp, post_id, user_id) VALUES (6, 0, 'extra text', '2012-02-10', 1, 1);
 
 INSERT INTO reaction(id, timestamp, type, comment_id, post_id, user_id) VALUES (1, '2022-01-20', 'type1', 1, 1, 1);
 INSERT INTO reaction(id, timestamp, type, comment_id, post_id, user_id) VALUES (2, '2022-01-20', 'type2', 2, 2, 2);
@@ -47,7 +47,3 @@ INSERT INTO flair (id, name, community_id) VALUES (1, 'Flair 1', 1);
 INSERT INTO flair (id, name, community_id) VALUES (2, 'Flair 2', 2);
 INSERT INTO flair (id, name, community_id) VALUES (3, 'Flair 3', 1);
 INSERT INTO flair (id, name, community_id) VALUES (4, 'Flair 4', 2);
-
-
-
-

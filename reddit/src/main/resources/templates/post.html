@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/mainCss.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -39,12 +41,12 @@
             <p>Creation Date: <span th:text="${#dates.format(post.creationDate, 'yyyy-MM-dd HH:mm:ss')}">2024-06-17 12:00:00</span></p>
             <p>Author: <span th:text="${post.user.username}">Author Username</span></p>
             <!-- Edit and Delete Buttons for Post -->
-            <button class="btn btn-primary" id="editPostBtn" onclick="editPost()">Edit Post</button>
-            <button class="btn btn-danger" id="deletePostBtn" onclick="deletePost()">Delete Post</button>
-            <button class="btn btn-success" onclick="location.href='/posts/add?communityId=${community.id}'">Leave a comment</button>
+            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editPostModal">Edit Post</button>
+            <button class="btn btn-danger" onclick="deletePost()">Delete Post</button>
+            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addCommentModal">Leave a comment</button>
         </div>
 
-        <!-- Comments Table -->
+        <!-- Comments List -->
         <div class="comments-list">
             <h2>Comments</h2>
             <div class="table-responsive">
@@ -67,9 +69,8 @@
                             <td th:if="${comment.user != null}" th:text="${comment.user.username}">Author Username</td>
                             <td th:if="${comment.user == null}">Unknown User</td>
                             <td>
-                                <!-- Edit and Delete Buttons for each comment -->
-                                <button class="btn btn-sm btn-primary edit-comment-btn" th:attr="data-comment-id=${comment.id}">Edit</button>
-                                <button class="btn btn-sm btn-danger delete-comment-btn" th:attr="data-comment-id=${comment.id}">Delete</button>
+                                <!-- Button to view comment details -->
+                                <a th:href="@{/comments/{id}(id=${comment.id})}" class="btn btn-sm btn-primary view-comment-btn">View</a>
                             </td>
                         </tr>
                     </tbody>
@@ -78,16 +79,66 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- Your custom JavaScript file -->
-    <script src="/js/post-details.js"></script>
+    <!-- Modal for Adding Comment -->
+    <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/comments/add/{postId}(postId=${post.id})}" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="postId" th:value="${post.id}">
+                        <div class="form-group">
+                            <label for="commentText">Comment Text</label>
+                            <textarea class="form-control" id="commentText" name="text" rows="3" required autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <!-- Thymeleaf script for passing data to JavaScript -->
-    <script th:inline="javascript">
-        // Pass post id to JavaScript variable
-        var postId = /*[[${post.id}]]*/ 'defaultPostId';
-    </script>
+    <!-- Modal for Editing Post -->
+    <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/posts/edit}" method="post">
+				    <div class="modal-body">
+				        <input type="hidden" name="id" th:value="${post.id}">
+				        <input type="hidden" name="communityId" th:value="${community.id}">
+				        <div class="form-group">
+				            <label for="editPostTitle">Post Title</label>
+				            <input type="text" class="form-control" id="editPostTitle" name="title" th:value="${post.title}" required autocomplete="off">
+				        </div>
+				        <div class="form-group">
+				            <label for="editPostText">Post Text</label>
+				            <textarea class="form-control" id="editPostText" name="text" rows="3" th:text="${post.text}" required autocomplete="off"></textarea>
+				        </div>
+				    </div>
+				    <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				        <button type="submit" class="btn btn-primary">Save Changes</button>
+				    </div>
+				</form>
+
+            </div>
+        </div>
+    </div>
+
+
 </body>
 </html>

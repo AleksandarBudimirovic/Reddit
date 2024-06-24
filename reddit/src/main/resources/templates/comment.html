@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Edit Comment</h2>
+        <div class="card">
+            <div class="card-body">
+                <!-- Thymeleaf form setup -->
+                <form th:action="@{/comments/edit}" method="post">
+                    <!-- Thymeleaf expression for comment ID -->
+                    <input type="hidden" name="id" th:value="${comment.id}">
+                    <div class="form-group">
+                        <label for="editCommentText">Comment Text</label>
+                        <!-- Thymeleaf expression to populate comment text -->
+                        <textarea class="form-control" id="editCommentText" name="text" rows="3" required th:text="${comment.text}"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mr-2">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+                    </div>
+                </form>
+                <hr>
+                <!-- Delete Comment Button -->
+                <form id="deleteCommentForm" th:action="@{/comments/{id}(id=${comment.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="button" class="btn btn-danger" onclick="deleteComment()">Delete Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript code for delete confirmation (optional) -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function deleteComment() {
+            if (confirm('Are you sure you want to delete this comment?')) {
+                $('#deleteCommentForm').submit(); // Submit the form to delete comment
+            }
+        }
+        /*]]>*/
+    </script>
+</body>
+</html>

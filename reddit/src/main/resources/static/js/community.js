@@ -6,13 +6,6 @@
     
  
 
-document.addEventListener('DOMContentLoaded', function() {
-    const addButton = document.getElementById('addCommunityModal');
-    
-    addButton.addEventListener('click', function() {
-        // Redirect to addCommunity.html
-        window.location.href = '/addCommunity.html';
-    });
-});
+
 
     

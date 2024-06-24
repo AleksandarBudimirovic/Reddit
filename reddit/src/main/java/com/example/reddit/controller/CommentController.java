@@ -1,7 +1,10 @@
 package com.example.reddit.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,7 @@ import com.example.reddit.mapper.ReportMapper;
 import com.example.reddit.model.Comment;
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
+import com.example.reddit.model.User;
 import com.example.reddit.service.*;
 
 @Controller
@@ -46,7 +50,7 @@ public class CommentController {
             commentsDTO.add(comment);
         }
         model.addAttribute("comments", commentsDTO);
-        return "listComments";
+        return "comments";
     }
 
     @GetMapping("/comments/{id}")
@@ -57,21 +61,9 @@ public class CommentController {
         }
         CommentDTO commentDTO = new CommentDTO(comment);
         model.addAttribute("comment", commentDTO);
-        return "viewComment";
+        return "comment";
     }
-    
-    @GetMapping("/editCommentForm/{commentId}")
-    public String editCommentForm(@PathVariable("commentId") Long commentId, Model model) {
-        Comment comment = commentService.findOne(commentId);
-        model.addAttribute("comment", comment);
-        return "editComment"; 
-    }
-    
-    @GetMapping("/addCommentForm")
-    public String addCommentForm(@RequestParam("commentId") Long commentId, Model model) {
-        model.addAttribute("commentId", commentId);
-        return "addComment";
-    }
+   
 
 
     public ArrayList<Comment> CommentDTOToModel(List<CommentDTO> listDTO) {
@@ -98,38 +90,46 @@ public class CommentController {
         return list;
     }
 
-    @PostMapping("/comments")
-    public String saveComment(@RequestBody CommentDTO commentDTO, Model model) {
+    @PostMapping("/comments/add/{postId}")
+    public String saveComment(@PathVariable Long postId, @ModelAttribute CommentDTO commentDTO, Model model, HttpSession session) {
         Comment comment = new Comment();
-        comment.setIsDeleted(commentDTO.getIsDeleted());
         comment.setText(commentDTO.getText());
-        comment.setTimestamp(commentDTO.getTimestamp());
-        comment.setUser(userService.findOne(commentDTO.getUser().getId()));
-        comment.setPost(postService.findOne(commentDTO.getPost().getId()));
-        comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
+        comment.setTimestamp(new Date()); // Assuming you want to set the current timestamp
+        
+        comment.setPost(postService.findOne(postId)); // Using postId from path variable
+        //comment.setMainComment(new Comment());
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        if (currentUser == null) {
+            // Handle case where user is not logged in
+            return "redirect:/index";
+        }
+        comment.setUser(currentUser);
 
         comment = commentService.save(comment);
         model.addAttribute("comment", new CommentDTO(comment));
-        return "commentSaved";
+        return "redirect:/communities/details/" + comment.getPost().getCommunity().getId();
     }
 
-    @PutMapping("/comments")
-    public String updateComment(@RequestBody CommentDTO commentDTO, Model model) {
+
+    @PostMapping("/comments/edit")
+    public String editComment(@ModelAttribute("commentDTO") CommentDTO commentDTO, HttpSession session) {
+        // Retrieve the comment by its ID
+    	System.out.println("hello");
         Comment comment = commentService.findOne(commentDTO.getId());
         if (comment == null) {
-            return "commentNotFound";
+            return "redirect:/error";
         }
-        comment.setIsDeleted(commentDTO.getIsDeleted());
         comment.setText(commentDTO.getText());
-        comment.setTimestamp(commentDTO.getTimestamp());
-        comment.setUser(userService.findOne(commentDTO.getUser().getId()));
-        comment.setPost(postService.findOne(commentDTO.getPost().getId()));
-        comment.setMainComment(commentService.findOne(commentDTO.getMainComment().getId()));
+        comment.setTimestamp(new Date());
 
         comment = commentService.save(comment);
-        model.addAttribute("comment", new CommentDTO(comment));
-        return "commentUpdated";
+
+        // Redirect to the details page of the community post after editing the comment
+        return "redirect:/communities/details/" + comment.getPost().getCommunity().getId();
     }
+
+
 
     @DeleteMapping("/comments/{id}")
     public String deleteComment(@PathVariable Long id, Model model) {
@@ -142,19 +142,7 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/comments/subcomments/{id}")
-    public String getSubCommentsForComment(@PathVariable Long id, Model model) {
-        Comment comment = commentService.findOne(id);
-        if (comment == null || comment.getSubComments() == null) {
-            return "subCommentsNotFound";
-        }
-        ArrayList<CommentDTO> subComments = new ArrayList<>();
-        for (Comment subComment : comment.getSubComments()) {
-            subComments.add(new CommentMapper().modelToDto(subComment));
-        }
-        model.addAttribute("subComments", subComments);
-        return "viewSubComments";
-    }
+
 
     @GetMapping("/comments/reactions/{id}")
     public String getReactionsForComment(@PathVariable Long id, Model model) {

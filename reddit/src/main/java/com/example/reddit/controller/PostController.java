@@ -1,7 +1,10 @@
 package com.example.reddit.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,7 @@ import com.example.reddit.model.Community;
 import com.example.reddit.model.Post;
 import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
+import com.example.reddit.model.User;
 import com.example.reddit.service.BanService;
 import com.example.reddit.service.CommentService;
 import com.example.reddit.service.CommunityService;
@@ -80,11 +84,11 @@ public class PostController {
         for (CommentDTO com : commentsDTO) {
             
         }
-
+        model.addAttribute("community", postDTO.getCommunity());
         model.addAttribute("post", postDTO);
         model.addAttribute("comments", commentsDTO);
 
-        return "detailsPost";
+        return "post";
     }
     
     public List<CommentDTO> findCommentsByPostId(Long postId) {
@@ -110,18 +114,7 @@ public class PostController {
         return commentsDTO;
     }
     
-    @GetMapping("/addPostForm")
-    public String addPostForm(@RequestParam("postId") Long postId, Model model) {
-        model.addAttribute("postId", postId);
-        return "addPost";
-    }
 
-    @GetMapping("/editPostForm/{postId}")
-    public String editPostForm(@PathVariable("postId") Long postId, Model model) {
-        Post post = postService.findOne(postId);
-        model.addAttribute("post", post);
-        return "editPost"; 
-    }
 
     private ArrayList<Post> PostDTOToModel(List<PostDTO> listDTO) {
         ArrayList<Post> list = new ArrayList<>();
@@ -163,40 +156,55 @@ public class PostController {
         return list;
     }
 
-    @PostMapping("/posts")
-    public String savePost(@RequestBody PostDTO postDTO, Model model) {
+    @PostMapping("/posts/add/{communityId}")
+    public String addPost(@PathVariable Long communityId,
+                          @RequestParam("title") String title,
+                          @RequestParam("text") String text, HttpSession session) {
+
+        // Find the community using the provided communityId
+        Community community = communityService.findOne(communityId);
+
+        // Create a new Post object and set its properties
         Post post = new Post();
-        post.setCommunity(communityService.findOne(postDTO.getCommunity().getId()));
-        post.setCreationDate(postDTO.getCreationDate());
-        post.setImagePath(postDTO.getImagePath());
-        post.setText(postDTO.getText());
-        post.setTitle(postDTO.getTitle());
-        post.setUser(userService.findOne(postDTO.getUser().getId()));
-        // post.setComments(CommentDTOToModel(postDTO.getComments()));
-        // post.setReactions(ReactionDTOToModel(postDTO.getReactions()));
-        // post.setReports(ReportDTOToModel(postDTO.getReports()));
+        post.setCommunity(community);    // Set community
+        post.setTitle(title);            // Set title from form parameter
+        post.setText(text);              // Set text from form parameter
+        post.setCreationDate(new Date()); // Example: Set creation date (adjust as per your requirement)
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        
+        if (currentUser == null) {
+            return "redirect:/index";
+        }
+        post.setUser(currentUser);
+
+        
         post = postService.save(post);
-        return "redirect:/posts";
+
+        return "redirect:/communities/details/" + communityId;
     }
 
-    @PutMapping("/posts")
-    public String updatePost(@RequestBody PostDTO postDTO, Model model) {
-        Post post = postService.findOne(postDTO.getId());
+
+
+    @PostMapping("/posts/edit")
+    public String updatePost(@RequestParam Long communityId,
+            @RequestParam Long id,
+            @RequestParam String title,
+            @RequestParam String text,
+            Model model) {
+        Post post = postService.findOne(id);
         if (post == null) {
             return "error/400";
         }
-        post.setCommunity(communityService.findOne(postDTO.getCommunity().getId()));
-        post.setCreationDate(postDTO.getCreationDate());
-        post.setImagePath(postDTO.getImagePath());
-        post.setText(postDTO.getText());
-        post.setTitle(postDTO.getTitle());
-        post.setUser(userService.findOne(postDTO.getUser().getId()));
-        // post.setComments(CommentDTOToModel(postDTO.getComments()));
-        // post.setReactions(ReactionDTOToModel(postDTO.getReactions()));
-        // post.setReports(ReportDTOToModel(postDTO.getReports()));
+        post.setCommunity(communityService.findOne(communityId));
+        
+        post.setText(text);
+        post.setTitle(title);
+        
+        
         post = postService.save(post);
         model.addAttribute("post", new PostDTO(post));
-        return "post";
+        return "redirect:/posts/details/" + post.getId();
     }
 
     @DeleteMapping("/posts/{id}")
