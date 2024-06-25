@@ -63,6 +63,40 @@ public class CommentController {
         model.addAttribute("comment", commentDTO);
         return "comment";
     }
+    
+//    @GetMapping("/comments/{postId}")
+//    public String getCommentsForPost(@PathVariable Long postId, Model model) {
+//        List<Comment> comments = commentService.findByPostId(postId);
+//        List<CommentDTO> commentsDTO = new ArrayList<>();
+//        List<List<Reaction>> likesList = new ArrayList<>();
+//        List<List<Reaction>> dislikesList = new ArrayList<>();
+//
+//        for (Comment comment : comments) {
+//            CommentDTO commentDTO = new CommentDTO(comment);
+//            commentsDTO.add(commentDTO);
+//
+//            List<Reaction> likes = new ArrayList<>();
+//            List<Reaction> dislikes = new ArrayList<>();
+//
+//            for (Reaction reaction : comment.getReactions()) {
+//                if ("type1".equals(reaction.getType())) {
+//                    likes.add(reaction);
+//                } else if ("type2".equals(reaction.getType())) {
+//                    dislikes.add(reaction);
+//                }
+//            }
+//
+//            likesList.add(likes);
+//            dislikesList.add(dislikes);
+//        }
+//
+//        model.addAttribute("comments", commentsDTO);
+//        model.addAttribute("likesList", likesList);
+//        model.addAttribute("dislikesList", dislikesList);
+//        return "comment"; // Replace with your actual view name
+//    }
+
+
    
 
 

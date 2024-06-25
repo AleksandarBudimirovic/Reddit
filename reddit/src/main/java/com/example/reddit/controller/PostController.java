@@ -71,25 +71,53 @@ public class PostController {
 
 
     @GetMapping("/posts/details/{id}")
-    public String getPost(@PathVariable Long id, Model model) {
+    public String getPost(@PathVariable Long id, Model model, HttpSession session) {
+    	User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/index";
+        }
         Post post = postService.findOne(id);
         if (post == null) {
             return "error/404"; // Handle post not found scenario
         }
 
         PostDTO postDTO = new PostDTO(post);
-        
 
-        List<CommentDTO> commentsDTO = findCommentsByPostId(postDTO.getId());
-        for (CommentDTO com : commentsDTO) {
-            
+        List<Comment> comments = commentService.findByPostId(postDTO.getId());
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+        List<List<Reaction>> likesList = new ArrayList<>();
+        List<List<Reaction>> dislikesList = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            CommentDTO commentDTO = new CommentDTO(comment);
+            commentsDTO.add(commentDTO);
+
+            List<Reaction> likes = new ArrayList<>();
+            List<Reaction> dislikes = new ArrayList<>();
+
+            for (Reaction reaction : comment.getReactions()) {
+                if ("type1".equals(reaction.getType())) {
+                    likes.add(reaction);
+                } else if ("type2".equals(reaction.getType())) {
+                    dislikes.add(reaction);
+                }
+            }
+
+            likesList.add(likes);
+            dislikesList.add(dislikes);
         }
+
+        model.addAttribute("user", currentUser);
         model.addAttribute("community", postDTO.getCommunity());
         model.addAttribute("post", postDTO);
         model.addAttribute("comments", commentsDTO);
+        model.addAttribute("likesList", likesList);
+        model.addAttribute("dislikesList", dislikesList);
+        System.out.println("model filled");
 
-        return "post";
+        return "post"; // Replace with your actual view name
     }
+
     
     public List<CommentDTO> findCommentsByPostId(Long postId) {
         List<Comment> comments = commentService.findByPostId(postId);

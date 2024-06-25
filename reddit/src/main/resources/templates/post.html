@@ -9,27 +9,38 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/js/post.js"></script>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Home</a>
+        
+        <!-- Move the navbar-toggler outside of the navbar-collapse -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
+        <!-- Collapse the navbar content here -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
+            <ul class="navbar-nav mr-auto"> <!-- Adjusted to mr-auto to push Account Name to right -->
                 <li class="nav-item">
                     <form class="form-inline">
                         <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                     </form>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/account">Account Name</a>
-                </li>
-            </ul>
+            
+            
+        <ul class="navbar-nav ml-auto">
+            <!-- Check if user object is not null -->
+            <li class="nav-item" th:if="${user != null}">
+                <a class="nav-link" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.username}">Account Name</a>
+            </li>
+            <!-- If user is null, show login link -->
+            <li class="nav-item" th:if="${user == null}">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+        </ul>
         </div>
     </nav>
 
@@ -57,23 +68,34 @@
                             <th>Text</th>
                             <th>Timestamp</th>
                             <th>Author</th>
+                            <th>Likes</th>
+                            <th>Dislikes</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Thymeleaf iteration to display comments -->
-                        <tr th:each="comment : ${comments}">
-                            <td th:text="${comment.id}">Comment ID</td>
-                            <td th:text="${comment.text}">Comment Text</td>
-                            <td th:text="${#dates.format(comment.timestamp, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</td>
-                            <td th:if="${comment.user != null}" th:text="${comment.user.username}">Author Username</td>
-                            <td th:if="${comment.user == null}">Unknown User</td>
-                            <td>
-                                <!-- Button to view comment details -->
-                                <a th:href="@{/comments/{id}(id=${comment.id})}" class="btn btn-sm btn-primary view-comment-btn">View</a>
-                            </td>
-                        </tr>
-                    </tbody>
+        <!-- Set data attributes immediately after th:each -->
+        <tr th:each="comment : ${comments}"
+            th:attr="data-post-id=${post.id}, data-user-id=${user.id}, data-comment-id=${comment.id}">
+            <td th:text="${comment.id}">Comment ID</td>
+            <td th:text="${comment.text}">Comment Text</td>
+            <td th:text="${#dates.format(comment.timestamp, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</td>
+            <td th:if="${comment.user != null}" th:text="${comment.user.username}">Author Username</td>
+            <td th:if="${comment.user == null}">Unknown User</td>
+            
+            <td>
+                <!-- Button to view comment details -->
+                <a th:href="@{/comments/{id}(id=${comment.id})}" class="btn btn-sm btn-primary view-comment-btn">View</a>
+            </td>
+            <td>
+                <!-- Like and Dislike buttons using data attributes -->
+                <button class="btn btn-sm btn-primary like-btn">Like</button>
+
+                <button class="btn btn-sm btn-primary dislike-btn">Dislike</button>
+
+            </td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -117,24 +139,23 @@
                     </button>
                 </div>
                 <form th:action="@{/posts/edit}" method="post">
-				    <div class="modal-body">
-				        <input type="hidden" name="id" th:value="${post.id}">
-				        <input type="hidden" name="communityId" th:value="${community.id}">
-				        <div class="form-group">
-				            <label for="editPostTitle">Post Title</label>
-				            <input type="text" class="form-control" id="editPostTitle" name="title" th:value="${post.title}" required autocomplete="off">
-				        </div>
-				        <div class="form-group">
-				            <label for="editPostText">Post Text</label>
-				            <textarea class="form-control" id="editPostText" name="text" rows="3" th:text="${post.text}" required autocomplete="off"></textarea>
-				        </div>
-				    </div>
-				    <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				        <button type="submit" class="btn btn-primary">Save Changes</button>
-				    </div>
-				</form>
-
+                    <div class="modal-body">
+                        <input type="hidden" name="id" th:value="${post.id}">
+                        <input type="hidden" name="communityId" th:value="${community.id}">
+                        <div class="form-group">
+                            <label for="editPostTitle">Post Title</label>
+                            <input type="text" class="form-control" id="editPostTitle" name="title" th:value="${post.title}" required autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPostText">Post Text</label>
+                            <textarea class="form-control" id="editPostText" name="text" rows="3" th:text="${post.text}" required autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
