@@ -34,6 +34,39 @@
                     <input type="hidden" name="_method" value="delete">
                     <button type="button" class="btn btn-danger" onclick="deleteComment()">Delete Comment</button>
                 </form>
+                
+                <!-- Report Comment Button and Modal -->
+                <hr>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#reportCommentModal">Report Comment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Comment Modal -->
+    <div class="modal fade" id="reportCommentModal" tabindex="-1" role="dialog" aria-labelledby="reportCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportCommentModalLabel">Report Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="reportCommentForm" th:action="@{/reports/add}" method="post">
+                    <div class="modal-body">
+                        <p>Are you sure you want to report this comment?</p>
+                        <div class="form-group">
+                            <label for="reportReason">Reason:</label>
+                            <textarea class="form-control" id="reportReason" name="reason" rows="3" required></textarea>
+                        </div>
+                        <!-- Hidden input for reportedCommentId -->
+                        <input type="hidden" id="commentId" name="commentId" th:value="${comment.id}" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning">Report</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

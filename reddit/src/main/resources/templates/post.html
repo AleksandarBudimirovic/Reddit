@@ -12,170 +12,189 @@
     <script src="/js/post.js"></script>
 </head>
 <body>
-	    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	    <a class="navbar-brand" href="#">Home</a>
-	    
-	    <!-- Move the navbar-toggler outside of the navbar-collapse -->
-	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="navbar-toggler-icon"></span>
-	    </button>
-	    
-	    <!-- Collapse the navbar content here -->
-	    <div class="collapse navbar-collapse" id="navbarNav">
-	        <ul class="navbar-nav mr-auto"> <!-- Adjusted to mr-auto to push Account Name to right -->
-	            <li class="nav-item">
-	                <form class="form-inline">
-	                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-	                </form>
-	            </li>
-	        </ul>
-	        
-	        <ul class="navbar-nav ml-auto">
-	            <!-- Check if user object is not null -->
-	            <li class="nav-item" th:if="${user != null}">
-	                <a class="nav-link" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.username}">Account Name</a>
-	            </li>
-	            <!-- If user is null, show login link -->
-	            <li class="nav-item" th:if="${user == null}">
-	                <a class="nav-link" href="/login">Login</a>
-	            </li>
-	            <!-- If user is not null, show logout button -->
-	            <li class="nav-item" th:if="${user != null}">
-	                <form class="form-inline" th:action="@{/users/logout}" method="post">
-	                    <button class="btn btn-link nav-link" type="submit">Logout</button>
-	                </form>
-	            </li>
-	        </ul>
-	    </div>
-	</nav>
 
-    <div class="container">
-        <!-- Post Details -->
-        <div class="post-details">
-            <h2 th:text="${post.title}">Post Title</h2>
-            <p th:text="${post.text}">Post Text</p>
-            <p>Creation Date: <span th:text="${#dates.format(post.creationDate, 'yyyy-MM-dd HH:mm:ss')}">2024-06-17 12:00:00</span></p>
-            <p>Author: <span th:text="${post.user.username}">Author Username</span></p>
-            <!-- Edit and Delete Buttons for Post -->
-            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editPostModal">Edit Post</button>
-            <button class="btn btn-danger" onclick="deletePost()">Delete Post</button>
-            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addCommentModal">Leave a comment</button>
-        </div>
-
-        <!-- Comments List -->
-        <div class="comments-list">
-            <h2>Comments</h2>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Text</th>
-                            <th>Timestamp</th>
-                            <th>Author</th>
-                            <th>Likes</th>
-                            <th>Dislikes</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-					    <!-- Set data attributes immediately after th:each -->
-					    <tr th:each="comment, commentIndex : ${comments}"
-					        th:attr="data-post-id=${post.id}, data-user-id=${user.id}, data-comment-id=${comment.id}">
-					        <td th:text="${commentIndex.index + 1}">Comment ID</td>
-					        <td th:text="${comment.text}">Comment Text</td>
-					        <td th:text="${#dates.format(comment.timestamp, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</td>
-					        <td>
-		                        <a th:href="@{/users/{id}(id=${comment.user.id})}" th:text="${comment.user.username}">
-		                            <!-- Link to user profile -->
-		                            User Profile
-		                        </a>
-		                    </td>
-					        <td th:if="${comment.user == null}">Unknown User</td>
-					
-					        <!-- Display likes and dislikes counts -->
-					        <td>
-					            <button class="btn btn-sm btn-success like-btn"
-					                    th:text="${likesList[commentIndex.index].size()} + ' Likes'">Like</button>
-					        </td>
-					        <td>
-					            <button class="btn btn-sm btn-danger dislike-btn"
-					                    th:text="${dislikesList[commentIndex.index].size()} + ' Dislikes'">Dislike</button>
-					        </td>
-					
-					        <td>
-					            <!-- Button to view comment details -->
-					            <a th:href="@{/comments/{id}(id=${comment.id})}" class="btn btn-sm btn-primary view-comment-btn">View</a>
-					        </td>
-					    </tr>
-					</tbody>
-
-
-
-				                </table>
-				            </div>
-				        </div>
-				    </div>
-
-    <!-- Modal for Adding Comment -->
-    <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form th:action="@{/comments/add/{postId}(postId=${post.id})}" method="post">
-                    <div class="modal-body">
-                        <input type="hidden" name="postId" th:value="${post.id}">
-                        <div class="form-group">
-                            <label for="commentText">Comment Text</label>
-                            <textarea class="form-control" id="commentText" name="text" rows="3" required autocomplete="off"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Comment</button>
-                    </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Home</a>
+    
+    <!-- Move the navbar-toggler outside of the navbar-collapse -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Collapse the navbar content here -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto"> <!-- Adjusted to mr-auto to push Account Name to right -->
+            <li class="nav-item">
+                <form class="form-inline">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                 </form>
-            </div>
-        </div>
+            </li>
+        </ul>
+        
+        <ul class="navbar-nav ml-auto">
+            <!-- Check if user object is not null -->
+            <li class="nav-item" th:if="${user != null}">
+                <a class="nav-link" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.username}">Account Name</a>
+            </li>
+            <!-- If user is null, show login link -->
+            <li class="nav-item" th:if="${user == null}">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <!-- If user is not null, show logout button -->
+            <li class="nav-item" th:if="${user != null}">
+                <form class="form-inline" th:action="@{/users/logout}" method="post">
+                    <button class="btn btn-link nav-link" type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Post Details -->
+    <div class="post-details">
+        <h2 th:text="${post.title}">Post Title</h2>
+        <p th:text="${post.text}">Post Text</p>
+        <p>Creation Date: <span th:text="${#dates.format(post.creationDate, 'yyyy-MM-dd HH:mm:ss')}">2024-06-17 12:00:00</span></p>
+        <p>Author: <span th:text="${post.user.username}">Author Username</span></p>
+        <!-- Edit and Delete Buttons for Post -->
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editPostModal">Edit Post</button>
+        <button class="btn btn-danger" onclick="deletePost()">Delete Post</button>
+        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addCommentModal">Leave a comment</button>
+        
+        <!-- Report Post Button -->
+        <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#reportPostModal">Report Post</button>
     </div>
 
-    <!-- Modal for Editing Post -->
-    <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form th:action="@{/posts/edit}" method="post">
-                    <div class="modal-body">
-                        <input type="hidden" name="id" th:value="${post.id}">
-                        <input type="hidden" name="communityId" th:value="${community.id}">
-                        <div class="form-group">
-                            <label for="editPostTitle">Post Title</label>
-                            <input type="text" class="form-control" id="editPostTitle" name="title" th:value="${post.title}" required autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label for="editPostText">Post Text</label>
-                            <textarea class="form-control" id="editPostText" name="text" rows="3" th:text="${post.text}" required autocomplete="off"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                </form>
-            </div>
+    <!-- Comments List -->
+    <div class="comments-list">
+        <h2>Comments</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Text</th>
+                        <th>Timestamp</th>
+                        <th>Author</th>
+                        <th>Likes</th>
+                        <th>Dislikes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through comments -->
+                    <tr th:each="comment : ${comments}">
+                        <td th:text="${comment.id}">Comment ID</td>
+                        <td th:text="${comment.text}">Comment Text</td>
+                        <td th:text="${#dates.format(comment.timestamp, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</td>
+                        <td>
+                            <a th:href="@{/users/{id}(id=${comment.user.id})}" th:text="${comment.user.username}">
+                                <!-- Link to user profile -->
+                                User Profile
+                            </a>
+                        </td>
+                        <!-- Display likes and dislikes counts -->
+                        <td>0</td>
+                        <td>0</td>
+                        <td>
+                            <!-- Button to view comment details -->
+                            <a th:href="@{/comments/{id}(id=${comment.id})}" class="btn btn-sm btn-primary view-comment-btn">View</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
+<!-- Modal for Adding Comment -->
+<div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/comments/add/{postId}(postId=${post.id})}" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="postId" th:value="${post.id}">
+                    <div class="form-group">
+                        <label for="commentText">Comment Text</label>
+                        <textarea class="form-control" id="commentText" name="text" rows="3" required autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Editing Post -->
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/posts/edit}" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="id" th:value="${post.id}">
+                    <input type="hidden" name="communityId" th:value="${community.id}">
+                    <div class="form-group">
+                        <label for="editPostTitle">Post Title</label>
+                        <input type="text" class="form-control" id="editPostTitle" name="title" th:value="${post.title}" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPostText">Post Text</label>
+                        <textarea class="form-control" id="editPostText" name="text" rows="3" th:text="${post.text}" required autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Reporting Post -->
+<div class="modal fade" id="reportPostModal" tabindex="-1" role="dialog" aria-labelledby="reportPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportPostModalLabel">Report Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/reports/add}" method="post">
+                <div class="modal-body">
+                    <p>Please specify the reason for reporting this post:</p>
+                    <div class="form-group">
+                        <label for="reportReason">Reason:</label>
+                        <textarea class="form-control" id="reportReason" name="reason" rows="3" required></textarea>
+                    </div>
+                    <!-- Hidden input for reportedPostId -->
+                    <input type="hidden" name="postId" th:value="${post.id}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
