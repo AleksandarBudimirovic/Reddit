@@ -79,32 +79,43 @@
                         </tr>
                     </thead>
                     <tbody>
-        <!-- Set data attributes immediately after th:each -->
-        <tr th:each="comment : ${comments}"
-            th:attr="data-post-id=${post.id}, data-user-id=${user.id}, data-comment-id=${comment.id}">
-            <td th:text="${comment.id}">Comment ID</td>
-            <td th:text="${comment.text}">Comment Text</td>
-            <td th:text="${#dates.format(comment.timestamp, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</td>
-            <td th:if="${comment.user != null}" th:text="${comment.user.username}">Author Username</td>
-            <td th:if="${comment.user == null}">Unknown User</td>
-            
-            <td>
-                <!-- Button to view comment details -->
-                <a th:href="@{/comments/{id}(id=${comment.id})}" class="btn btn-sm btn-primary view-comment-btn">View</a>
-            </td>
-            <td>
-                <!-- Like and Dislike buttons using data attributes -->
-                <button class="btn btn-sm btn-primary like-btn">Like</button>
+					    <!-- Set data attributes immediately after th:each -->
+					    <tr th:each="comment, commentIndex : ${comments}"
+					        th:attr="data-post-id=${post.id}, data-user-id=${user.id}, data-comment-id=${comment.id}">
+					        <td th:text="${commentIndex.index + 1}">Comment ID</td>
+					        <td th:text="${comment.text}">Comment Text</td>
+					        <td th:text="${#dates.format(comment.timestamp, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</td>
+					        <td>
+		                        <a th:href="@{/users/{id}(id=${comment.user.id})}" th:text="${comment.user.username}">
+		                            <!-- Link to user profile -->
+		                            User Profile
+		                        </a>
+		                    </td>
+					        <td th:if="${comment.user == null}">Unknown User</td>
+					
+					        <!-- Display likes and dislikes counts -->
+					        <td>
+					            <button class="btn btn-sm btn-success like-btn"
+					                    th:text="${likesList[commentIndex.index].size()} + ' Likes'">Like</button>
+					        </td>
+					        <td>
+					            <button class="btn btn-sm btn-danger dislike-btn"
+					                    th:text="${dislikesList[commentIndex.index].size()} + ' Dislikes'">Dislike</button>
+					        </td>
+					
+					        <td>
+					            <!-- Button to view comment details -->
+					            <a th:href="@{/comments/{id}(id=${comment.id})}" class="btn btn-sm btn-primary view-comment-btn">View</a>
+					        </td>
+					    </tr>
+					</tbody>
 
-                <button class="btn btn-sm btn-primary dislike-btn">Dislike</button>
 
-            </td>
-        </tr>
-    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+
+				                </table>
+				            </div>
+				        </div>
+				    </div>
 
     <!-- Modal for Adding Comment -->
     <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel" aria-hidden="true">

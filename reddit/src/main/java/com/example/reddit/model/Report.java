@@ -1,106 +1,116 @@
 package com.example.reddit.model;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.Date;
 
 @Entity
 public class Report {
 
-	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private byte accepted;
+    private Byte accepted; // Use Byte instead of byte
 
     private String reason;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
     @ManyToOne
-    @JoinColumn(name="comment_id")
+    @JoinColumn(name = "comment_id")
     private Comment comment;
 
     @ManyToOne
-    @JoinColumn(name="post_id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
-	public Report(Long id, byte accepted, String reason, Date timestamp, Comment comment, Post post) {
-		super();
-		this.id = id;
-		this.accepted = accepted;
-		this.reason = reason;
-		this.timestamp = timestamp;
-		this.comment = comment;
-		this.post = post;
-	}
+    @ManyToOne
+    @JoinColumn(name = "reported_user_id")
+    private User reportedUser;
 
-	public Report() {
-		super();
-	}
+    // Constructors
+    public Report() {
+    	super();
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Report(Long id, Byte accepted, String reason, Date timestamp, Comment comment, Post post, User reportedUser) {
+        this.id = id;
+        this.accepted = accepted;
+        this.reason = reason;
+        this.timestamp = timestamp;
+        if (comment != null) {
+            this.comment = comment;
+        }
+        if (post != null) {
+            this.post = post;
+        }
+        if (reportedUser != null) {
+            this.reportedUser = reportedUser;
+        }
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
 
-	public byte getAccepted() {
-		return accepted;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setAccepted(byte accepted) {
-		this.accepted = accepted;
-	}
+    public Byte getAccepted() {
+        return accepted;
+    }
 
-	public String getReason() {
-		return reason;
-	}
+    public void setAccepted(Byte accepted) {
+        this.accepted = accepted;
+    }
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+    public String getReason() {
+        return reason;
+    }
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
+    public Date getTimestamp() {
+        return timestamp;
+    }
 
-	public Comment getComment() {
-		return comment;
-	}
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public void setComment(Comment comment) {
-		this.comment = comment;
-	}
+    public Comment getComment() {
+        return comment;
+    }
 
-	public Post getPost() {
-		return post;
-	}
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
 
-	public void setPost(Post post) {
-		this.post = post;
-	}
+    public Post getPost() {
+        return post;
+    }
 
-	
-    
-	
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getReportedUser() {
+        return reportedUser;
+    }
+
+    public void setReportedUser(User reportedUser) {
+        this.reportedUser = reportedUser;
+    }
 }

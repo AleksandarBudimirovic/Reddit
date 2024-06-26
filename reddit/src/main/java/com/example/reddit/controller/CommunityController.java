@@ -33,6 +33,8 @@ public class CommunityController {
     private ReportService reportService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private FlairService flairService;
 
     @GetMapping("/communities")
     public String getAllCommunities(Model model, HttpSession session) {
@@ -72,17 +74,17 @@ public class CommunityController {
         CommunityDTO communityDTO = new CommunityDTO(community);
         List<PostDTO> postsDTO = findByCommunityId(communityDTO.getId());
 
-        // Print community ID to console
-        System.out.println("Community ID: " + communityDTO.getId());
-
-        // Print each post ID to console
-        for (PostDTO postDTO : postsDTO) {
-            System.out.println("Post ID: " + postDTO.getId());
+        List<FlairDTO> flairsDTO = new ArrayList<>();
+        for (Flair flair : community.getFlairs()) {
+            FlairDTO flairDTO = new FlairDTO();
+            flairDTO.setId(flair.getId());
+            flairDTO.setName(flair.getName());
+            flairsDTO.add(flairDTO);
         }
-        System.out.println("first com id " + communityDTO.getId());
 
         model.addAttribute("community", communityDTO);
         model.addAttribute("posts", postsDTO);
+        model.addAttribute("flairs", flairsDTO);
 
         return "community";
     }

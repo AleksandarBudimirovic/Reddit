@@ -14,14 +14,6 @@ VALUES
 (5, '2008-02-10', 'Programming Wizards', 'A community for programming enthusiasts and wizards.', 0, NULL, 1),
 (6, '2008-02-10', 'Tech Enthusiasts', 'A hub for tech enthusiasts and professionals.', 0, NULL, 1);
 
-
---INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (1, '2008-02-10', 'Garden of Eve', 0, NULL, 1);
---INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (2, '2008-02-10', 'Cat memes', 0, NULL, 1);
---INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (3, '2008-02-10', 'More cat memes', 0, NULL, 2);
---INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (4, '2008-02-10', 'Cat memes but fast', 0, NULL, 2);
---INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (5, '2008-02-10', 'Programming Wizards', 0, NULL, 1);
---INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (6, '2008-02-10', 'Tech Enthusiasts', 0, NULL, 1);
-
 INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_id) VALUES (1, '2022-01-20', NULL, 'Pretty_nature', 'An image of pretty nature hopefully', 1, 1);
 INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_id) VALUES (2, '2022-01-20', NULL, 'Cat video number 9487', 'New phone who dis', 2, 1);
 INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_id) VALUES (3, '2022-01-20', NULL, 'Pawsies', 'I like trains', 2, 2);
@@ -45,13 +37,23 @@ INSERT INTO reaction(id, timestamp, type, comment_id, post_id, user_id) VALUES (
 
 INSERT INTO ban(id, timestamp, community_id, user_id) VALUES(1, '2022-01-20', 2, 3);
 INSERT INTO ban(id, timestamp, community_id, user_id) VALUES(2, '2022-01-20', 2, 4);
+INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id, reported_user_id)
+VALUES(1, false, 'False accusation', '2022-01-20', 1, null, null);
 
-INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id) VALUES(1, false, 'False accusation', '2022-01-20', 1, 1);
-INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id) VALUES(2, false, 'False accusation', '2022-01-20', 2, 2);
-INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id) VALUES(3, true, 'Spam', '2022-01-21', 3, 2);
-INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id) VALUES(4, true, 'Inappropriate content', '2022-01-21', 2, 1);
-INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id) VALUES(5, false, 'False accusation', '2022-01-22', 1, 1);
-INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id) VALUES(6, false, 'False accusation', '2022-01-22', 2, 2);
+INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id, reported_user_id)
+VALUES(2, false, 'False accusation', '2022-01-20', 2, null, null);
+
+INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id, reported_user_id)
+VALUES(3, true, 'Spam', '2022-01-21', null, 2, null);
+
+INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id, reported_user_id)
+VALUES(4, true, 'Inappropriate content', '2022-01-21', null, 1, null);
+
+INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id, reported_user_id)
+VALUES(5, false, 'False accusation', '2022-01-22', 1, null, null);
+
+INSERT INTO report(id, accepted, reason, timestamp, comment_id, post_id, reported_user_id)
+VALUES(6, false, 'False accusation', '2022-01-22', 2, null, null);
 
 INSERT INTO flair (id, name, community_id) VALUES (1, 'Flair 1', 1);
 INSERT INTO flair (id, name, community_id) VALUES (2, 'Flair 2', 2);

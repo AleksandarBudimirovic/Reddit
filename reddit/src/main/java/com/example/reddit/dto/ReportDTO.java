@@ -1,90 +1,107 @@
 package com.example.reddit.dto;
 
-import java.util.Date;
-
-import com.example.reddit.model.Reaction;
 import com.example.reddit.model.Report;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
+import java.util.Date;
 
 public class ReportDTO {
 
     private Long id;
-    private byte accepted;
+    private Byte accepted; // Use Byte instead of byte
     private String reason;
     private Date timestamp;
+
     @JsonIgnore
-    private CommentDTO Comment;
+    private CommentDTO comment;
+
     @JsonIgnore
-    private PostDTO Post;
-    
-	public ReportDTO(Long id, byte accepted, String reason, Date timestamp, CommentDTO comment, PostDTO post) {
-		super();
-		this.id = id;
-		this.accepted = accepted;
-		this.reason = reason;
-		this.timestamp = timestamp;
-		Comment = comment;
-		Post = post;
-	}
+    private PostDTO post;
 
-	public ReportDTO(Report obj) {
-		this(obj.getId(), obj.getAccepted(), obj.getReason(), obj.getTimestamp(), new CommentDTO(obj.getComment()), new PostDTO(obj.getPost()));
-	}
-	
-	public ReportDTO() {
-		super();
-	}
+    private UserDTO user;
 
-	public Long getId() {
-		return id;
-	}
+    public ReportDTO() {
+    	super();
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public ReportDTO(Long id, Byte accepted, String reason, Date timestamp, CommentDTO comment, PostDTO post, UserDTO user) {
+        this.id = id;
+        this.accepted = accepted;
+        this.reason = reason;
+        this.timestamp = timestamp;
+        if (comment != null) {
+            this.comment = comment;
+        }
+        if (post != null) {
+            this.post = post;
+        }
+        if (user != null) {
+            this.user = user;
+        }
+    }
 
-	public byte getAccepted() {
-		return accepted;
-	}
+    public ReportDTO(Report report) {
+        this(report.getId(), report.getAccepted(), report.getReason(), report.getTimestamp(),
+                report.getComment() != null ? new CommentDTO(report.getComment()) : null,
+                report.getPost() != null ? new PostDTO(report.getPost()) : null,
+                report.getReportedUser() != null ? new UserDTO(report.getReportedUser()) : null);
+    }
 
-	public void setAccepted(byte accepted) {
-		this.accepted = accepted;
-	}
+    // Getters and Setters
 
-	public String getReason() {
-		return reason;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
+    public Byte getAccepted() {
+        return accepted;
+    }
 
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
+    public void setAccepted(Byte accepted) {
+        this.accepted = accepted;
+    }
 
-	public CommentDTO getComment() {
-		return Comment;
-	}
+    public String getReason() {
+        return reason;
+    }
 
-	public void setComment(CommentDTO comment) {
-		Comment = comment;
-	}
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
-	public PostDTO getPost() {
-		return Post;
-	}
+    public Date getTimestamp() {
+        return timestamp;
+    }
 
-	public void setPost(PostDTO post) {
-		Post = post;
-	}
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 
-    
-    
+    public CommentDTO getComment() {
+        return comment;
+    }
+
+    public void setComment(CommentDTO comment) {
+        this.comment = comment;
+    }
+
+    public PostDTO getPost() {
+        return post;
+    }
+
+    public void setPost(PostDTO post) {
+        this.post = post;
+    }
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
 }

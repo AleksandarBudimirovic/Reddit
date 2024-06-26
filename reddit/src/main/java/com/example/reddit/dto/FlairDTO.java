@@ -11,8 +11,14 @@ public class FlairDTO {
         this.id = flair.getId();
         this.name = flair.getName();
     }
+    
 
-    public FlairDTO(Long id, String name) {
+    public FlairDTO() {
+		super();
+	}
+
+
+	public FlairDTO(Long id, String name) {
         super();
         this.id = id;
         this.name = name;
