@@ -5,12 +5,22 @@ INSERT INTO user (id, avatar, description, display_name, password, registration_
 INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username) VALUES (3, 'user5_avatar.jpg', 'Description for User 5', 'User 5', 'password112', '2022-01-05', 'ROLE_USER', 'user5');
 INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username) VALUES (4, 'user6_avatar.jpg', 'Description for User 6', 'User 6', 'password123', '2022-01-06', 'ROLE_USER', 'user6');
 
-INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (1, '2008-02-10', 'Garden of Eve', 0, NULL, 1);
-INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (2, '2008-02-10', 'Cat memes', 0, NULL, 1);
-INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (3, '2008-02-10', 'More cat memes', 0, NULL, 2);
-INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (4, '2008-02-10', 'Cat memes but fast', 0, NULL, 2);
-INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (5, '2008-02-10', 'Programming Wizards', 0, NULL, 1);
-INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (6, '2008-02-10', 'Tech Enthusiasts', 0, NULL, 1);
+INSERT INTO community (id, creation_date, name, description, is_suspended, suspended_reason, user_id)
+VALUES 
+(1, '2008-02-10', 'Garden of Eve', 'A community for garden enthusiasts.', 0, NULL, 1),
+(2, '2008-02-10', 'Cat memes', 'A place to share and enjoy cat memes.', 0, NULL, 1),
+(3, '2008-02-10', 'More cat memes', 'More cat memes for the cat meme lovers.', 0, NULL, 2),
+(4, '2008-02-10', 'Cat memes but fast', 'Quick cat memes for your daily dose.', 0, NULL, 2),
+(5, '2008-02-10', 'Programming Wizards', 'A community for programming enthusiasts and wizards.', 0, NULL, 1),
+(6, '2008-02-10', 'Tech Enthusiasts', 'A hub for tech enthusiasts and professionals.', 0, NULL, 1);
+
+
+--INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (1, '2008-02-10', 'Garden of Eve', 0, NULL, 1);
+--INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (2, '2008-02-10', 'Cat memes', 0, NULL, 1);
+--INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (3, '2008-02-10', 'More cat memes', 0, NULL, 2);
+--INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (4, '2008-02-10', 'Cat memes but fast', 0, NULL, 2);
+--INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (5, '2008-02-10', 'Programming Wizards', 0, NULL, 1);
+--INSERT INTO community(id, creation_date, description, is_suspended, suspended_reason, user_id) VALUES (6, '2008-02-10', 'Tech Enthusiasts', 0, NULL, 1);
 
 INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_id) VALUES (1, '2022-01-20', NULL, 'Pretty_nature', 'An image of pretty nature hopefully', 1, 1);
 INSERT INTO post(id, creation_date, image_path, title, text, community_id, user_id) VALUES (2, '2022-01-20', NULL, 'Cat video number 9487', 'New phone who dis', 2, 1);

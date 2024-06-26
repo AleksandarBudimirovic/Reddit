@@ -50,10 +50,10 @@ public class UserController {
         return "redirect:/communities";
     }
 
-    @RequestMapping(value="/logout", method=RequestMethod.POST)
+    @PostMapping("/users/logout")
     public String logoutUser(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @GetMapping("/all")

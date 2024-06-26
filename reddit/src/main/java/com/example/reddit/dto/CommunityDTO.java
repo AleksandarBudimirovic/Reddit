@@ -1,24 +1,19 @@
 package com.example.reddit.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
-import com.example.reddit.model.Ban;
 import com.example.reddit.model.Community;
-import com.example.reddit.model.Flair;
-import com.example.reddit.model.Post;
-import com.example.reddit.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CommunityDTO {
 
     private Long id;
+    private String name;
     private Date creationDate;
     private String description;
     private byte isSuspended;
     private String suspendedReason;
+    
     @JsonIgnore
     private UserDTO user;
     
@@ -26,10 +21,11 @@ public class CommunityDTO {
         super();
     }
 
-    public CommunityDTO(Long id, Date creationDate, String description, byte isSuspended, String suspendedReason,
-            UserDTO user) {
+    public CommunityDTO(Long id, String name, Date creationDate, String description, byte isSuspended, String suspendedReason,
+                        UserDTO user) {
         super();
         this.id = id;
+        this.name = name;
         this.creationDate = creationDate;
         this.description = description;
         this.isSuspended = isSuspended;
@@ -39,6 +35,7 @@ public class CommunityDTO {
 
     public CommunityDTO(Community community) {
         this.id = community.getId();
+        this.name = community.getName();
         this.creationDate = community.getCreationDate();
         this.description = community.getDescription();
         this.isSuspended = community.getIsSuspended();
@@ -52,6 +49,14 @@ public class CommunityDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getCreationDate() {

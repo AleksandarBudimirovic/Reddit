@@ -27,17 +27,22 @@
                 </li>
             </ul>
             
-            
-        <ul class="navbar-nav ml-auto">
-            <!-- Check if user object is not null -->
-            <li class="nav-item" th:if="${user != null}">
-                <a class="nav-link" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.username}">Account Name</a>
-            </li>
-            <!-- If user is null, show login link -->
-            <li class="nav-item" th:if="${user == null}">
-                <a class="nav-link" href="/login">Login</a>
-            </li>
-        </ul>
+            <ul class="navbar-nav ml-auto">
+                <!-- Check if user object is not null -->
+                <li class="nav-item" th:if="${user != null}">
+                    <a class="nav-link" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.username}">Account Name</a>
+                </li>
+                <!-- If user is null, show login link -->
+                <li class="nav-item" th:if="${user == null}">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <!-- If user is not null, show logout button -->
+                <li class="nav-item" th:if="${user != null}">
+                    <form class="form-inline" th:action="@{/logout}" method="post">
+                        <button class="btn btn-link nav-link" type="submit">Logout</button>
+                    </form>
+                </li>
+            </ul>
         </div>
     </nav>
 
@@ -65,15 +70,16 @@
                         <td th:text="${community.id}">Community ID</td>
                         <td>
                             <a th:href="@{/communities/details/{id}(id=${community.id})}"
-                               th:text="${community.description}"
+                               th:text="${community.name}"
                                class="community-link"
                                th:attr="data-community-id=${community.id}">
                                Name
                             </a>
                         </td>
+                        <td th:text="${community.description}">Description</td>
                         <td th:text="${community.creationDate}">Creation Date</td>
-                        <!--  <td th:text="${community.isSuspended}">Is Suspended</td> -->
-                        <!-- <td th:text="${community.suspendedReason}">Suspended Reason</td>  -->
+                        <td th:text="${community.isSuspended}">Is Suspended</td>
+                        <td th:text="${community.suspendedReason}">Suspended Reason</td>
                         <td th:text="${community.user.username}">Creator Username</td>
                     </tr>
                 </tbody>

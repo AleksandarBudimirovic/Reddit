@@ -9,23 +9,38 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Home</a>
+        
+        <!-- Move the navbar-toggler outside of the navbar-collapse -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
+        <!-- Collapse the navbar content here -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
+            <ul class="navbar-nav mr-auto"> <!-- Adjusted to mr-auto to push Account Name to right -->
                 <li class="nav-item">
                     <form class="form-inline">
                         <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                     </form>
                 </li>
             </ul>
+            
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/account">Account Name</a>
+                <!-- Check if user object is not null -->
+                <li class="nav-item" th:if="${user != null}">
+                    <a class="nav-link" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.username}">Account Name</a>
+                </li>
+                <!-- If user is null, show login link -->
+                <li class="nav-item" th:if="${user == null}">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <!-- If user is not null, show logout button -->
+                <li class="nav-item" th:if="${user != null}">
+                    <form class="form-inline" th:action="@{/users/logout}" method="post">
+                        <button class="btn btn-link nav-link" type="submit">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -34,6 +49,7 @@
     <div class="container">
         <!-- Community Information -->
         <div class="community-info" th:if="${community != null}">
+            <p th:text="${community.name}">Name</p>
             <p th:text="${community.description}">Description</p>
             <p th:text="'Creation Date: ' + ${#dates.format(community.creationDate, 'yyyy-MM-dd')}" th:if="${community.creationDate != null}">Creation Date: </p>
           
@@ -44,8 +60,14 @@
         
             <!-- Display message if community is not suspended -->
             <p th:unless="${community.isSuspended == 1}">This community is not suspended.</p>
+            
+            <!-- Button to trigger edit community modal -->
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editCommunityModal">Edit Community</button>
-            <button class="btn btn-danger" onclick="deleteCommunity('${community.id}')">Delete Community</button>
+            
+            <!-- Form for deleting a community using POST -->
+            <form th:action="@{/community/delete/{id}(id=${community.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this community?')">Delete Community</button>
+            </form>
             
             <!-- Button to trigger add post modal -->
             <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addPostModal">Create New Post</button>
@@ -74,8 +96,8 @@
                         <tr th:each="post : ${posts}">
                             <td th:text="${post.id}">Post ID</td>
                             <td>
-						        <a th:href="@{/posts/details/{id}(id=${post.id})}" th:text="${post.title}">Post Title</a>
-						    </td>
+                                <a th:href="@{/posts/details/{id}(id=${post.id})}" th:text="${post.title}">Post Title</a>
+                            </td>
                             <td th:text="${post.text}">Post Text</td>
                             <td th:text="${#dates.format(post.creationDate, 'yyyy-MM-dd HH:mm:ss')}">Creation Date</td>
                             <td>
@@ -95,40 +117,42 @@
         
     </div>
 
-<!-- Modal for Editing Community -->
-<div class="modal fade" id="editCommunityModal" tabindex="-1" role="dialog" aria-labelledby="editCommunityModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editCommunityModalLabel">Edit Community</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <!-- Modal for Editing Community -->
+    <div class="modal fade" id="editCommunityModal" tabindex="-1" role="dialog" aria-labelledby="editCommunityModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCommunityModalLabel">Edit Community</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/communities/edit}" method="post">
+                    <!-- Hidden input for community ID -->
+                    <input type="hidden" name="id" th:value="${community.id}">
+                    
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editCommunityName">Name</label>
+                            <input type="text" class="form-control" id="editCommunityName" name="name" th:value="${community.name}" required autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCommunityDescription">Description</label>
+                            <textarea class="form-control" id="editCommunityDescription" name="description" rows="3" th:text="${community.description}" required autocomplete="off"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="communityIdDisplay">Community ID</label>
+                            <p id="communityIdDisplay" class="form-control-static" th:text="${community.id}">Community ID</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
-            <form th:action="@{/communities/edit}" method="post">
-                <!-- Hidden input for community ID -->
-                <input type="hidden" name="id" th:value="${community.id}">
-                
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="editCommunityDescription">Description</label>
-                        <textarea class="form-control" id="editCommunityDescription" name="description" rows="3" th:text="${community.description}" required autocomplete="off"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="communityIdDisplay">Community ID</label>
-                        <p id="communityIdDisplay" class="form-control-static" th:text="${community.id}">Community ID</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
-
-
 
     <!-- Modal for Adding Post -->
     <div class="modal fade" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="addPostModalLabel" aria-hidden="true">
@@ -140,9 +164,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                
                 <form id="addPostForm" th:action="@{'/posts/add/' + ${community.id}}" method="post">
-                
                     <div class="modal-body">
                         <input type="hidden" name="communityId" th:value="${community.id}">
                         <div class="form-group">
@@ -167,7 +189,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- Your custom JavaScript file -->
-    
-
 </body>
 </html>

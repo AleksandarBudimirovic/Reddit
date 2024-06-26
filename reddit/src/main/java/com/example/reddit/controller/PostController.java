@@ -74,7 +74,7 @@ public class PostController {
     public String getPost(@PathVariable Long id, Model model, HttpSession session) {
     	User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
-            return "redirect:/index";
+            return "redirect:/";
         }
         Post post = postService.findOne(id);
         if (post == null) {

@@ -36,22 +36,31 @@ public class CommunityController {
 
     @GetMapping("/communities")
     public String getAllCommunities(Model model, HttpSession session) {
-    	User currentUser = (User) session.getAttribute("currentUser");
+        User currentUser = (User) session.getAttribute("currentUser");
 
         if (currentUser == null) {
             // Handle case where user is not logged in
             return "redirect:/index";
         }
+
+        // Retrieve all communities from the service layer
         List<Community> communities = communityService.findAll();
 
+        // Filter out suspended communities
         List<CommunityDTO> communitiesDTO = new ArrayList<>();
         for (Community community : communities) {
-            communitiesDTO.add(new CommunityDTO(community));
+            if (community.getIsSuspended() == 0) { // Assuming isSuspended is 0 for not suspended communities
+                communitiesDTO.add(new CommunityDTO(community));
+            }
         }
+
+        // Add attributes to the model
         model.addAttribute("user", currentUser);
         model.addAttribute("communities", communitiesDTO);
+        
         return "communities";
     }
+
 
     @GetMapping("/communities/details/{id}")
     public String getCommunityDetails(@PathVariable Long id, Model model) {
@@ -91,9 +100,9 @@ public class CommunityController {
     public String addCommunity(@RequestParam("communityName") String communityName,
                                @RequestParam("description") String description,
                                Model model, HttpSession session) {
-        // Create a new Community object and set its properties
+        
         Community community = new Community();
-        //community.setName(communityName);
+        community.setName(communityName);
         community.setDescription(description);
         community.setCreationDate(new Date()); 
         community.setIsSuspended((byte) 0);
@@ -115,6 +124,7 @@ public class CommunityController {
     @PostMapping("/communities/edit")
     public String editCommunity(@RequestParam Long id,
                                 @RequestParam String description,
+                                @RequestParam String name,
                                 Model model) {
         Community existingCommunity = communityService.findOne(id);
 
@@ -123,6 +133,7 @@ public class CommunityController {
         }
 
         existingCommunity.setDescription(description);
+        existingCommunity.setName(name);
 
         Community updatedCommunity = communityService.save(existingCommunity);
 
@@ -150,7 +161,7 @@ public class CommunityController {
         return "redirect:/communities/details/" + community.getId();
     }
 
-    @DeleteMapping("/communities/{id}")
+    @PostMapping("/community/delete/{id}")
     public String deleteCommunity(@PathVariable Long id, Model model) {
         Community community = communityService.findOne(id);
         if (community == null) {
@@ -158,7 +169,10 @@ public class CommunityController {
             return "error";
         }
 
-        communityService.remove(id);
+        // Set isSuspended to true instead of removing the community
+        community.setIsSuspended((byte) 1);
+        communityService.save(community); // Assuming save method updates the entity
+
         return "redirect:/communities";
     }
 

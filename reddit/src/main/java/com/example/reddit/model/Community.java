@@ -21,9 +21,11 @@ import javax.persistence.TemporalType;
 @Entity
 public class Community {
 
-	@Id
+    @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
 
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -52,100 +54,102 @@ public class Community {
     @OneToMany(mappedBy="community")
     private List<Post> posts;
 
-	public Community(Long id, Date creationDate, String description, byte isSuspended, String suspendedReason,
-			List<Ban> bans, User user, Set<Flair> flairs, List<Post> posts) {
-		super();
-		this.id = id;
-		this.creationDate = creationDate;
-		this.description = description;
-		this.isSuspended = isSuspended;
-		this.suspendedReason = suspendedReason;
-		this.bans = bans;
-		this.user = user;
-		this.flairs = flairs;
-		this.posts = posts;
-	}
+    public Community(Long id, String name, Date creationDate, String description, byte isSuspended, String suspendedReason,
+                     List<Ban> bans, User user, Set<Flair> flairs, List<Post> posts) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.creationDate = creationDate;
+        this.description = description;
+        this.isSuspended = isSuspended;
+        this.suspendedReason = suspendedReason;
+        this.bans = bans;
+        this.user = user;
+        this.flairs = flairs;
+        this.posts = posts;
+    }
 
-	public Community() {
-		super();
-	}
+    public Community() {
+        super();
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
-	public byte getIsSuspended() {
-		return isSuspended;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setIsSuspended(byte isSuspended) {
-		this.isSuspended = isSuspended;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getSuspendedReason() {
-		return suspendedReason;
-	}
+    public byte getIsSuspended() {
+        return isSuspended;
+    }
 
-	public void setSuspendedReason(String suspendedReason) {
-		this.suspendedReason = suspendedReason;
-	}
+    public void setIsSuspended(byte isSuspended) {
+        this.isSuspended = isSuspended;
+    }
 
-	public List<Ban> getBans() {
-		return bans;
-	}
+    public String getSuspendedReason() {
+        return suspendedReason;
+    }
 
-	public void setBans(List<Ban> bans) {
-		this.bans = bans;
-	}
+    public void setSuspendedReason(String suspendedReason) {
+        this.suspendedReason = suspendedReason;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public List<Ban> getBans() {
+        return bans;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setBans(List<Ban> bans) {
+        this.bans = bans;
+    }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public Set<Flair> getFlairs() {
-		return flairs;
-	}
+    public Set<Flair> getFlairs() {
+        return flairs;
+    }
 
-	public void setFlairs(Set<Flair> flairs) {
-		this.flairs = flairs;
-	}
+    public void setFlairs(Set<Flair> flairs) {
+        this.flairs = flairs;
+    }
 
-	public List<Post> getPosts() {
-		return posts;
-	}
+    public List<Post> getPosts() {
+        return posts;
+    }
 
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
-	}
-
-	
-
-	
-	
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
 }

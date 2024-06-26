@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Groups and Posts</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional CSS for styling -->
+</head>
+<body>
+    <h1>Search Groups</h1>
+    <form id="group-search-form" action="/search/groups" method="GET">
+        <label for="group-name">Group Name:</label>
+        <input type="text" id="group-name" name="group-name">
+
+        <label for="group-description">Group Description:</label>
+        <input type="text" id="group-description" name="group-description">
+
+        <label for="group-pdf-description">Group Description from PDF:</label>
+        <input type="text" id="group-pdf-description" name="group-pdf-description">
+
+        <label for="posts-range">Number of Posts (Range):</label>
+        <input type="number" id="posts-min" name="posts-min" placeholder="Min">
+        <input type="number" id="posts-max" name="posts-max" placeholder="Max">
+
+        <label for="average-likes-range">Average Number of Likes (Range):</label>
+        <input type="number" id="likes-min" name="likes-min" placeholder="Min">
+        <input type="number" id="likes-max" name="likes-max" placeholder="Max">
+
+        <label for="group-rules">Group Rules:</label>
+        <input type="text" id="group-rules" name="group-rules">
+
+        <button type="submit">Search Groups</button>
+    </form>
+
+    <h1>Search Posts</h1>
+    <form id="post-search-form" action="/search/posts" method="GET">
+        <label for="post-title">Post Title:</label>
+        <input type="text" id="post-title" name="post-title">
+
+        <label for="post-text">Post Text:</label>
+        <input type="text" id="post-text" name="post-text">
+
+        <label for="post-pdf-text">Post Text from PDF:</label>
+        <input type="text" id="post-pdf-text" name="post-pdf-text">
+
+        <label for="comment-text">Comment Text:</label>
+        <input type="text" id="comment-text" name="comment-text">
+
+        <label for="likes-range">Number of Likes (Range):</label>
+        <input type="number" id="post-likes-min" name="post-likes-min" placeholder="Min">
+        <input type="number" id="post-likes-max" name="post-likes-max" placeholder="Max">
+
+        <label for="comments-range">Number of Comments (Range):</label>
+        <input type="number" id="comments-min" name="comments-min" placeholder="Min">
+        <input type="number" id="comments-max" name="comments-max" placeholder="Max">
+
+        <button type="submit">Search Posts</button>
+    </form>
+
+    <!-- Optional JavaScript to handle form submission and pre-processing -->
+    <script src="script.js"></script>
+</body>
+</html>
