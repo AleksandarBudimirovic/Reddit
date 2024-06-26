@@ -48,12 +48,19 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping("/reports/all")
-    public String getAllReports(Model model) {
+    public String getAllReports(Model model, HttpSession session) {
+    	User currentUser = (User) session.getAttribute("currentUser");
+
+        if (currentUser == null) {
+            // Handle case where user is not logged in
+            return "redirect:/";
+        }
         List<Report> reports = reportService.findAll();
         List<ReportDTO> reportsDTO = new ArrayList<>();
         for (Report report : reports) {
             reportsDTO.add(new ReportDTO(report));
         }
+        model.addAttribute("user", currentUser);
         model.addAttribute("reports", reportsDTO);
         return "reports";
     }

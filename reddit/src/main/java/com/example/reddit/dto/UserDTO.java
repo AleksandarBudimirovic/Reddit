@@ -1,12 +1,7 @@
 package com.example.reddit.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import com.example.reddit.model.Ban;
-import com.example.reddit.model.Post;
-import com.example.reddit.model.Reaction;
 import com.example.reddit.model.User;
 
 public class UserDTO {
@@ -19,10 +14,10 @@ public class UserDTO {
     private Date registrationDate;
     private String role;
     private String username;
+    private boolean banned; // New attribute for banning status
 
     public UserDTO(Long id, String avatar, String description, String displayName, String password,
-            Date registrationDate, String role, String username) {
-        super();
+                   Date registrationDate, String role, String username, boolean banned) {
         this.id = id;
         this.avatar = avatar;
         this.description = description;
@@ -31,15 +26,16 @@ public class UserDTO {
         this.registrationDate = registrationDate;
         this.role = role;
         this.username = username;
+        this.banned = banned;
     }
 
     public UserDTO(User obj) {
         this(obj.getId(), obj.getAvatar(), obj.getDescription(), obj.getDisplayName(), obj.getPassword(),
-                obj.getRegistrationDate(), obj.getRole(), obj.getUsername());
+                obj.getRegistrationDate(), obj.getRole(), obj.getUsername(), false); // Default to false when converting from User
     }
 
     public UserDTO() {
-        super();
+        // Default constructor
     }
 
     public Long getId() {
@@ -104,5 +100,13 @@ public class UserDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 }

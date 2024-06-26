@@ -1,115 +1,110 @@
 package com.example.reddit.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.reddit.model.Comment;
+import com.example.reddit.model.Post;
+import com.example.reddit.model.Report;
+import com.example.reddit.model.User;
+import com.example.reddit.service.CommentService;
+import com.example.reddit.service.PostService;
+import com.example.reddit.service.ReportService;
+import com.example.reddit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.reddit.dto.BanDTO;
-import com.example.reddit.dto.CommunityDTO;
-import com.example.reddit.dto.UserDTO;
-import com.example.reddit.mapper.CommunityMapper;
-import com.example.reddit.mapper.UserMapper;
-import com.example.reddit.model.Ban;
-import com.example.reddit.service.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class BanController {
 
-    @Autowired
-    private BanService banService;
-    @Autowired
-    private CommentService commentService;
-    @Autowired
-    private CommunityService communityService;
-    @Autowired
-    private PostService postService;
-    @Autowired
-    private ReactionService reactionService;
-    @Autowired
-    private ReportService reportService;
-    @Autowired
-    private UserService userService;
+    private final PostService postService;
+    private final CommentService commentService;
+    private final UserService userService;
+    private final ReportService reportService;
 
-    @GetMapping("/bans/all")
-    public String getAllBans(Model model) {
-        List<Ban> bans = banService.findAll();
-        List<BanDTO> bansDTO = new ArrayList<>();
-        for (Ban obj : bans) {
-            BanDTO ban = new BanDTO(obj);
-            bansDTO.add(ban);
-        }
-        model.addAttribute("bans", bansDTO);
-        return "listBans";
+    @Autowired
+    public BanController(PostService postService, CommentService commentService, UserService userService, ReportService reportService) {
+        this.postService = postService;
+        this.commentService = commentService;
+        this.userService = userService;
+        this.reportService = reportService;
     }
 
-    @GetMapping("/bans/{id}")
-    public String getBan(@PathVariable Long id, Model model) {
-        Ban ban = banService.findOne(id);
-        if (ban == null) {
-            return "banNotFound";
+    @PostMapping("/ban")
+    public String banEntity(@RequestParam("entityType") String entityType, @RequestParam("entityId") Long entityId, RedirectAttributes redirectAttributes) {
+        String resultMessage = "";
+        switch (entityType) {
+            case "post":
+                resultMessage = banPost(entityId);
+                break;
+            case "comment":
+                resultMessage = banComment(entityId);
+                break;
+            case "user":
+                resultMessage = banUser(entityId);
+                break;
+            default:
+                resultMessage = "Unsupported entity type";
+                break;
         }
-        BanDTO banDTO = new BanDTO(ban);
-        model.addAttribute("ban", banDTO);
-        return "viewBan";
+        redirectAttributes.addFlashAttribute("message", resultMessage);
+        return "redirect:/reports/all";
     }
 
-    @PostMapping("/bans")
-    public String saveBan(@RequestBody BanDTO banDTO, Model model) {
-        Ban ban = new Ban();
-        ban.setUser(userService.findOne(banDTO.getUser().getId()));
-        ban.setTimestamp(banDTO.getTimestamp());
-        ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
-        ban = banService.save(ban);
-        model.addAttribute("ban", new BanDTO(ban));
-        return "banSaved";
+    private String banPost(Long postId) {
+        Post post = postService.findOne(postId);
+        if (post != null) {
+            postService.remove(postId);
+            Report report = reportService.findOne(postId);
+            if (report != null) {
+                report.setAccepted((byte) 1);  // Set accepted to 1
+                reportService.save(report);
+            }
+            return "Post with ID " + postId + " has been deleted.";
+        }
+        return "Post not found.";
     }
 
-    @PutMapping("/bans")
-    public String updateBan(@RequestBody BanDTO banDTO, Model model) {
-        Ban ban = banService.findOne(banDTO.getId());
-        if (ban == null) {
-            return "banNotFound";
+    private String banComment(Long commentId) {
+        Comment comment = commentService.findOne(commentId);
+        if (comment != null) {
+            commentService.remove(commentId);
+            Report report = reportService.findOne(commentId);
+            if (report != null) {
+                report.setAccepted((byte) 1);  // Set accepted to 1
+                reportService.save(report);
+            }
+            return "Comment with ID " + commentId + " has been deleted.";
         }
-        ban.setUser(userService.findOne(banDTO.getUser().getId()));
-        ban.setTimestamp(banDTO.getTimestamp());
-        ban.setRCommunity(communityService.findOne(banDTO.getCommunity().getId()));
-        ban = banService.save(ban);
-        model.addAttribute("ban", new BanDTO(ban));
-        return "banUpdated";
+        return "Comment not found.";
     }
 
-    @DeleteMapping("/bans/{id}")
-    public String deleteBan(@PathVariable Long id, Model model) {
-        Ban ban = banService.findOne(id);
-        if (ban != null) {
-            banService.remove(id);
-            return "banDeleted";
-        } else {
-            return "banNotFound";
+    private String banUser(Long userId) {
+        User user = userService.findOne(userId);
+        if (user != null) {
+            user.setBanned(true);
+            userService.save(user);
+            Report report = reportService.findOne(userId);
+            if (report != null) {
+                report.setAccepted((byte) 1);  // Set accepted to 1
+                reportService.save(report);
+            }
+            return "User with ID " + userId + " has been banned.";
         }
+        return "User not found.";
     }
 
-    @GetMapping("/bans/community/{id}")
-    public String getCommunityForBan(@PathVariable Long id, Model model) {
-        Ban ban = banService.findOne(id);
-        if (ban == null || ban.getCommunity() == null) {
-            return "communityNotFound";
+    @PostMapping("/reports/pardon/{id}")
+    public String pardonReport(@PathVariable("id") Long reportId, RedirectAttributes redirectAttributes) {
+        Report report = reportService.findOne(reportId);
+        if (report != null) {
+            report.setAccepted((byte) 0);  // Set accepted to 0
+            reportService.save(report);
+            redirectAttributes.addFlashAttribute("message", "Report with ID " + reportId + " has been pardoned.");
+            return "redirect:/reports/all";
         }
-        model.addAttribute("community", new CommunityMapper().modelToDto(ban.getCommunity()));
-        return "viewCommunity";
-    }
-
-    @GetMapping("/bans/user/{id}")
-    public String getUserForBan(@PathVariable Long id, Model model) {
-        Ban ban = banService.findOne(id);
-        if (ban == null || ban.getUser() == null) {
-            return "userNotFound";
-        }
-        model.addAttribute("user", new UserMapper().modelToDto(ban.getUser()));
-        return "viewUser";
+        redirectAttributes.addFlashAttribute("error", "Report not found.");
+        return "redirect:/reports/all";
     }
 }

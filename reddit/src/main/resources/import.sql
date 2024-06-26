@@ -1,9 +1,16 @@
 USE redditbase;
 
-INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username) VALUES (1, 'user3_avatar.jpg', 'Description for User 3', 'User 3', 'password789', '2022-01-03', 'ROLE_USER', 'user3');
-INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username) VALUES (2, 'user4_avatar.jpg', 'Description for User 4', 'User 4', 'password101', '2022-01-04', 'ROLE_USER', 'user4');
-INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username) VALUES (3, 'user5_avatar.jpg', 'Description for User 5', 'User 5', 'password112', '2022-01-05', 'ROLE_USER', 'user5');
-INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username) VALUES (4, 'user6_avatar.jpg', 'Description for User 6', 'User 6', 'password123', '2022-01-06', 'ROLE_USER', 'user6');
+INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username, banned) 
+VALUES (1, 'user3_avatar.jpg', 'Description for User 3', 'User 3', 'password789', '2022-01-03', 'ROLE_USER', 'user3', false);
+
+INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username, banned) 
+VALUES (2, 'user4_avatar.jpg', 'Description for User 4', 'User 4', 'password101', '2022-01-04', 'ROLE_USER', 'user4', false);
+
+INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username, banned) 
+VALUES (3, 'user5_avatar.jpg', 'Description for User 5', 'User 5', 'password112', '2022-01-05', 'ROLE_USER', 'user5', false);
+
+INSERT INTO user (id, avatar, description, display_name, password, registration_date, role, username, banned) 
+VALUES (4, 'user6_avatar.jpg', 'Description for User 6', 'User 6', 'password123', '2022-01-06', 'ROLE_USER', 'user6', false);
 
 INSERT INTO community (id, creation_date, name, description, is_suspended, suspended_reason, user_id)
 VALUES 
